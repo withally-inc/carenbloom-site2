@@ -1,0 +1,13 @@
+{
+  "name": "carenbloom-site2",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "sync": "node scripts/sync-live.mjs",
+    "serve": "python3 -m http.server 4175"
+  },
+  "devDependencies": {
+    "playwright": "^1.53.0"
+  }
+}

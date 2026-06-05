@@ -1,0 +1,42 @@
+{
+  "source": "https://www.elevatorgoods.com",
+  "syncedAt": "2026-06-05T05:30:50.946Z",
+  "pages": [
+    {
+      "livePath": "/",
+      "outPath": "index.html"
+    },
+    {
+      "livePath": "/goods",
+      "outPath": "goods/index.html"
+    },
+    {
+      "livePath": "/capital",
+      "outPath": "capital/index.html"
+    },
+    {
+      "livePath": "/creators",
+      "outPath": "creators/index.html"
+    }
+  ],
+  "assets": [
+    "/_astro/capital.CGL-0GRe.css",
+    "/fonts/AFQuartermaster-Medium.otf",
+    "/fonts/AFQuartermaster-Regular.otf",
+    "/fonts/AFQuartermaster-Semi.otf",
+    "/fonts/PPEditorialNew-Ultralight.otf",
+    "/fonts/SpaceMono-Bold.ttf",
+    "/fonts/SpaceMono-Regular.ttf",
+    "/images/capital-hero.png",
+    "/images/fluffco-1.png",
+    "/images/fluffco-2.png",
+    "/images/fluffco-3.png",
+    "/images/fluffco-4.png",
+    "/images/notorious-cookware-1.png",
+    "/images/notorious-cookware-2.png",
+    "/images/notorious-cookware-3.png",
+    "/images/notorious-cookware-4.png",
+    "/images/notorious-landscape.mp4",
+    "/logos/eg-monogram.svg"
+  ]
+}

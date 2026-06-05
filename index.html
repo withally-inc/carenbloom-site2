@@ -1,0 +1,379 @@
+<!DOCTYPE html><html lang="en"> <head><script>
+      // Tag <html> with browser hints so CSS can adjust only on iOS Chrome
+      // (whose visible viewport is squeezed by both top URL bar and bottom toolbar).
+      (() => {
+        try {
+          const ua = navigator.userAgent || '';
+          if (/CriOS/.test(ua)) document.documentElement.classList.add('is-chrome-ios');
+        } catch {}
+      })();
+    </script><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="description" content="A holding company of consumer goods and e-commerce focused brands, services, talent and infrastructure."><link rel="icon" type="image/svg+xml" href="/logos/eg-monogram.svg"><link rel="canonical" href="https://www.elevatorgoods.com/"><meta property="og:title" content="Elevator Goods — The home for modern e-commerce"><meta property="og:description" content="A holding company of consumer goods and e-commerce focused brands, services, talent and infrastructure."><meta property="og:type" content="website"><meta property="og:url" content="https://www.elevatorgoods.com/"><meta property="og:image" content="https://www.elevatorgoods.com/api/og.png?kicker=Elevator+Goods&title=Elevator+Goods+%E2%80%94+The+home+for+modern+e-commerce&footer=elevatorgoods.com"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Elevator Goods — The home for modern e-commerce"><meta name="twitter:description" content="A holding company of consumer goods and e-commerce focused brands, services, talent and infrastructure."><meta name="twitter:image" content="https://www.elevatorgoods.com/api/og.png?kicker=Elevator+Goods&title=Elevator+Goods+%E2%80%94+The+home+for+modern+e-commerce&footer=elevatorgoods.com"><title>Elevator Goods — The home for modern e-commerce</title><link rel="stylesheet" href="/_astro/capital.CGL-0GRe.css">
+<style>.is-chrome-ios .hero>div.flex-1{padding-top:calc(1rem + 60px)!important;padding-bottom:12rem!important}.is-chrome-ios .hero>p{bottom:calc(6rem + 60px + env(safe-area-inset-bottom))!important}.is-chrome-ios body>footer{margin-top:-70px}
+</style></head> <body class="bg-paper text-ink min-h-screen flex flex-col">  <main class="flex-1">  <section class="hero relative min-h-screen min-h-[100dvh] flex flex-col px-6 md:px-10"> <!-- Mobile: monogram top-center; Desktop: top-left --> <a href="/" class="absolute top-12 left-1/2 -translate-x-1/2 md:left-16 md:top-10 md:translate-x-0 z-10" aria-label="Elevator Goods"> <img src="/logos/eg-monogram.svg" alt="Elevator Goods" class="h-[31px] w-auto md:h-[41px]" loading="eager" decoding="sync"> </a> <!-- Manifesto: mobile bottom-center (balances top logo), desktop top-right (balances top-left logo) --> <p class="absolute z-10
+      bottom-16 left-1/2 -translate-x-1/2 w-[calc(100%-2.5rem)] max-w-[360px] text-center [text-wrap:balance]
+      md:bottom-10 md:left-16 md:right-auto md:top-auto md:translate-x-0 md:max-w-sm md:text-left
+      text-[14px] leading-[1.55] tracking-[-0.01em]">
+Elevator Goods is the home for modern e-commerce. We build brands, back creators, and bring founders together through capital, free education, and community.
+</p> <!-- Globe, desktop bottom-right --> <div class="hidden md:block absolute bottom-10 right-16 z-10 text-ink"> <div class="select-none cursor-grab active:cursor-grabbing" data-globe> <svg viewBox="0 0 100 100" class="w-28 h-28 lg:w-32 lg:h-32" aria-hidden="true"> <defs> <clipPath id="globe-clip-1nbyj3n"> <circle cx="50" cy="50" r="46"></circle> </clipPath> </defs> <!-- Opaque sphere fill (paper) --> <circle cx="50" cy="50" r="46" fill="var(--paper, #EDEBDE)"></circle> <g clip-path="url(#globe-clip-1nbyj3n)"> <path data-globe-graticule stroke="currentColor" stroke-width="0.35" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"></path> <path data-globe-land stroke="currentColor" stroke-width="0.5" fill="none" stroke-linejoin="round" stroke-linecap="round" opacity="0.95"></path> <g data-globe-cities></g> </g> <!-- Outline on top --> <circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="0.885"></circle> </svg> <script type="application/json" data-globe-cities-data>[{"code":"LA","lat":34.05,"lng":-118.24},{"code":"NY","lat":40.71,"lng":-74.01},{"code":"HK","lat":22.32,"lng":114.17}]</script> </div> <script>
+  (() => {
+    // Load D3 modules + topojson-client + land data in parallel.
+    const loadScript = (src) => new Promise((res, rej) => {
+      const s = document.createElement('script');
+      s.src = src; s.onload = res; s.onerror = rej;
+      document.head.appendChild(s);
+    });
+
+    // Load full d3 v7 bundle (includes d3-geo + d3-array) — single global `d3`.
+    Promise.all([
+      loadScript('https://unpkg.com/d3@7/dist/d3.min.js'),
+      loadScript('https://unpkg.com/topojson-client@3/dist/topojson-client.min.js'),
+      fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/land-110m.json').then((r) => r.json()),
+    ]).then(([_a, _b, landTopo]) => {
+      const land = topojson.feature(landTopo, landTopo.objects.land);
+
+      document.querySelectorAll('[data-globe]').forEach((root) => {
+        const svg = root.querySelector('svg');
+        const gratEl = root.querySelector('[data-globe-graticule]');
+        const landEl = root.querySelector('[data-globe-land]');
+        const citiesEl = root.querySelector('[data-globe-cities]');
+        const cities = JSON.parse(root.querySelector('[data-globe-cities-data]').textContent);
+
+        // Orthographic projection sized to the 100×100 viewBox
+        const projection = d3.geoOrthographic()
+          .translate([50, 50])
+          .scale(46)
+          .clipAngle(90)            // hide back hemisphere
+          .rotate([60, 0, 0]);      // initial yaw, pitch, roll
+
+        const pathGen = d3.geoPath(projection);
+        const graticule = d3.geoGraticule().step([30, 30]);
+
+        // Build stable city groups once so the SMIL pulse animation isn't reset each frame.
+        const CORAL = '#E5403C';
+        const SVG_NS = 'http://www.w3.org/2000/svg';
+        const cityNodes = cities.map(() => {
+          const g = document.createElementNS(SVG_NS, 'g');
+          g.setAttribute('display', 'none');
+          // Pulse ring
+          const ring = document.createElementNS(SVG_NS, 'circle');
+          ring.setAttribute('cx', '0');
+          ring.setAttribute('cy', '0');
+          ring.setAttribute('r', '2');
+          ring.setAttribute('fill', 'none');
+          ring.setAttribute('stroke', CORAL);
+          ring.setAttribute('stroke-width', '0.5');
+          const animR = document.createElementNS(SVG_NS, 'animate');
+          animR.setAttribute('attributeName', 'r');
+          animR.setAttribute('values', '2;5;2');
+          animR.setAttribute('dur', '2.4s');
+          animR.setAttribute('repeatCount', 'indefinite');
+          const animO = document.createElementNS(SVG_NS, 'animate');
+          animO.setAttribute('attributeName', 'opacity');
+          animO.setAttribute('values', '0.7;0;0.7');
+          animO.setAttribute('dur', '2.4s');
+          animO.setAttribute('repeatCount', 'indefinite');
+          ring.appendChild(animR);
+          ring.appendChild(animO);
+          // Solid dot
+          const dot = document.createElementNS(SVG_NS, 'circle');
+          dot.setAttribute('cx', '0');
+          dot.setAttribute('cy', '0');
+          dot.setAttribute('r', '1.8');
+          dot.setAttribute('fill', CORAL);
+          g.appendChild(ring);
+          g.appendChild(dot);
+          citiesEl.appendChild(g);
+          return g;
+        });
+
+        const render = () => {
+          gratEl.setAttribute('d', pathGen(graticule()) || '');
+          landEl.setAttribute('d', pathGen(land) || '');
+
+          for (let i = 0; i < cities.length; i++) {
+            const c = cities[i];
+            const node = cityNodes[i];
+            if (isPointBehind(c.lng, c.lat)) {
+              node.setAttribute('display', 'none');
+              continue;
+            }
+            const p = projection([c.lng, c.lat]);
+            if (!p) { node.setAttribute('display', 'none'); continue; }
+            node.setAttribute('display', '');
+            node.setAttribute('transform', `translate(${p[0].toFixed(2)} ${p[1].toFixed(2)})`);
+          }
+        };
+
+        // d3 returns the projected coordinate even for back-facing points; check via great-circle distance
+        const isPointBehind = (lng, lat) => {
+          const r = projection.rotate();
+          // rotate gives [lambda, phi, gamma] in degrees (lambda is longitude rotation)
+          const lambda = -r[0] * Math.PI / 180; // viewer's longitude
+          const phi = -r[1] * Math.PI / 180;    // viewer's latitude
+          const lng_r = lng * Math.PI / 180;
+          const lat_r = lat * Math.PI / 180;
+          // great-circle distance: cos(d) = sin φ1 sin φ2 + cos φ1 cos φ2 cos(λ1 − λ2)
+          const cosD =
+            Math.sin(phi) * Math.sin(lat_r) +
+            Math.cos(phi) * Math.cos(lat_r) * Math.cos(lng_r - lambda);
+          return cosD < 0; // > 90° away → behind
+        };
+
+        // ---- Drag to rotate ----
+        let dragId = null, lastX = 0, lastY = 0;
+        let interacting = false, lastT = performance.now();
+        svg.addEventListener('pointerdown', (e) => {
+          dragId = e.pointerId; interacting = true;
+          lastX = e.clientX; lastY = e.clientY;
+          svg.setPointerCapture(e.pointerId);
+          e.preventDefault();
+        });
+        svg.addEventListener('pointermove', (e) => {
+          if (e.pointerId !== dragId) return;
+          const dx = e.clientX - lastX;
+          const dy = e.clientY - lastY;
+          lastX = e.clientX; lastY = e.clientY;
+          const r = projection.rotate();
+          // Map pixel drag to degree rotation. Y inverted per user preference.
+          const k = 0.5;
+          projection.rotate([
+            r[0] + dx * k,
+            Math.max(-80, Math.min(80, r[1] - dy * k)),
+            r[2],
+          ]);
+          render();
+        });
+        const endDrag = (e) => {
+          if (e.pointerId !== dragId) return;
+          dragId = null;
+          setTimeout(() => { interacting = false; lastT = performance.now(); }, 600);
+        };
+        svg.addEventListener('pointerup', endDrag);
+        svg.addEventListener('pointercancel', endDrag);
+
+        // ---- Auto-spin when idle ----
+        const tick = (now) => {
+          const dt = (now - lastT) / 1000;
+          lastT = now;
+          if (!interacting && dragId === null) {
+            const r = projection.rotate();
+            projection.rotate([r[0] + dt * 10, r[1], r[2]]);
+            render();
+          }
+          requestAnimationFrame(tick);
+        };
+
+        render();
+        requestAnimationFrame(tick);
+      });
+    }).catch((e) => console.error('Globe load failed', e));
+  })();
+</script> </div> <!-- Five-pillar list, centered --> <div class="flex-1 flex items-center justify-center py-32 md:py-24"> <ol class="font-semibold leading-[0.95] tracking-[-0.09em] text-[13.49vw] md:text-[7.65vw] lg:text-[6.8vw] text-center"> <li class="relative"> <a href="/goods" class="group relative inline-block hover:text-coral hover:scale-[1.04] hover:-translate-y-1 transition duration-300 ease-out whitespace-nowrap leading-[0.95] origin-center [text-shadow:_0_0_0_rgba(0,0,0,0)] hover:[text-shadow:_0_3px_10px_rgba(0,0,0,0.08)]"> <span class="whitespace-nowrap">GOODS</span> <span class="font-mono font-normal text-[10.8px] md:text-[11px] lg:text-[12px] tracking-normal text-ink/85 group-hover:text-coral transition-colors duration-300 absolute top-[2.35vw] md:top-[1.53vw] lg:top-[1.32vw] -right-7 md:-right-8 lg:-right-9 whitespace-nowrap">[1]</span> </a> </li><li class="relative"> <a href="/capital" class="group relative inline-block hover:text-coral hover:scale-[1.04] hover:-translate-y-1 transition duration-300 ease-out whitespace-nowrap leading-[0.95] origin-center [text-shadow:_0_0_0_rgba(0,0,0,0)] hover:[text-shadow:_0_3px_10px_rgba(0,0,0,0.08)]"> <span class="whitespace-nowrap">CAPITAL</span> <span class="font-mono font-normal text-[10.8px] md:text-[11px] lg:text-[12px] tracking-normal text-ink/85 group-hover:text-coral transition-colors duration-300 absolute top-[2.35vw] md:top-[1.53vw] lg:top-[1.32vw] -right-7 md:-right-8 lg:-right-9 whitespace-nowrap">[2]</span> </a> </li><li class="relative"> <a href="/talks" class="group relative inline-block hover:text-coral hover:scale-[1.04] hover:-translate-y-1 transition duration-300 ease-out whitespace-nowrap leading-[0.95] origin-center [text-shadow:_0_0_0_rgba(0,0,0,0)] hover:[text-shadow:_0_3px_10px_rgba(0,0,0,0.08)]"> <span class="whitespace-nowrap">TALKS</span> <span class="font-mono font-normal text-[10.8px] md:text-[11px] lg:text-[12px] tracking-normal text-ink/85 group-hover:text-coral transition-colors duration-300 absolute top-[2.35vw] md:top-[1.53vw] lg:top-[1.32vw] -right-7 md:-right-8 lg:-right-9 whitespace-nowrap">[3]</span> </a> </li><li class="relative"> <a href="/creators" class="group relative inline-block hover:text-coral hover:scale-[1.04] hover:-translate-y-1 transition duration-300 ease-out whitespace-nowrap leading-[0.95] origin-center [text-shadow:_0_0_0_rgba(0,0,0,0)] hover:[text-shadow:_0_3px_10px_rgba(0,0,0,0.08)]"> <span class="whitespace-nowrap">CREATORS</span> <span class="font-mono font-normal text-[10.8px] md:text-[11px] lg:text-[12px] tracking-normal text-ink/85 group-hover:text-coral transition-colors duration-300 absolute top-[2.35vw] md:top-[1.53vw] lg:top-[1.32vw] -right-7 md:-right-8 lg:-right-9 whitespace-nowrap">[4]</span> </a> </li><li class="relative"> <a href="/thestudio" class="group relative inline-block hover:text-coral hover:scale-[1.04] hover:-translate-y-1 transition duration-300 ease-out whitespace-nowrap leading-[0.95] origin-center [text-shadow:_0_0_0_rgba(0,0,0,0)] hover:[text-shadow:_0_3px_10px_rgba(0,0,0,0.08)]"> <span class="whitespace-nowrap">THE STUDIO</span> <span class="font-mono font-normal text-[10.8px] md:text-[11px] lg:text-[12px] tracking-normal text-ink/85 group-hover:text-coral transition-colors duration-300 absolute top-[2.35vw] md:top-[1.53vw] lg:top-[1.32vw] -right-7 md:-right-8 lg:-right-9 whitespace-nowrap">[5]</span> </a> </li> </ol> </div> </section>   </main> <footer class="px-7 md:px-16 pt-10 pb-8 mt-8 border-t border-ink/15 font-mono text-[11px] tracking-[0.04em]"> <!-- ======================== MOBILE ======================== --> <div class="md:hidden"> <!-- Top row: clock left, logo + socials right --> <div class="flex items-start justify-between gap-6"> <div class="flex items-center gap-3 select-none" data-clock> <svg viewBox="0 0 65 65" class="w-20 h-20 md:w-14 md:h-14" aria-hidden="true"> <circle cx="32.5" cy="32.5" r="31.2" fill="none" stroke="currentColor" stroke-width="0.885"></circle> <line x1="32.5" y1="5.300000000000001" x2="32.5" y2="2.6999999999999993" stroke="currentColor" stroke-width="0.885"></line><line x1="46.1" y1="8.944109017063269" x2="47.400000000000006" y2="6.69244296722373" stroke="currentColor" stroke-width="0.885"></line><line x1="56.05589098293673" y1="18.900000000000002" x2="58.30755703277627" y2="17.6" stroke="currentColor" stroke-width="0.885"></line><line x1="59.7" y1="32.5" x2="62.3" y2="32.5" stroke="currentColor" stroke-width="0.885"></line><line x1="56.05589098293673" y1="46.099999999999994" x2="58.30755703277627" y2="47.4" stroke="currentColor" stroke-width="0.885"></line><line x1="46.1" y1="56.05589098293673" x2="47.400000000000006" y2="58.30755703277627" stroke="currentColor" stroke-width="0.885"></line><line x1="32.5" y1="59.7" x2="32.5" y2="62.3" stroke="currentColor" stroke-width="0.885"></line><line x1="18.900000000000006" y1="56.05589098293673" x2="17.60000000000001" y2="58.30755703277627" stroke="currentColor" stroke-width="0.885"></line><line x1="8.944109017063269" y1="46.099999999999994" x2="6.692442967223727" y2="47.4" stroke="currentColor" stroke-width="0.885"></line><line x1="5.300000000000001" y1="32.5" x2="2.6999999999999993" y2="32.50000000000001" stroke="currentColor" stroke-width="0.885"></line><line x1="8.944109017063269" y1="18.9" x2="6.69244296722373" y2="17.599999999999994" stroke="currentColor" stroke-width="0.885"></line><line x1="18.899999999999988" y1="8.944109017063273" x2="17.599999999999987" y2="6.692442967223734" stroke="currentColor" stroke-width="0.885"></line> <line x1="35.479061203128126" y1="4.1561259820042125" x2="35.61494820537607" y2="2.8632475180254566" stroke="currentColor" stroke-width="0.295"></line><line x1="38.425483188306146" y1="4.622793379086541" x2="38.69576838636923" y2="3.3512014981325926" stroke="currentColor" stroke-width="0.295"></line><line x1="41.306984339686004" y1="5.394889285588125" x2="41.70870643237343" y2="4.158515814404424" stroke="currentColor" stroke-width="0.295"></line><line x1="44.0919943276603" y1="6.463954457185874" x2="44.62075196365885" y2="5.276345362250492" stroke="currentColor" stroke-width="0.295"></line><line x1="49.251879690335485" y1="9.443015660313996" x2="50.0160005183157" y2="8.391293567626565" stroke="currentColor" stroke-width="0.295"></line><line x1="51.57022228122746" y1="11.320372473894263" x2="52.44009206949397" y2="10.354284200773652" stroke="currentColor" stroke-width="0.295"></line><line x1="53.67962752610573" y1="13.429777718772542" x2="54.64571579922635" y2="12.559907930506025" stroke="currentColor" stroke-width="0.295"></line><line x1="55.556984339686004" y1="15.748120309664515" x2="56.60870643237344" y2="14.9839994816843" stroke="currentColor" stroke-width="0.295"></line><line x1="58.53604554281412" y1="20.908005672339698" x2="59.723654637749505" y2="20.379248036341153" stroke="currentColor" stroke-width="0.295"></line><line x1="59.60511071441188" y1="23.693015660314" x2="60.841484185595576" y2="23.291293567626568" stroke="currentColor" stroke-width="0.295"></line><line x1="60.37720662091346" y1="26.57451681169386" x2="61.64879850186741" y2="26.304231613630773" stroke="currentColor" stroke-width="0.295"></line><line x1="60.84387401799579" y1="29.520938796871878" x2="62.13675248197454" y2="29.385051794623926" stroke="currentColor" stroke-width="0.295"></line><line x1="60.84387401799579" y1="35.479061203128126" x2="62.13675248197454" y2="35.61494820537607" stroke="currentColor" stroke-width="0.295"></line><line x1="60.37720662091346" y1="38.42548318830614" x2="61.64879850186741" y2="38.695768386369224" stroke="currentColor" stroke-width="0.295"></line><line x1="59.60511071441188" y1="41.306984339686" x2="60.841484185595576" y2="41.70870643237343" stroke="currentColor" stroke-width="0.295"></line><line x1="58.53604554281412" y1="44.0919943276603" x2="59.723654637749505" y2="44.62075196365885" stroke="currentColor" stroke-width="0.295"></line><line x1="55.556984339686004" y1="49.251879690335485" x2="56.60870643237344" y2="50.0160005183157" stroke="currentColor" stroke-width="0.295"></line><line x1="53.67962752610573" y1="51.57022228122746" x2="54.64571579922635" y2="52.44009206949397" stroke="currentColor" stroke-width="0.295"></line><line x1="51.57022228122746" y1="53.67962752610573" x2="52.44009206949397" y2="54.64571579922635" stroke="currentColor" stroke-width="0.295"></line><line x1="49.251879690335485" y1="55.556984339686004" x2="50.0160005183157" y2="56.60870643237344" stroke="currentColor" stroke-width="0.295"></line><line x1="44.0919943276603" y1="58.53604554281412" x2="44.62075196365885" y2="59.723654637749505" stroke="currentColor" stroke-width="0.295"></line><line x1="41.306984339686004" y1="59.60511071441188" x2="41.70870643237343" y2="60.841484185595576" stroke="currentColor" stroke-width="0.295"></line><line x1="38.425483188306146" y1="60.377206620913455" x2="38.69576838636923" y2="61.648798501867404" stroke="currentColor" stroke-width="0.295"></line><line x1="35.479061203128126" y1="60.84387401799579" x2="35.61494820537607" y2="62.13675248197454" stroke="currentColor" stroke-width="0.295"></line><line x1="29.52093879687188" y1="60.84387401799579" x2="29.38505179462393" y2="62.13675248197455" stroke="currentColor" stroke-width="0.295"></line><line x1="26.574516811693865" y1="60.37720662091346" x2="26.304231613630776" y2="61.64879850186741" stroke="currentColor" stroke-width="0.295"></line><line x1="23.693015660314003" y1="59.60511071441188" x2="23.291293567626568" y2="60.841484185595576" stroke="currentColor" stroke-width="0.295"></line><line x1="20.908005672339698" y1="58.53604554281413" x2="20.379248036341156" y2="59.723654637749505" stroke="currentColor" stroke-width="0.295"></line><line x1="15.748120309664518" y1="55.556984339686004" x2="14.983999481684304" y2="56.60870643237344" stroke="currentColor" stroke-width="0.295"></line><line x1="13.429777718772542" y1="53.67962752610573" x2="12.559907930506025" y2="54.64571579922635" stroke="currentColor" stroke-width="0.295"></line><line x1="11.320372473894267" y1="51.57022228122746" x2="10.354284200773655" y2="52.44009206949398" stroke="currentColor" stroke-width="0.295"></line><line x1="9.443015660314" y1="49.251879690335485" x2="8.391293567626569" y2="50.01600051831571" stroke="currentColor" stroke-width="0.295"></line><line x1="6.463954457185878" y1="44.091994327660316" x2="5.276345362250495" y2="44.620751963658854" stroke="currentColor" stroke-width="0.295"></line><line x1="5.394889285588125" y1="41.306984339686004" x2="4.158515814404424" y2="41.70870643237343" stroke="currentColor" stroke-width="0.295"></line><line x1="4.622793379086538" y1="38.42548318830614" x2="3.351201498132589" y2="38.695768386369224" stroke="currentColor" stroke-width="0.295"></line><line x1="4.1561259820042125" y1="35.47906120312813" x2="2.8632475180254566" y2="35.61494820537608" stroke="currentColor" stroke-width="0.295"></line><line x1="4.156125982004209" y1="29.52093879687189" x2="2.863247518025453" y2="29.38505179462394" stroke="currentColor" stroke-width="0.295"></line><line x1="4.622793379086538" y1="26.57451681169387" x2="3.351201498132589" y2="26.30423161363078" stroke="currentColor" stroke-width="0.295"></line><line x1="5.394889285588125" y1="23.69301566031399" x2="4.158515814404424" y2="23.291293567626557" stroke="currentColor" stroke-width="0.295"></line><line x1="6.463954457185871" y1="20.908005672339705" x2="5.276345362250488" y2="20.379248036341167" stroke="currentColor" stroke-width="0.295"></line><line x1="9.443015660313996" y1="15.748120309664518" x2="8.391293567626565" y2="14.983999481684304" stroke="currentColor" stroke-width="0.295"></line><line x1="11.320372473894263" y1="13.429777718772542" x2="10.354284200773652" y2="12.559907930506025" stroke="currentColor" stroke-width="0.295"></line><line x1="13.429777718772534" y1="11.32037247389427" x2="12.559907930506018" y2="10.354284200773659" stroke="currentColor" stroke-width="0.295"></line><line x1="15.748120309664511" y1="9.443015660314" x2="14.983999481684297" y2="8.391293567626569" stroke="currentColor" stroke-width="0.295"></line><line x1="20.908005672339698" y1="6.463954457185871" x2="20.379248036341156" y2="5.276345362250492" stroke="currentColor" stroke-width="0.295"></line><line x1="23.693015660313996" y1="5.394889285588125" x2="23.29129356762656" y2="4.158515814404424" stroke="currentColor" stroke-width="0.295"></line><line x1="26.574516811693847" y1="4.622793379086541" x2="26.30423161363076" y2="3.3512014981325926" stroke="currentColor" stroke-width="0.295"></line><line x1="29.520938796871878" y1="4.156125982004209" x2="29.38505179462393" y2="2.863247518025453" stroke="currentColor" stroke-width="0.295"></line> <!-- Hour hand (black) --> <line data-clock-hour x1="32.5" y1="19.5" x2="32.5" y2="32.5" stroke="currentColor" stroke-width="0.885" stroke-linecap="round" style="transform: rotate(144.5deg); transform-origin: 32.5px 32.5px; transform-box: view-box; transition: transform 900ms cubic-bezier(0.65, 0, 0.35, 1);"></line> <!-- Minute hand (coral) --> <line data-clock-minute x1="32.5" y1="10.5" x2="32.5" y2="32.5" class="clock-hand" stroke-width="0.885" style="transform: rotate(294deg); transform-origin: 32.5px 32.5px; transform-box: view-box; transition: transform 900ms cubic-bezier(0.65, 0, 0.35, 1);"></line> <!-- Center dot --> <circle cx="32.5" cy="32.5" r="1.625" fill="currentColor"></circle> </svg> <ul class="font-mono text-[11px] leading-[1.4] tracking-tight"> <li> <button type="button" data-clock-city data-code="LA" data-tz="America/Los_Angeles" class="flex items-center gap-2 transition hover:text-coral "> <span aria-hidden="true">[<span class="inline-block w-[1ch] text-center" data-clock-dot> </span>]</span> <span>LA</span> </button> </li><li> <button type="button" data-clock-city data-code="NY" data-tz="America/New_York" aria-pressed="true" class="flex items-center gap-2 transition hover:text-coral is-active"> <span aria-hidden="true">[<span class="inline-block w-[1ch] text-center" data-clock-dot>•</span>]</span> <span>NY</span> </button> </li><li> <button type="button" data-clock-city data-code="HK" data-tz="Asia/Hong_Kong" class="flex items-center gap-2 transition hover:text-coral "> <span aria-hidden="true">[<span class="inline-block w-[1ch] text-center" data-clock-dot> </span>]</span> <span>HK</span> </button> </li> </ul> </div> <script>
+  (() => {
+    const getTime = (tz) => {
+      const fmt = new Intl.DateTimeFormat('en-US', {
+        timeZone: tz,
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: false,
+      });
+      const parts = fmt.formatToParts(new Date());
+      const h = Number(parts.find((p) => p.type === 'hour')?.value ?? 0);
+      const m = Number(parts.find((p) => p.type === 'minute')?.value ?? 0);
+      return { h: h % 12, m };
+    };
+
+    const setupClock = (root) => {
+      const buttons = root.querySelectorAll('[data-clock-city]');
+      const hourEl = root.querySelector('[data-clock-hour]');
+      const minuteEl = root.querySelector('[data-clock-minute]');
+      if (!hourEl || !minuteEl) return null;
+
+      let activeTz = root.querySelector('[data-clock-city][aria-pressed="true"]')?.dataset.tz
+        || 'America/New_York';
+
+      // Cumulative angles so transitions always go clockwise.
+      // Read initial values from inline style.transform.
+      const parseAngle = (el) => {
+        const m = (el.style.transform || '').match(/rotate\(([-\d.]+)/);
+        return m ? parseFloat(m[1]) : 0;
+      };
+      let cumHour = parseAngle(hourEl);
+      let cumMinute = parseAngle(minuteEl);
+
+      const setHands = (forceFullIfSame) => {
+        const { h, m } = getTime(activeTz);
+        const targetHour = h * 30 + m * 0.5;
+        const targetMinute = m * 6;
+
+        // Forward (clockwise) delta to reach target dial position
+        let hourDelta = ((targetHour - cumHour) % 360 + 360) % 360;
+        let minuteDelta = ((targetMinute - cumMinute) % 360 + 360) % 360;
+
+        // On a city click, if the hour-hand dial position is unchanged
+        // (NY <-> HK share a position on a 12-hour dial), spin the hour
+        // hand a full revolution for visual feedback.
+        if (forceFullIfSame && hourDelta < 0.001) {
+          hourDelta = 360;
+        }
+
+        cumHour += hourDelta;
+        cumMinute += minuteDelta;
+        hourEl.style.transform = `rotate(${cumHour}deg)`;
+        minuteEl.style.transform = `rotate(${cumMinute}deg)`;
+      };
+
+      buttons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          activeTz = btn.dataset.tz;
+          buttons.forEach((b) => {
+            const isActive = b === btn;
+            b.setAttribute('aria-pressed', String(isActive));
+            b.classList.toggle('is-active', isActive);
+            const dot = b.querySelector('[data-clock-dot]');
+            if (dot) dot.textContent = isActive ? '•' : ' ';
+          });
+          setHands(true);
+        });
+      });
+
+      return () => setHands(false);
+    };
+
+    const refreshers = Array.from(document.querySelectorAll('[data-clock]'))
+      .map(setupClock)
+      .filter(Boolean);
+
+    setInterval(() => refreshers.forEach((r) => r()), 30 * 1000);
+  })();
+</script> <div class="flex flex-col items-end gap-7"> <a href="/" class="opacity-90"><img src="/logos/eg-monogram.svg" alt="Elevator Goods" class="h-8 w-auto" loading="eager" decoding="sync"></a> <ul class="flex items-center gap-3"> <li><a href="https://instagram.com/elevatorgoods" aria-label="Instagram" target="_blank" rel="noopener" class="flex items-center justify-center w-5 h-5"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1" fill="currentColor"></circle></svg> </a></li> <li><a href="https://youtube.com/@elevatorgoods" aria-label="YouTube" target="_blank" rel="noopener" class="flex items-center justify-center w-5 h-5"> <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 7.2a3 3 0 0 0-2.1-2.1C19.5 4.6 12 4.6 12 4.6s-7.5 0-9.4.5A3 3 0 0 0 .5 7.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-4.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"></path></svg> </a></li> <li><a href="https://x.com/elevatorgoods" aria-label="X" target="_blank" rel="noopener" class="flex items-center justify-center w-5 h-5"> <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2H21l-6.52 7.45L22 22h-6.797l-4.74-6.197L4.94 22H2.18l6.96-7.953L2 2h6.92l4.27 5.66L18.244 2zm-1.18 18.4h1.797L7.04 3.5H5.13l11.934 16.9z"></path></svg> </a></li> <li><a href="https://www.linkedin.com/company/elevator-goods" aria-label="LinkedIn" target="_blank" rel="noopener" class="flex items-center justify-center w-5 h-5 -translate-y-[2px]"> <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.48 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM0 8h5v16H0V8zm7.5 0h4.78v2.18h.07c.66-1.25 2.27-2.57 4.67-2.57 5 0 5.93 3.29 5.93 7.57V24h-5v-7.13c0-1.7-.03-3.88-2.36-3.88-2.36 0-2.72 1.85-2.72 3.76V24h-5V8z"></path></svg> </a></li> <li><a href="https://podcasts.apple.com/us/podcast/elevator-talks/id1896325680" aria-label="Apple Podcasts" target="_blank" rel="noopener" class="flex items-center justify-center w-5 h-5"> <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"></path></svg> </a></li> <li><a href="https://open.spotify.com/show/1fCirPyNlzTxT4hOOH0tVC" aria-label="Spotify" target="_blank" rel="noopener" class="flex items-center justify-center w-5 h-5"> <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12C24 5.4 18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.02.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.78-.179-.9-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.42 1.56-.299.421-1.02.599-1.56.3z"></path></svg> </a></li> </ul> </div> </div> <!-- Full-width email signup --> <div class="mt-10"> <p class="mb-3">Subscribe to the Elevator newsletter.</p> <form class="newsletter-form flex items-center gap-3 relative" novalidate> <div aria-hidden="true" class="absolute -left-[9999px] w-0 h-0 overflow-hidden pointer-events-none"> <label>Website (leave blank)<input type="text" name="website" tabindex="-1" autocomplete="off"></label> </div> <input type="email" name="email" placeholder="Email" required class="flex-1 min-w-0 bg-transparent border border-ink/40 px-3 py-2 placeholder:text-ink/50 focus:outline-none focus:border-ink"> <button type="submit" class="underline underline-offset-4 shrink-0">Sign Up</button> </form> <p class="newsletter-status mt-2 min-h-[1em] text-ink/60 hidden"></p> </div> <!-- Bottom row: nav links left, legal right (parallel) --> <div class="mt-10 grid grid-cols-2 gap-x-6 items-start"> <ul class="space-y-1"> <li><a href="/careers" class="underline underline-offset-4">Careers</a></li> <li><a href="mailto:hello@elevatorgoods.com" class="underline underline-offset-4">Contact Us</a></li> <li><a href="https://travel.elevatorgoods.com" class="underline underline-offset-4">Travel</a></li> </ul> <p class="text-right leading-relaxed">
+All Rights Reserved<br> Elevator Goods Limited 2026.
+</p> </div> </div> <!-- ======================== DESKTOP ======================== --> <div class="hidden md:grid grid-cols-12 gap-6 items-stretch"> <!-- Left: Stay Updated + nav links --> <div class="col-span-12 md:col-span-4"> <p class="mb-3">Subscribe to the Elevator newsletter.</p> <form class="newsletter-form flex items-center gap-3 max-w-sm relative" novalidate> <div aria-hidden="true" class="absolute -left-[9999px] w-0 h-0 overflow-hidden pointer-events-none"> <label>Website (leave blank)<input type="text" name="website" tabindex="-1" autocomplete="off"></label> </div> <input type="email" name="email" placeholder="Email" required class="flex-1 bg-transparent border border-ink/40 px-3 py-2 placeholder:text-ink/50 focus:outline-none focus:border-ink"> <button type="submit" class="underline underline-offset-4">Sign Up</button> </form> <p class="newsletter-status mt-2 min-h-[1em] text-ink/60 max-w-sm hidden"></p> <ul class="mt-8 space-y-1"> <li><a href="/careers" class="underline underline-offset-4">Careers</a></li> <li><a href="mailto:hello@elevatorgoods.com" class="underline underline-offset-4">Contact Us</a></li> <li><a href="https://travel.elevatorgoods.com" class="underline underline-offset-4">Travel</a></li> </ul> </div> <!-- Center: monogram + legal --> <div class="col-span-12 md:col-span-4 flex flex-col items-center"> <a href="/" class="opacity-90"><img src="/logos/eg-monogram.svg" alt="Elevator Goods" class="h-8 w-auto" loading="eager" decoding="sync"></a> <p class="mt-auto text-center leading-relaxed">
+All Rights Reserved<br> Elevator Goods Limited 2026.
+</p> </div> <!-- Right: social icons (top) + clock (bottom-right) --> <div class="col-span-12 md:col-span-4 flex flex-col items-end gap-14"> <ul class="flex items-center gap-5"> <li><a href="https://instagram.com/elevatorgoods" aria-label="Instagram" target="_blank" rel="noopener"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1" fill="currentColor"></circle></svg> </a></li> <li><a href="https://youtube.com/@elevatorgoods" aria-label="YouTube" target="_blank" rel="noopener"> <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 7.2a3 3 0 0 0-2.1-2.1C19.5 4.6 12 4.6 12 4.6s-7.5 0-9.4.5A3 3 0 0 0 .5 7.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-4.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"></path></svg> </a></li> <li><a href="https://x.com/elevatorgoods" aria-label="X" target="_blank" rel="noopener"> <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2H21l-6.52 7.45L22 22h-6.797l-4.74-6.197L4.94 22H2.18l6.96-7.953L2 2h6.92l4.27 5.66L18.244 2zm-1.18 18.4h1.797L7.04 3.5H5.13l11.934 16.9z"></path></svg> </a></li> <li><a href="https://www.linkedin.com/company/elevator-goods" aria-label="LinkedIn" target="_blank" rel="noopener"> <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.48 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM0 8h5v16H0V8zm7.5 0h4.78v2.18h.07c.66-1.25 2.27-2.57 4.67-2.57 5 0 5.93 3.29 5.93 7.57V24h-5v-7.13c0-1.7-.03-3.88-2.36-3.88-2.36 0-2.72 1.85-2.72 3.76V24h-5V8z"></path></svg> </a></li> <li><a href="https://podcasts.apple.com/us/podcast/elevator-talks/id1896325680" aria-label="Apple Podcasts" target="_blank" rel="noopener"> <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"></path></svg> </a></li> <li><a href="https://open.spotify.com/show/1fCirPyNlzTxT4hOOH0tVC" aria-label="Spotify" target="_blank" rel="noopener"> <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12C24 5.4 18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.02.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.78-.179-.9-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.42 1.56-.299.421-1.02.599-1.56.3z"></path></svg> </a></li> </ul> <div class="flex items-center gap-3 select-none" data-clock> <svg viewBox="0 0 65 65" class="w-20 h-20 md:w-14 md:h-14" aria-hidden="true"> <circle cx="32.5" cy="32.5" r="31.2" fill="none" stroke="currentColor" stroke-width="0.885"></circle> <line x1="32.5" y1="5.300000000000001" x2="32.5" y2="2.6999999999999993" stroke="currentColor" stroke-width="0.885"></line><line x1="46.1" y1="8.944109017063269" x2="47.400000000000006" y2="6.69244296722373" stroke="currentColor" stroke-width="0.885"></line><line x1="56.05589098293673" y1="18.900000000000002" x2="58.30755703277627" y2="17.6" stroke="currentColor" stroke-width="0.885"></line><line x1="59.7" y1="32.5" x2="62.3" y2="32.5" stroke="currentColor" stroke-width="0.885"></line><line x1="56.05589098293673" y1="46.099999999999994" x2="58.30755703277627" y2="47.4" stroke="currentColor" stroke-width="0.885"></line><line x1="46.1" y1="56.05589098293673" x2="47.400000000000006" y2="58.30755703277627" stroke="currentColor" stroke-width="0.885"></line><line x1="32.5" y1="59.7" x2="32.5" y2="62.3" stroke="currentColor" stroke-width="0.885"></line><line x1="18.900000000000006" y1="56.05589098293673" x2="17.60000000000001" y2="58.30755703277627" stroke="currentColor" stroke-width="0.885"></line><line x1="8.944109017063269" y1="46.099999999999994" x2="6.692442967223727" y2="47.4" stroke="currentColor" stroke-width="0.885"></line><line x1="5.300000000000001" y1="32.5" x2="2.6999999999999993" y2="32.50000000000001" stroke="currentColor" stroke-width="0.885"></line><line x1="8.944109017063269" y1="18.9" x2="6.69244296722373" y2="17.599999999999994" stroke="currentColor" stroke-width="0.885"></line><line x1="18.899999999999988" y1="8.944109017063273" x2="17.599999999999987" y2="6.692442967223734" stroke="currentColor" stroke-width="0.885"></line> <line x1="35.479061203128126" y1="4.1561259820042125" x2="35.61494820537607" y2="2.8632475180254566" stroke="currentColor" stroke-width="0.295"></line><line x1="38.425483188306146" y1="4.622793379086541" x2="38.69576838636923" y2="3.3512014981325926" stroke="currentColor" stroke-width="0.295"></line><line x1="41.306984339686004" y1="5.394889285588125" x2="41.70870643237343" y2="4.158515814404424" stroke="currentColor" stroke-width="0.295"></line><line x1="44.0919943276603" y1="6.463954457185874" x2="44.62075196365885" y2="5.276345362250492" stroke="currentColor" stroke-width="0.295"></line><line x1="49.251879690335485" y1="9.443015660313996" x2="50.0160005183157" y2="8.391293567626565" stroke="currentColor" stroke-width="0.295"></line><line x1="51.57022228122746" y1="11.320372473894263" x2="52.44009206949397" y2="10.354284200773652" stroke="currentColor" stroke-width="0.295"></line><line x1="53.67962752610573" y1="13.429777718772542" x2="54.64571579922635" y2="12.559907930506025" stroke="currentColor" stroke-width="0.295"></line><line x1="55.556984339686004" y1="15.748120309664515" x2="56.60870643237344" y2="14.9839994816843" stroke="currentColor" stroke-width="0.295"></line><line x1="58.53604554281412" y1="20.908005672339698" x2="59.723654637749505" y2="20.379248036341153" stroke="currentColor" stroke-width="0.295"></line><line x1="59.60511071441188" y1="23.693015660314" x2="60.841484185595576" y2="23.291293567626568" stroke="currentColor" stroke-width="0.295"></line><line x1="60.37720662091346" y1="26.57451681169386" x2="61.64879850186741" y2="26.304231613630773" stroke="currentColor" stroke-width="0.295"></line><line x1="60.84387401799579" y1="29.520938796871878" x2="62.13675248197454" y2="29.385051794623926" stroke="currentColor" stroke-width="0.295"></line><line x1="60.84387401799579" y1="35.479061203128126" x2="62.13675248197454" y2="35.61494820537607" stroke="currentColor" stroke-width="0.295"></line><line x1="60.37720662091346" y1="38.42548318830614" x2="61.64879850186741" y2="38.695768386369224" stroke="currentColor" stroke-width="0.295"></line><line x1="59.60511071441188" y1="41.306984339686" x2="60.841484185595576" y2="41.70870643237343" stroke="currentColor" stroke-width="0.295"></line><line x1="58.53604554281412" y1="44.0919943276603" x2="59.723654637749505" y2="44.62075196365885" stroke="currentColor" stroke-width="0.295"></line><line x1="55.556984339686004" y1="49.251879690335485" x2="56.60870643237344" y2="50.0160005183157" stroke="currentColor" stroke-width="0.295"></line><line x1="53.67962752610573" y1="51.57022228122746" x2="54.64571579922635" y2="52.44009206949397" stroke="currentColor" stroke-width="0.295"></line><line x1="51.57022228122746" y1="53.67962752610573" x2="52.44009206949397" y2="54.64571579922635" stroke="currentColor" stroke-width="0.295"></line><line x1="49.251879690335485" y1="55.556984339686004" x2="50.0160005183157" y2="56.60870643237344" stroke="currentColor" stroke-width="0.295"></line><line x1="44.0919943276603" y1="58.53604554281412" x2="44.62075196365885" y2="59.723654637749505" stroke="currentColor" stroke-width="0.295"></line><line x1="41.306984339686004" y1="59.60511071441188" x2="41.70870643237343" y2="60.841484185595576" stroke="currentColor" stroke-width="0.295"></line><line x1="38.425483188306146" y1="60.377206620913455" x2="38.69576838636923" y2="61.648798501867404" stroke="currentColor" stroke-width="0.295"></line><line x1="35.479061203128126" y1="60.84387401799579" x2="35.61494820537607" y2="62.13675248197454" stroke="currentColor" stroke-width="0.295"></line><line x1="29.52093879687188" y1="60.84387401799579" x2="29.38505179462393" y2="62.13675248197455" stroke="currentColor" stroke-width="0.295"></line><line x1="26.574516811693865" y1="60.37720662091346" x2="26.304231613630776" y2="61.64879850186741" stroke="currentColor" stroke-width="0.295"></line><line x1="23.693015660314003" y1="59.60511071441188" x2="23.291293567626568" y2="60.841484185595576" stroke="currentColor" stroke-width="0.295"></line><line x1="20.908005672339698" y1="58.53604554281413" x2="20.379248036341156" y2="59.723654637749505" stroke="currentColor" stroke-width="0.295"></line><line x1="15.748120309664518" y1="55.556984339686004" x2="14.983999481684304" y2="56.60870643237344" stroke="currentColor" stroke-width="0.295"></line><line x1="13.429777718772542" y1="53.67962752610573" x2="12.559907930506025" y2="54.64571579922635" stroke="currentColor" stroke-width="0.295"></line><line x1="11.320372473894267" y1="51.57022228122746" x2="10.354284200773655" y2="52.44009206949398" stroke="currentColor" stroke-width="0.295"></line><line x1="9.443015660314" y1="49.251879690335485" x2="8.391293567626569" y2="50.01600051831571" stroke="currentColor" stroke-width="0.295"></line><line x1="6.463954457185878" y1="44.091994327660316" x2="5.276345362250495" y2="44.620751963658854" stroke="currentColor" stroke-width="0.295"></line><line x1="5.394889285588125" y1="41.306984339686004" x2="4.158515814404424" y2="41.70870643237343" stroke="currentColor" stroke-width="0.295"></line><line x1="4.622793379086538" y1="38.42548318830614" x2="3.351201498132589" y2="38.695768386369224" stroke="currentColor" stroke-width="0.295"></line><line x1="4.1561259820042125" y1="35.47906120312813" x2="2.8632475180254566" y2="35.61494820537608" stroke="currentColor" stroke-width="0.295"></line><line x1="4.156125982004209" y1="29.52093879687189" x2="2.863247518025453" y2="29.38505179462394" stroke="currentColor" stroke-width="0.295"></line><line x1="4.622793379086538" y1="26.57451681169387" x2="3.351201498132589" y2="26.30423161363078" stroke="currentColor" stroke-width="0.295"></line><line x1="5.394889285588125" y1="23.69301566031399" x2="4.158515814404424" y2="23.291293567626557" stroke="currentColor" stroke-width="0.295"></line><line x1="6.463954457185871" y1="20.908005672339705" x2="5.276345362250488" y2="20.379248036341167" stroke="currentColor" stroke-width="0.295"></line><line x1="9.443015660313996" y1="15.748120309664518" x2="8.391293567626565" y2="14.983999481684304" stroke="currentColor" stroke-width="0.295"></line><line x1="11.320372473894263" y1="13.429777718772542" x2="10.354284200773652" y2="12.559907930506025" stroke="currentColor" stroke-width="0.295"></line><line x1="13.429777718772534" y1="11.32037247389427" x2="12.559907930506018" y2="10.354284200773659" stroke="currentColor" stroke-width="0.295"></line><line x1="15.748120309664511" y1="9.443015660314" x2="14.983999481684297" y2="8.391293567626569" stroke="currentColor" stroke-width="0.295"></line><line x1="20.908005672339698" y1="6.463954457185871" x2="20.379248036341156" y2="5.276345362250492" stroke="currentColor" stroke-width="0.295"></line><line x1="23.693015660313996" y1="5.394889285588125" x2="23.29129356762656" y2="4.158515814404424" stroke="currentColor" stroke-width="0.295"></line><line x1="26.574516811693847" y1="4.622793379086541" x2="26.30423161363076" y2="3.3512014981325926" stroke="currentColor" stroke-width="0.295"></line><line x1="29.520938796871878" y1="4.156125982004209" x2="29.38505179462393" y2="2.863247518025453" stroke="currentColor" stroke-width="0.295"></line> <!-- Hour hand (black) --> <line data-clock-hour x1="32.5" y1="19.5" x2="32.5" y2="32.5" stroke="currentColor" stroke-width="0.885" stroke-linecap="round" style="transform: rotate(144.5deg); transform-origin: 32.5px 32.5px; transform-box: view-box; transition: transform 900ms cubic-bezier(0.65, 0, 0.35, 1);"></line> <!-- Minute hand (coral) --> <line data-clock-minute x1="32.5" y1="10.5" x2="32.5" y2="32.5" class="clock-hand" stroke-width="0.885" style="transform: rotate(294deg); transform-origin: 32.5px 32.5px; transform-box: view-box; transition: transform 900ms cubic-bezier(0.65, 0, 0.35, 1);"></line> <!-- Center dot --> <circle cx="32.5" cy="32.5" r="1.625" fill="currentColor"></circle> </svg> <ul class="font-mono text-[11px] leading-[1.4] tracking-tight"> <li> <button type="button" data-clock-city data-code="LA" data-tz="America/Los_Angeles" class="flex items-center gap-2 transition hover:text-coral "> <span aria-hidden="true">[<span class="inline-block w-[1ch] text-center" data-clock-dot> </span>]</span> <span>LA</span> </button> </li><li> <button type="button" data-clock-city data-code="NY" data-tz="America/New_York" aria-pressed="true" class="flex items-center gap-2 transition hover:text-coral is-active"> <span aria-hidden="true">[<span class="inline-block w-[1ch] text-center" data-clock-dot>•</span>]</span> <span>NY</span> </button> </li><li> <button type="button" data-clock-city data-code="HK" data-tz="Asia/Hong_Kong" class="flex items-center gap-2 transition hover:text-coral "> <span aria-hidden="true">[<span class="inline-block w-[1ch] text-center" data-clock-dot> </span>]</span> <span>HK</span> </button> </li> </ul> </div> <script>
+  (() => {
+    const getTime = (tz) => {
+      const fmt = new Intl.DateTimeFormat('en-US', {
+        timeZone: tz,
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: false,
+      });
+      const parts = fmt.formatToParts(new Date());
+      const h = Number(parts.find((p) => p.type === 'hour')?.value ?? 0);
+      const m = Number(parts.find((p) => p.type === 'minute')?.value ?? 0);
+      return { h: h % 12, m };
+    };
+
+    const setupClock = (root) => {
+      const buttons = root.querySelectorAll('[data-clock-city]');
+      const hourEl = root.querySelector('[data-clock-hour]');
+      const minuteEl = root.querySelector('[data-clock-minute]');
+      if (!hourEl || !minuteEl) return null;
+
+      let activeTz = root.querySelector('[data-clock-city][aria-pressed="true"]')?.dataset.tz
+        || 'America/New_York';
+
+      // Cumulative angles so transitions always go clockwise.
+      // Read initial values from inline style.transform.
+      const parseAngle = (el) => {
+        const m = (el.style.transform || '').match(/rotate\(([-\d.]+)/);
+        return m ? parseFloat(m[1]) : 0;
+      };
+      let cumHour = parseAngle(hourEl);
+      let cumMinute = parseAngle(minuteEl);
+
+      const setHands = (forceFullIfSame) => {
+        const { h, m } = getTime(activeTz);
+        const targetHour = h * 30 + m * 0.5;
+        const targetMinute = m * 6;
+
+        // Forward (clockwise) delta to reach target dial position
+        let hourDelta = ((targetHour - cumHour) % 360 + 360) % 360;
+        let minuteDelta = ((targetMinute - cumMinute) % 360 + 360) % 360;
+
+        // On a city click, if the hour-hand dial position is unchanged
+        // (NY <-> HK share a position on a 12-hour dial), spin the hour
+        // hand a full revolution for visual feedback.
+        if (forceFullIfSame && hourDelta < 0.001) {
+          hourDelta = 360;
+        }
+
+        cumHour += hourDelta;
+        cumMinute += minuteDelta;
+        hourEl.style.transform = `rotate(${cumHour}deg)`;
+        minuteEl.style.transform = `rotate(${cumMinute}deg)`;
+      };
+
+      buttons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          activeTz = btn.dataset.tz;
+          buttons.forEach((b) => {
+            const isActive = b === btn;
+            b.setAttribute('aria-pressed', String(isActive));
+            b.classList.toggle('is-active', isActive);
+            const dot = b.querySelector('[data-clock-dot]');
+            if (dot) dot.textContent = isActive ? '•' : ' ';
+          });
+          setHands(true);
+        });
+      });
+
+      return () => setHands(false);
+    };
+
+    const refreshers = Array.from(document.querySelectorAll('[data-clock]'))
+      .map(setupClock)
+      .filter(Boolean);
+
+    setInterval(() => refreshers.forEach((r) => r()), 30 * 1000);
+  })();
+</script> </div> </div> </footer> <script>
+  (() => {
+    const isEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+    document.querySelectorAll('form.newsletter-form').forEach((form) => {
+      const input = form.querySelector('input[name=email]');
+      const hp = form.querySelector('input[name=website]');
+      const btn = form.querySelector('button[type=submit]');
+      const status = form.parentElement?.querySelector('.newsletter-status');
+      const openedAt = Date.now();
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = (input?.value || '').trim().toLowerCase();
+        if (!isEmail(email)) {
+          if (status) {
+            status.textContent = 'Please enter a valid email.';
+            status.classList.remove('hidden');
+          }
+          return;
+        }
+        btn?.setAttribute('disabled', 'true');
+        if (status) {
+          status.textContent = 'Sending…';
+          status.classList.remove('hidden');
+        }
+        try {
+          const res = await fetch('https://www.elevatorgoods.com/api/newsletter/subscribe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email,
+              source: 'elevatorgoods.com/footer',
+              website: hp?.value || '',
+              _ts: String(Date.now() - openedAt),
+            }),
+          });
+          if (!res.ok) throw new Error(String(res.status));
+          form.innerHTML = '<p class="text-ink/80">Thanks. You’re in.</p>';
+          if (status) {
+            status.textContent = '';
+            status.classList.add('hidden');
+          }
+        } catch (err) {
+          if (status) status.textContent = 'Couldn’t subscribe. Try again in a moment.';
+          btn?.removeAttribute('disabled');
+        }
+      });
+    });
+  })();
+</script> </body></html>
