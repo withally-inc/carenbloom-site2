@@ -1,273 +1,97 @@
-<!DOCTYPE html><html lang="en"> <head><script>
-      // Tag <html> with browser hints so CSS can adjust only on iOS Chrome
-      // (whose visible viewport is squeezed by both top URL bar and bottom toolbar).
-      (() => {
-        try {
-          const ua = navigator.userAgent || '';
-          if (/CriOS/.test(ua)) document.documentElement.classList.add('is-chrome-ios');
-        } catch {}
-      })();
-    </script><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="description" content="A holding company of consumer goods and e-commerce focused brands, services, talent and infrastructure."><link rel="icon" type="image/svg+xml" href="/logos/eg-monogram.svg"><link rel="canonical" href="https://www.elevatorgoods.com/goods/"><meta property="og:title" content="Goods — Elevator Goods"><meta property="og:description" content="A holding company of consumer goods and e-commerce focused brands, services, talent and infrastructure."><meta property="og:type" content="website"><meta property="og:url" content="https://www.elevatorgoods.com/goods/"><meta property="og:image" content="https://www.elevatorgoods.com/api/og.png?kicker=Elevator+Goods&title=Goods+%E2%80%94+Elevator+Goods&footer=elevatorgoods.com"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Goods — Elevator Goods"><meta name="twitter:description" content="A holding company of consumer goods and e-commerce focused brands, services, talent and infrastructure."><meta name="twitter:image" content="https://www.elevatorgoods.com/api/og.png?kicker=Elevator+Goods&title=Goods+%E2%80%94+Elevator+Goods&footer=elevatorgoods.com"><title>Goods — Elevator Goods</title><link rel="stylesheet" href="/_astro/capital.CGL-0GRe.css">
-<style>body:has(.brand-link.is-open) .brand-link[data-astro-cid-ab7r3nup]:not(.is-open) .brand-name[data-astro-cid-ab7r3nup]{color:#0000004d}.brand-link[data-astro-cid-ab7r3nup].is-open .brand-meta[data-astro-cid-ab7r3nup]{max-height:2rem!important}.brand-link[data-astro-cid-ab7r3nup].is-open .brand-tagline[data-astro-cid-ab7r3nup]{max-height:4rem!important}.brand-link[data-astro-cid-ab7r3nup].is-open{padding-bottom:2.25rem}
-</style></head> <body class="bg-paper text-ink min-h-screen flex flex-col"> <header class="w-full sticky top-0 z-30 pt-6 pb-4 px-4 md:px-10 bg-paper/0"> <nav class="mx-auto flex justify-center"> <!-- Desktop pill (hidden on mobile) --> <div class="hidden md:flex items-center gap-1 md:gap-2 bg-paper/50 backdrop-blur-md rounded-2xl pl-2 pr-3 py-2 shadow-[0_6px_24px_-8px_rgba(0,0,0,0.18),0_2px_6px_-2px_rgba(0,0,0,0.08)]"> <a href="/" class="shrink-0 px-2" aria-label="Home"> <img src="/logos/eg-monogram.svg" alt="Elevator Goods" class="h-5 w-auto" loading="eager" decoding="sync"> </a> <ul class="flex items-center font-mono text-[11px] tracking-normal uppercase"> <li> <a href="/goods" class="flex items-center gap-2 px-3 py-1 rounded-full transition hover:bg-ink/5 text-ink" aria-current="page"> <span class="font-mono">[<span class="text-coral">•</span>]</span> <span>GOODS</span> </a> </li><li> <a href="/capital" class="flex items-center gap-2 px-3 py-1 rounded-full transition hover:bg-ink/5 text-ink/85"> <span class="font-mono">[<span class=""> </span>]</span> <span>CAPITAL</span> </a> </li><li> <a href="/talks" class="flex items-center gap-2 px-3 py-1 rounded-full transition hover:bg-ink/5 text-ink/85"> <span class="font-mono">[<span class=""> </span>]</span> <span>TALKS</span> </a> </li><li> <a href="/creators" class="flex items-center gap-2 px-3 py-1 rounded-full transition hover:bg-ink/5 text-ink/85"> <span class="font-mono">[<span class=""> </span>]</span> <span>CREATORS</span> </a> </li><li> <a href="/thestudio" class="flex items-center gap-2 px-3 py-1 rounded-full transition hover:bg-ink/5 text-ink/85"> <span class="font-mono">[<span class=""> </span>]</span> <span>STUDIO</span> </a> </li> </ul> </div> <!-- Mobile pill (hidden on desktop) --> <div class="flex md:hidden items-center justify-between w-full max-w-[420px] bg-paper/50 backdrop-blur-md rounded-2xl pl-3 pr-1 py-1.5 shadow-[0_6px_24px_-8px_rgba(0,0,0,0.18),0_2px_6px_-2px_rgba(0,0,0,0.08)]"> <a href="/" class="shrink-0" aria-label="Home"> <img src="/logos/eg-monogram.svg" alt="Elevator Goods" class="h-5 w-auto" loading="eager" decoding="sync"> </a> <button type="button" id="mobile-nav-toggle" aria-label="Open menu" aria-controls="mobile-nav-overlay" aria-expanded="false" class="flex items-center gap-2 px-4 py-2 rounded-full font-mono text-[11px] tracking-[0.12em] uppercase hover:bg-ink/5 transition"> <span>Menu</span> <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"> <line x1="2" y1="4" x2="12" y2="4"></line> <line x1="2" y1="10" x2="12" y2="10"></line> </svg> </button> </div> </nav> <!-- Mobile overlay menu --> <div id="mobile-nav-overlay" class="fixed inset-0 z-40 hidden bg-paper md:hidden" role="dialog" aria-modal="true" aria-label="Site menu"> <div class="flex items-center justify-between px-4 pt-6 pb-4"> <a href="/" class="shrink-0" aria-label="Home"> <img src="/logos/eg-monogram.svg" alt="Elevator Goods" class="h-7 w-auto" loading="eager" decoding="sync"> </a> <button type="button" id="mobile-nav-close" aria-label="Close menu" class="flex items-center gap-2 px-4 py-2 rounded-full border border-ink/15 font-mono text-[11px] tracking-[0.12em] uppercase hover:bg-ink/5 transition"> <span>Close</span> <span aria-hidden="true">×</span> </button> </div> <ul class="mt-12 px-6 flex flex-col gap-3 text-[42px] leading-[1] tracking-[-0.09em] uppercase font-semibold"> <li> <a href="/goods" class="flex items-center gap-3 text-coral"> <span class="font-mono text-[12px] tracking-[0.12em] text-ink/60">[<span class="text-coral">•</span>]</span> <span>GOODS</span> </a> </li><li> <a href="/capital" class="flex items-center gap-3 text-ink"> <span class="font-mono text-[12px] tracking-[0.12em] text-ink/60">[<span class=""> </span>]</span> <span>CAPITAL</span> </a> </li><li> <a href="/talks" class="flex items-center gap-3 text-ink"> <span class="font-mono text-[12px] tracking-[0.12em] text-ink/60">[<span class=""> </span>]</span> <span>TALKS</span> </a> </li><li> <a href="/creators" class="flex items-center gap-3 text-ink"> <span class="font-mono text-[12px] tracking-[0.12em] text-ink/60">[<span class=""> </span>]</span> <span>CREATORS</span> </a> </li><li> <a href="/thestudio" class="flex items-center gap-3 text-ink"> <span class="font-mono text-[12px] tracking-[0.12em] text-ink/60">[<span class=""> </span>]</span> <span>THE STUDIO</span> </a> </li> </ul> <ul class="mt-16 px-6 flex flex-col gap-2 font-mono text-[13px]"> <li><a href="/careers" class="underline underline-offset-4">Careers</a></li> <li><a href="mailto:hello@elevatorgoods.com" class="underline underline-offset-4">Contact Us</a></li> <li><a href="https://travel.elevatorgoods.com" class="underline underline-offset-4">Travel</a></li> </ul> </div> <script>
-    (() => {
-      const toggle = document.getElementById('mobile-nav-toggle');
-      const overlay = document.getElementById('mobile-nav-overlay');
-      const close = document.getElementById('mobile-nav-close');
-      if (!toggle || !overlay || !close) return;
-      const open = () => {
-        overlay.classList.remove('hidden');
-        toggle.setAttribute('aria-expanded', 'true');
-        document.body.style.overflow = 'hidden';
-      };
-      const hide = () => {
-        overlay.classList.add('hidden');
-        toggle.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
-      };
-      toggle.addEventListener('click', open);
-      close.addEventListener('click', hide);
-      overlay.querySelectorAll('a').forEach(a => a.addEventListener('click', hide));
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && !overlay.classList.contains('hidden')) hide();
-      });
-    })();
-  </script> </header> <main class="flex-1">  <section class="px-7 md:px-16 max-w-page mx-auto pt-16 md:pt-24" data-astro-cid-ab7r3nup> <div class="flex items-start justify-between gap-6" data-astro-cid-ab7r3nup> <h1 class="text-[10.2vw] md:text-[7.65vw] lg:text-[6.8vw] leading-[0.9] tracking-[-0.09em] font-semibold" data-astro-cid-ab7r3nup>GOODS</h1> <a href="/goods/contact" class="group inline-flex items-center justify-between gap-3 md:gap-4 pl-3 md:pl-4 pr-4 md:pr-6 py-2.5 md:py-3 min-w-[160px] md:min-w-[220px] rounded-full font-sans font-semibold text-[12px] md:text-[14px] tracking-[-0.02em] uppercase transition whitespace-nowrap shrink-0 bg-sage text-ink hover:bg-sage-pale "> <span class="inline-block h-5 w-5 rounded-full bg-ink"></span> <span>Get In Touch</span></a> </div> <p class="mt-8 md:mt-10 max-w-md text-[14px] md:text-[16px] leading-[1.55]" data-astro-cid-ab7r3nup>
-A holding company of consumer goods and e-commerce-focused assets, brands, services, talent and infrastructure.
-</p> <!-- BRANDS --> <div class="mt-20 md:mt-28 border-t border-ink/20" data-astro-cid-ab7r3nup> <p class="font-sans font-normal text-[11px] tracking-[0.18em] uppercase mt-3 mb-6" data-astro-cid-ab7r3nup>Brands</p> <ul class="brand-hover-list text-center" data-astro-cid-ab7r3nup> <li data-astro-cid-ab7r3nup> <a href="https://fluff.co" target="_blank" rel="noopener" class="brand-link group inline-block py-0 transition-[padding] duration-300 -my-[10px] md:-my-1 cursor-pointer" data-astro-cid-ab7r3nup> <span class="brand-name block text-[36px] md:text-[60px] leading-[0.85] tracking-[-0.09em] font-semibold uppercase transition-colors duration-200 text-ink md:group-hover:text-coral" data-astro-cid-ab7r3nup> FluffCo </span> <span class="brand-meta block font-mono text-[11px] md:text-[12px] uppercase tracking-normal text-ink/55 mt-3 max-h-0 overflow-hidden transition-all" data-astro-cid-ab7r3nup>
-[HOME GOODS]
-</span> <span class="brand-tagline block font-sans text-[13px] md:text-[14px] tracking-[-0.01em] text-ink/70 mt-2 max-h-0 overflow-hidden transition-all" data-astro-cid-ab7r3nup> 5-star hotel quality bedding for your home </span> </a> </li><li data-astro-cid-ab7r3nup> <a href="https://jiggies.com" target="_blank" rel="noopener" class="brand-link group inline-block py-0 transition-[padding] duration-300 -my-[10px] md:-my-1 cursor-pointer" data-astro-cid-ab7r3nup> <span class="brand-name block text-[36px] md:text-[60px] leading-[0.85] tracking-[-0.09em] font-semibold uppercase transition-colors duration-200 text-ink md:group-hover:text-coral" data-astro-cid-ab7r3nup> Jiggies </span> <span class="brand-meta block font-mono text-[11px] md:text-[12px] uppercase tracking-normal text-ink/55 mt-3 max-h-0 overflow-hidden transition-all" data-astro-cid-ab7r3nup>
-[WELLNESS]
-</span> <span class="brand-tagline block font-sans text-[13px] md:text-[14px] tracking-[-0.01em] text-ink/70 mt-2 max-h-0 overflow-hidden transition-all" data-astro-cid-ab7r3nup> 53 proven ingredients, clinically balanced into a daily powder. </span> </a> </li><li data-astro-cid-ab7r3nup> <a href="https://notoriouscookware.com" target="_blank" rel="noopener" class="brand-link group inline-block py-0 transition-[padding] duration-300 -my-[10px] md:-my-1 cursor-pointer" data-astro-cid-ab7r3nup> <span class="brand-name block text-[36px] md:text-[60px] leading-[0.85] tracking-[-0.09em] font-semibold uppercase transition-colors duration-200 text-ink md:group-hover:text-coral" data-astro-cid-ab7r3nup> Notorious Cookware </span> <span class="brand-meta block font-mono text-[11px] md:text-[12px] uppercase tracking-normal text-ink/55 mt-3 max-h-0 overflow-hidden transition-all" data-astro-cid-ab7r3nup>
-[KITCHEN]
-</span> <span class="brand-tagline block font-sans text-[13px] md:text-[14px] tracking-[-0.01em] text-ink/70 mt-2 max-h-0 overflow-hidden transition-all" data-astro-cid-ab7r3nup> Chef-level cookware from Notorious Foodie </span> </a> </li> </ul> </div> <!-- SERVICES --> <div class="mt-6 md:mt-8 border-t border-ink/20" data-astro-cid-ab7r3nup> <p class="font-sans font-normal text-[11px] tracking-[0.18em] uppercase mt-3 mb-6" data-astro-cid-ab7r3nup>Services</p> <ul class="brand-hover-list text-center" data-astro-cid-ab7r3nup> <li data-astro-cid-ab7r3nup> <a href="https://boardgamestudio.co" target="_blank" rel="noopener" class="brand-link group inline-block py-0 transition-[padding] duration-300 -my-[10px] md:-my-1 cursor-pointer" data-astro-cid-ab7r3nup> <span class="brand-name block text-[36px] md:text-[60px] leading-[0.85] tracking-[-0.09em] font-semibold uppercase transition-colors duration-200 text-ink md:group-hover:text-coral" data-astro-cid-ab7r3nup> Boardgame </span> <span class="brand-tagline block font-sans text-[13px] md:text-[14px] tracking-[-0.01em] text-ink/70 mt-3 max-h-0 overflow-hidden transition-all" data-astro-cid-ab7r3nup> Brand creative and incubation studio </span> </a> </li><li data-astro-cid-ab7r3nup> <a href="https://skyvane.io" target="_blank" rel="noopener" class="brand-link group inline-block py-0 transition-[padding] duration-300 -my-[10px] md:-my-1 cursor-pointer" data-astro-cid-ab7r3nup> <span class="brand-name block text-[36px] md:text-[60px] leading-[0.85] tracking-[-0.09em] font-semibold uppercase transition-colors duration-200 text-ink md:group-hover:text-coral" data-astro-cid-ab7r3nup> SkyVane </span> <span class="brand-tagline block font-sans text-[13px] md:text-[14px] tracking-[-0.01em] text-ink/70 mt-3 max-h-0 overflow-hidden transition-all" data-astro-cid-ab7r3nup> Tech-enabled funnels &amp; media buying that scales </span> </a> </li><li data-astro-cid-ab7r3nup> <a href="https://creativedose.io" target="_blank" rel="noopener" class="brand-link group inline-block py-0 transition-[padding] duration-300 -my-[10px] md:-my-1 cursor-pointer" data-astro-cid-ab7r3nup> <span class="brand-name block text-[36px] md:text-[60px] leading-[0.85] tracking-[-0.09em] font-semibold uppercase transition-colors duration-200 text-ink md:group-hover:text-coral" data-astro-cid-ab7r3nup> CreativeDose </span> <span class="brand-tagline block font-sans text-[13px] md:text-[14px] tracking-[-0.01em] text-ink/70 mt-3 max-h-0 overflow-hidden transition-all" data-astro-cid-ab7r3nup> High-volume ad creative &amp; creator management </span> </a> </li><li data-astro-cid-ab7r3nup> <div class="brand-link group inline-block py-0 transition-[padding] duration-300 -my-[10px] md:-my-1 cursor-default" data-astro-cid-ab7r3nup> <span class="brand-name block text-[36px] md:text-[60px] leading-[0.85] tracking-[-0.09em] font-semibold uppercase transition-colors duration-200 text-ink md:group-hover:text-coral" data-astro-cid-ab7r3nup> Atlas World </span> <span class="brand-tagline block font-sans text-[13px] md:text-[14px] tracking-[-0.01em] text-ink/70 mt-3 max-h-0 overflow-hidden transition-all" data-astro-cid-ab7r3nup> Sourcing and manufacturing expertise </span> </div> </li><li data-astro-cid-ab7r3nup> <a href="https://outpost.ai" target="_blank" rel="noopener" class="brand-link group inline-block py-0 transition-[padding] duration-300 -my-[10px] md:-my-1 cursor-pointer" data-astro-cid-ab7r3nup> <span class="brand-name block text-[36px] md:text-[60px] leading-[0.85] tracking-[-0.09em] font-semibold uppercase transition-colors duration-200 text-ink md:group-hover:text-coral" data-astro-cid-ab7r3nup> Outpost </span> <span class="brand-tagline block font-sans text-[13px] md:text-[14px] tracking-[-0.01em] text-ink/70 mt-3 max-h-0 overflow-hidden transition-all" data-astro-cid-ab7r3nup> Operations and infrastructure for modern commerce </span> </a> </li> </ul> </div> </section>  </main> <footer class="px-7 md:px-16 pt-10 pb-8 mt-8 border-t border-ink/15 font-mono text-[11px] tracking-[0.04em]"> <!-- ======================== MOBILE ======================== --> <div class="md:hidden"> <!-- Top row: clock left, logo + socials right --> <div class="flex items-start justify-between gap-6"> <div class="flex items-center gap-3 select-none" data-clock> <svg viewBox="0 0 65 65" class="w-20 h-20 md:w-14 md:h-14" aria-hidden="true"> <circle cx="32.5" cy="32.5" r="31.2" fill="none" stroke="currentColor" stroke-width="0.885"></circle> <line x1="32.5" y1="5.300000000000001" x2="32.5" y2="2.6999999999999993" stroke="currentColor" stroke-width="0.885"></line><line x1="46.1" y1="8.944109017063269" x2="47.400000000000006" y2="6.69244296722373" stroke="currentColor" stroke-width="0.885"></line><line x1="56.05589098293673" y1="18.900000000000002" x2="58.30755703277627" y2="17.6" stroke="currentColor" stroke-width="0.885"></line><line x1="59.7" y1="32.5" x2="62.3" y2="32.5" stroke="currentColor" stroke-width="0.885"></line><line x1="56.05589098293673" y1="46.099999999999994" x2="58.30755703277627" y2="47.4" stroke="currentColor" stroke-width="0.885"></line><line x1="46.1" y1="56.05589098293673" x2="47.400000000000006" y2="58.30755703277627" stroke="currentColor" stroke-width="0.885"></line><line x1="32.5" y1="59.7" x2="32.5" y2="62.3" stroke="currentColor" stroke-width="0.885"></line><line x1="18.900000000000006" y1="56.05589098293673" x2="17.60000000000001" y2="58.30755703277627" stroke="currentColor" stroke-width="0.885"></line><line x1="8.944109017063269" y1="46.099999999999994" x2="6.692442967223727" y2="47.4" stroke="currentColor" stroke-width="0.885"></line><line x1="5.300000000000001" y1="32.5" x2="2.6999999999999993" y2="32.50000000000001" stroke="currentColor" stroke-width="0.885"></line><line x1="8.944109017063269" y1="18.9" x2="6.69244296722373" y2="17.599999999999994" stroke="currentColor" stroke-width="0.885"></line><line x1="18.899999999999988" y1="8.944109017063273" x2="17.599999999999987" y2="6.692442967223734" stroke="currentColor" stroke-width="0.885"></line> <line x1="35.479061203128126" y1="4.1561259820042125" x2="35.61494820537607" y2="2.8632475180254566" stroke="currentColor" stroke-width="0.295"></line><line x1="38.425483188306146" y1="4.622793379086541" x2="38.69576838636923" y2="3.3512014981325926" stroke="currentColor" stroke-width="0.295"></line><line x1="41.306984339686004" y1="5.394889285588125" x2="41.70870643237343" y2="4.158515814404424" stroke="currentColor" stroke-width="0.295"></line><line x1="44.0919943276603" y1="6.463954457185874" x2="44.62075196365885" y2="5.276345362250492" stroke="currentColor" stroke-width="0.295"></line><line x1="49.251879690335485" y1="9.443015660313996" x2="50.0160005183157" y2="8.391293567626565" stroke="currentColor" stroke-width="0.295"></line><line x1="51.57022228122746" y1="11.320372473894263" x2="52.44009206949397" y2="10.354284200773652" stroke="currentColor" stroke-width="0.295"></line><line x1="53.67962752610573" y1="13.429777718772542" x2="54.64571579922635" y2="12.559907930506025" stroke="currentColor" stroke-width="0.295"></line><line x1="55.556984339686004" y1="15.748120309664515" x2="56.60870643237344" y2="14.9839994816843" stroke="currentColor" stroke-width="0.295"></line><line x1="58.53604554281412" y1="20.908005672339698" x2="59.723654637749505" y2="20.379248036341153" stroke="currentColor" stroke-width="0.295"></line><line x1="59.60511071441188" y1="23.693015660314" x2="60.841484185595576" y2="23.291293567626568" stroke="currentColor" stroke-width="0.295"></line><line x1="60.37720662091346" y1="26.57451681169386" x2="61.64879850186741" y2="26.304231613630773" stroke="currentColor" stroke-width="0.295"></line><line x1="60.84387401799579" y1="29.520938796871878" x2="62.13675248197454" y2="29.385051794623926" stroke="currentColor" stroke-width="0.295"></line><line x1="60.84387401799579" y1="35.479061203128126" x2="62.13675248197454" y2="35.61494820537607" stroke="currentColor" stroke-width="0.295"></line><line x1="60.37720662091346" y1="38.42548318830614" x2="61.64879850186741" y2="38.695768386369224" stroke="currentColor" stroke-width="0.295"></line><line x1="59.60511071441188" y1="41.306984339686" x2="60.841484185595576" y2="41.70870643237343" stroke="currentColor" stroke-width="0.295"></line><line x1="58.53604554281412" y1="44.0919943276603" x2="59.723654637749505" y2="44.62075196365885" stroke="currentColor" stroke-width="0.295"></line><line x1="55.556984339686004" y1="49.251879690335485" x2="56.60870643237344" y2="50.0160005183157" stroke="currentColor" stroke-width="0.295"></line><line x1="53.67962752610573" y1="51.57022228122746" x2="54.64571579922635" y2="52.44009206949397" stroke="currentColor" stroke-width="0.295"></line><line x1="51.57022228122746" y1="53.67962752610573" x2="52.44009206949397" y2="54.64571579922635" stroke="currentColor" stroke-width="0.295"></line><line x1="49.251879690335485" y1="55.556984339686004" x2="50.0160005183157" y2="56.60870643237344" stroke="currentColor" stroke-width="0.295"></line><line x1="44.0919943276603" y1="58.53604554281412" x2="44.62075196365885" y2="59.723654637749505" stroke="currentColor" stroke-width="0.295"></line><line x1="41.306984339686004" y1="59.60511071441188" x2="41.70870643237343" y2="60.841484185595576" stroke="currentColor" stroke-width="0.295"></line><line x1="38.425483188306146" y1="60.377206620913455" x2="38.69576838636923" y2="61.648798501867404" stroke="currentColor" stroke-width="0.295"></line><line x1="35.479061203128126" y1="60.84387401799579" x2="35.61494820537607" y2="62.13675248197454" stroke="currentColor" stroke-width="0.295"></line><line x1="29.52093879687188" y1="60.84387401799579" x2="29.38505179462393" y2="62.13675248197455" stroke="currentColor" stroke-width="0.295"></line><line x1="26.574516811693865" y1="60.37720662091346" x2="26.304231613630776" y2="61.64879850186741" stroke="currentColor" stroke-width="0.295"></line><line x1="23.693015660314003" y1="59.60511071441188" x2="23.291293567626568" y2="60.841484185595576" stroke="currentColor" stroke-width="0.295"></line><line x1="20.908005672339698" y1="58.53604554281413" x2="20.379248036341156" y2="59.723654637749505" stroke="currentColor" stroke-width="0.295"></line><line x1="15.748120309664518" y1="55.556984339686004" x2="14.983999481684304" y2="56.60870643237344" stroke="currentColor" stroke-width="0.295"></line><line x1="13.429777718772542" y1="53.67962752610573" x2="12.559907930506025" y2="54.64571579922635" stroke="currentColor" stroke-width="0.295"></line><line x1="11.320372473894267" y1="51.57022228122746" x2="10.354284200773655" y2="52.44009206949398" stroke="currentColor" stroke-width="0.295"></line><line x1="9.443015660314" y1="49.251879690335485" x2="8.391293567626569" y2="50.01600051831571" stroke="currentColor" stroke-width="0.295"></line><line x1="6.463954457185878" y1="44.091994327660316" x2="5.276345362250495" y2="44.620751963658854" stroke="currentColor" stroke-width="0.295"></line><line x1="5.394889285588125" y1="41.306984339686004" x2="4.158515814404424" y2="41.70870643237343" stroke="currentColor" stroke-width="0.295"></line><line x1="4.622793379086538" y1="38.42548318830614" x2="3.351201498132589" y2="38.695768386369224" stroke="currentColor" stroke-width="0.295"></line><line x1="4.1561259820042125" y1="35.47906120312813" x2="2.8632475180254566" y2="35.61494820537608" stroke="currentColor" stroke-width="0.295"></line><line x1="4.156125982004209" y1="29.52093879687189" x2="2.863247518025453" y2="29.38505179462394" stroke="currentColor" stroke-width="0.295"></line><line x1="4.622793379086538" y1="26.57451681169387" x2="3.351201498132589" y2="26.30423161363078" stroke="currentColor" stroke-width="0.295"></line><line x1="5.394889285588125" y1="23.69301566031399" x2="4.158515814404424" y2="23.291293567626557" stroke="currentColor" stroke-width="0.295"></line><line x1="6.463954457185871" y1="20.908005672339705" x2="5.276345362250488" y2="20.379248036341167" stroke="currentColor" stroke-width="0.295"></line><line x1="9.443015660313996" y1="15.748120309664518" x2="8.391293567626565" y2="14.983999481684304" stroke="currentColor" stroke-width="0.295"></line><line x1="11.320372473894263" y1="13.429777718772542" x2="10.354284200773652" y2="12.559907930506025" stroke="currentColor" stroke-width="0.295"></line><line x1="13.429777718772534" y1="11.32037247389427" x2="12.559907930506018" y2="10.354284200773659" stroke="currentColor" stroke-width="0.295"></line><line x1="15.748120309664511" y1="9.443015660314" x2="14.983999481684297" y2="8.391293567626569" stroke="currentColor" stroke-width="0.295"></line><line x1="20.908005672339698" y1="6.463954457185871" x2="20.379248036341156" y2="5.276345362250492" stroke="currentColor" stroke-width="0.295"></line><line x1="23.693015660313996" y1="5.394889285588125" x2="23.29129356762656" y2="4.158515814404424" stroke="currentColor" stroke-width="0.295"></line><line x1="26.574516811693847" y1="4.622793379086541" x2="26.30423161363076" y2="3.3512014981325926" stroke="currentColor" stroke-width="0.295"></line><line x1="29.520938796871878" y1="4.156125982004209" x2="29.38505179462393" y2="2.863247518025453" stroke="currentColor" stroke-width="0.295"></line> <!-- Hour hand (black) --> <line data-clock-hour x1="32.5" y1="19.5" x2="32.5" y2="32.5" stroke="currentColor" stroke-width="0.885" stroke-linecap="round" style="transform: rotate(144.5deg); transform-origin: 32.5px 32.5px; transform-box: view-box; transition: transform 900ms cubic-bezier(0.65, 0, 0.35, 1);"></line> <!-- Minute hand (coral) --> <line data-clock-minute x1="32.5" y1="10.5" x2="32.5" y2="32.5" class="clock-hand" stroke-width="0.885" style="transform: rotate(294deg); transform-origin: 32.5px 32.5px; transform-box: view-box; transition: transform 900ms cubic-bezier(0.65, 0, 0.35, 1);"></line> <!-- Center dot --> <circle cx="32.5" cy="32.5" r="1.625" fill="currentColor"></circle> </svg> <ul class="font-mono text-[11px] leading-[1.4] tracking-tight"> <li> <button type="button" data-clock-city data-code="LA" data-tz="America/Los_Angeles" class="flex items-center gap-2 transition hover:text-coral "> <span aria-hidden="true">[<span class="inline-block w-[1ch] text-center" data-clock-dot> </span>]</span> <span>LA</span> </button> </li><li> <button type="button" data-clock-city data-code="NY" data-tz="America/New_York" aria-pressed="true" class="flex items-center gap-2 transition hover:text-coral is-active"> <span aria-hidden="true">[<span class="inline-block w-[1ch] text-center" data-clock-dot>•</span>]</span> <span>NY</span> </button> </li><li> <button type="button" data-clock-city data-code="HK" data-tz="Asia/Hong_Kong" class="flex items-center gap-2 transition hover:text-coral "> <span aria-hidden="true">[<span class="inline-block w-[1ch] text-center" data-clock-dot> </span>]</span> <span>HK</span> </button> </li> </ul> </div> <script>
-  (() => {
-    const getTime = (tz) => {
-      const fmt = new Intl.DateTimeFormat('en-US', {
-        timeZone: tz,
-        hour: 'numeric',
-        minute: 'numeric',
-        hour12: false,
-      });
-      const parts = fmt.formatToParts(new Date());
-      const h = Number(parts.find((p) => p.type === 'hour')?.value ?? 0);
-      const m = Number(parts.find((p) => p.type === 'minute')?.value ?? 0);
-      return { h: h % 12, m };
-    };
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="description" content="Care & Bloom brands organized across sexual wellness, longevity, mental health, and education.">
+    <meta property="og:title" content="Brands | Care & Bloom">
+    <meta property="og:description" content="Care & Bloom brands organized by mission.">
+    <meta property="og:type" content="website">
+    <title>Brands | Care & Bloom</title>
+    <link rel="stylesheet" href="/_astro/capital.CGL-0GRe.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand-mark" href="/" aria-label="Care & Bloom home">
+        <span class="brand-logo" aria-hidden="true"></span>
+      </a>
+      <nav class="top-nav" aria-label="Primary">
+        <a href="/mission/"><span class="nav-dot">[01]</span> Mission</a>
+        <a href="/goods/" aria-current="page" style="--accent: var(--pulse-lime)"><span class="nav-dot">[02]</span> Brands</a>
+        <a href="/capital/" style="--accent: var(--lab-cobalt)"><span class="nav-dot">[03]</span> Capital</a>
+        <a href="/creators/" style="--accent: var(--talent-magenta)"><span class="nav-dot">[04]</span> Talents</a>
+      </nav>
+    </header>
 
-    const setupClock = (root) => {
-      const buttons = root.querySelectorAll('[data-clock-city]');
-      const hourEl = root.querySelector('[data-clock-hour]');
-      const minuteEl = root.querySelector('[data-clock-minute]');
-      if (!hourEl || !minuteEl) return null;
+    <main>
+      <section class="page-hero section">
+        <div>
+          <p class="eyebrow" style="--accent: var(--pulse-lime)">Brands [02]</p>
+          <h1 class="page-title">Brands</h1>
+        </div>
+        <div>
+          <p class="thesis">Care & Bloom brands are organized by mission: sexual wellness, longevity, mental health, and education.</p>
+        </div>
+      </section>
 
-      let activeTz = root.querySelector('[data-clock-city][aria-pressed="true"]')?.dataset.tz
-        || 'America/New_York';
+      <section class="section brands-missions">
+        <ol class="mission-brand-directory" aria-label="Care & Bloom brands by mission">
+          <li style="--accent: var(--bloom-coral)">
+            <div class="mission-heading">
+              <small>[01]</small>
+              <h2>Sexual wellness</h2>
+            </div>
+            <div class="brand-stack">
+              <article class="mission-brand">
+                <a href="https://hellonancy.com/" target="_blank" rel="noopener">
+                  <small>Live brand</small>
+                  <strong>Hello Nancy</strong>
+                  <span>hellonancy.com</span>
+                </a>
+                <p>A direct-to-consumer sexual wellness brand with discreet, beginner-friendly vibrators and sex education for women.</p>
+              </article>
+              <article class="mission-brand">
+                <a href="https://heybiird.com/" target="_blank" rel="noopener">
+                  <small>Live brand</small>
+                  <strong>Biird</strong>
+                  <span>heybiird.com</span>
+                </a>
+                <p>An award-winning intimate wellness brand making design-led toys and accessories feel more approachable.</p>
+              </article>
+            </div>
+          </li>
+          <li style="--accent: var(--pulse-lime)">
+            <div class="mission-heading">
+              <small>[02]</small>
+              <h2>Longevity</h2>
+            </div>
+            <p class="coming-soon">Coming soon</p>
+          </li>
+          <li style="--accent: var(--lab-cobalt)">
+            <div class="mission-heading">
+              <small>[03]</small>
+              <h2>Mental health</h2>
+            </div>
+            <p class="coming-soon">Coming soon</p>
+          </li>
+          <li style="--accent: var(--talent-magenta)">
+            <div class="mission-heading">
+              <small>[04]</small>
+              <h2>Education</h2>
+            </div>
+            <p class="coming-soon">Coming soon</p>
+          </li>
+        </ol>
+      </section>
+    </main>
 
-      // Cumulative angles so transitions always go clockwise.
-      // Read initial values from inline style.transform.
-      const parseAngle = (el) => {
-        const m = (el.style.transform || '').match(/rotate\(([-\d.]+)/);
-        return m ? parseFloat(m[1]) : 0;
-      };
-      let cumHour = parseAngle(hourEl);
-      let cumMinute = parseAngle(minuteEl);
-
-      const setHands = (forceFullIfSame) => {
-        const { h, m } = getTime(activeTz);
-        const targetHour = h * 30 + m * 0.5;
-        const targetMinute = m * 6;
-
-        // Forward (clockwise) delta to reach target dial position
-        let hourDelta = ((targetHour - cumHour) % 360 + 360) % 360;
-        let minuteDelta = ((targetMinute - cumMinute) % 360 + 360) % 360;
-
-        // On a city click, if the hour-hand dial position is unchanged
-        // (NY <-> HK share a position on a 12-hour dial), spin the hour
-        // hand a full revolution for visual feedback.
-        if (forceFullIfSame && hourDelta < 0.001) {
-          hourDelta = 360;
-        }
-
-        cumHour += hourDelta;
-        cumMinute += minuteDelta;
-        hourEl.style.transform = `rotate(${cumHour}deg)`;
-        minuteEl.style.transform = `rotate(${cumMinute}deg)`;
-      };
-
-      buttons.forEach((btn) => {
-        btn.addEventListener('click', () => {
-          activeTz = btn.dataset.tz;
-          buttons.forEach((b) => {
-            const isActive = b === btn;
-            b.setAttribute('aria-pressed', String(isActive));
-            b.classList.toggle('is-active', isActive);
-            const dot = b.querySelector('[data-clock-dot]');
-            if (dot) dot.textContent = isActive ? '•' : ' ';
-          });
-          setHands(true);
-        });
-      });
-
-      return () => setHands(false);
-    };
-
-    const refreshers = Array.from(document.querySelectorAll('[data-clock]'))
-      .map(setupClock)
-      .filter(Boolean);
-
-    setInterval(() => refreshers.forEach((r) => r()), 30 * 1000);
-  })();
-</script> <div class="flex flex-col items-end gap-7"> <a href="/" class="opacity-90"><img src="/logos/eg-monogram.svg" alt="Elevator Goods" class="h-8 w-auto" loading="eager" decoding="sync"></a> <ul class="flex items-center gap-3"> <li><a href="https://instagram.com/elevatorgoods" aria-label="Instagram" target="_blank" rel="noopener" class="flex items-center justify-center w-5 h-5"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1" fill="currentColor"></circle></svg> </a></li> <li><a href="https://youtube.com/@elevatorgoods" aria-label="YouTube" target="_blank" rel="noopener" class="flex items-center justify-center w-5 h-5"> <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 7.2a3 3 0 0 0-2.1-2.1C19.5 4.6 12 4.6 12 4.6s-7.5 0-9.4.5A3 3 0 0 0 .5 7.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-4.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"></path></svg> </a></li> <li><a href="https://x.com/elevatorgoods" aria-label="X" target="_blank" rel="noopener" class="flex items-center justify-center w-5 h-5"> <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2H21l-6.52 7.45L22 22h-6.797l-4.74-6.197L4.94 22H2.18l6.96-7.953L2 2h6.92l4.27 5.66L18.244 2zm-1.18 18.4h1.797L7.04 3.5H5.13l11.934 16.9z"></path></svg> </a></li> <li><a href="https://www.linkedin.com/company/elevator-goods" aria-label="LinkedIn" target="_blank" rel="noopener" class="flex items-center justify-center w-5 h-5 -translate-y-[2px]"> <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.48 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM0 8h5v16H0V8zm7.5 0h4.78v2.18h.07c.66-1.25 2.27-2.57 4.67-2.57 5 0 5.93 3.29 5.93 7.57V24h-5v-7.13c0-1.7-.03-3.88-2.36-3.88-2.36 0-2.72 1.85-2.72 3.76V24h-5V8z"></path></svg> </a></li> <li><a href="https://podcasts.apple.com/us/podcast/elevator-talks/id1896325680" aria-label="Apple Podcasts" target="_blank" rel="noopener" class="flex items-center justify-center w-5 h-5"> <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"></path></svg> </a></li> <li><a href="https://open.spotify.com/show/1fCirPyNlzTxT4hOOH0tVC" aria-label="Spotify" target="_blank" rel="noopener" class="flex items-center justify-center w-5 h-5"> <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12C24 5.4 18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.02.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.78-.179-.9-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.42 1.56-.299.421-1.02.599-1.56.3z"></path></svg> </a></li> </ul> </div> </div> <!-- Full-width email signup --> <div class="mt-10"> <p class="mb-3">Subscribe to the Elevator newsletter.</p> <form class="newsletter-form flex items-center gap-3 relative" novalidate> <div aria-hidden="true" class="absolute -left-[9999px] w-0 h-0 overflow-hidden pointer-events-none"> <label>Website (leave blank)<input type="text" name="website" tabindex="-1" autocomplete="off"></label> </div> <input type="email" name="email" placeholder="Email" required class="flex-1 min-w-0 bg-transparent border border-ink/40 px-3 py-2 placeholder:text-ink/50 focus:outline-none focus:border-ink"> <button type="submit" class="underline underline-offset-4 shrink-0">Sign Up</button> </form> <p class="newsletter-status mt-2 min-h-[1em] text-ink/60 hidden"></p> </div> <!-- Bottom row: nav links left, legal right (parallel) --> <div class="mt-10 grid grid-cols-2 gap-x-6 items-start"> <ul class="space-y-1"> <li><a href="/careers" class="underline underline-offset-4">Careers</a></li> <li><a href="mailto:hello@elevatorgoods.com" class="underline underline-offset-4">Contact Us</a></li> <li><a href="https://travel.elevatorgoods.com" class="underline underline-offset-4">Travel</a></li> </ul> <p class="text-right leading-relaxed">
-All Rights Reserved<br> Elevator Goods Limited 2026.
-</p> </div> </div> <!-- ======================== DESKTOP ======================== --> <div class="hidden md:grid grid-cols-12 gap-6 items-stretch"> <!-- Left: Stay Updated + nav links --> <div class="col-span-12 md:col-span-4"> <p class="mb-3">Subscribe to the Elevator newsletter.</p> <form class="newsletter-form flex items-center gap-3 max-w-sm relative" novalidate> <div aria-hidden="true" class="absolute -left-[9999px] w-0 h-0 overflow-hidden pointer-events-none"> <label>Website (leave blank)<input type="text" name="website" tabindex="-1" autocomplete="off"></label> </div> <input type="email" name="email" placeholder="Email" required class="flex-1 bg-transparent border border-ink/40 px-3 py-2 placeholder:text-ink/50 focus:outline-none focus:border-ink"> <button type="submit" class="underline underline-offset-4">Sign Up</button> </form> <p class="newsletter-status mt-2 min-h-[1em] text-ink/60 max-w-sm hidden"></p> <ul class="mt-8 space-y-1"> <li><a href="/careers" class="underline underline-offset-4">Careers</a></li> <li><a href="mailto:hello@elevatorgoods.com" class="underline underline-offset-4">Contact Us</a></li> <li><a href="https://travel.elevatorgoods.com" class="underline underline-offset-4">Travel</a></li> </ul> </div> <!-- Center: monogram + legal --> <div class="col-span-12 md:col-span-4 flex flex-col items-center"> <a href="/" class="opacity-90"><img src="/logos/eg-monogram.svg" alt="Elevator Goods" class="h-8 w-auto" loading="eager" decoding="sync"></a> <p class="mt-auto text-center leading-relaxed">
-All Rights Reserved<br> Elevator Goods Limited 2026.
-</p> </div> <!-- Right: social icons (top) + clock (bottom-right) --> <div class="col-span-12 md:col-span-4 flex flex-col items-end gap-14"> <ul class="flex items-center gap-5"> <li><a href="https://instagram.com/elevatorgoods" aria-label="Instagram" target="_blank" rel="noopener"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1" fill="currentColor"></circle></svg> </a></li> <li><a href="https://youtube.com/@elevatorgoods" aria-label="YouTube" target="_blank" rel="noopener"> <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 7.2a3 3 0 0 0-2.1-2.1C19.5 4.6 12 4.6 12 4.6s-7.5 0-9.4.5A3 3 0 0 0 .5 7.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-4.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"></path></svg> </a></li> <li><a href="https://x.com/elevatorgoods" aria-label="X" target="_blank" rel="noopener"> <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2H21l-6.52 7.45L22 22h-6.797l-4.74-6.197L4.94 22H2.18l6.96-7.953L2 2h6.92l4.27 5.66L18.244 2zm-1.18 18.4h1.797L7.04 3.5H5.13l11.934 16.9z"></path></svg> </a></li> <li><a href="https://www.linkedin.com/company/elevator-goods" aria-label="LinkedIn" target="_blank" rel="noopener"> <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.48 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM0 8h5v16H0V8zm7.5 0h4.78v2.18h.07c.66-1.25 2.27-2.57 4.67-2.57 5 0 5.93 3.29 5.93 7.57V24h-5v-7.13c0-1.7-.03-3.88-2.36-3.88-2.36 0-2.72 1.85-2.72 3.76V24h-5V8z"></path></svg> </a></li> <li><a href="https://podcasts.apple.com/us/podcast/elevator-talks/id1896325680" aria-label="Apple Podcasts" target="_blank" rel="noopener"> <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"></path></svg> </a></li> <li><a href="https://open.spotify.com/show/1fCirPyNlzTxT4hOOH0tVC" aria-label="Spotify" target="_blank" rel="noopener"> <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12C24 5.4 18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.02.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.78-.179-.9-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.42 1.56-.299.421-1.02.599-1.56.3z"></path></svg> </a></li> </ul> <div class="flex items-center gap-3 select-none" data-clock> <svg viewBox="0 0 65 65" class="w-20 h-20 md:w-14 md:h-14" aria-hidden="true"> <circle cx="32.5" cy="32.5" r="31.2" fill="none" stroke="currentColor" stroke-width="0.885"></circle> <line x1="32.5" y1="5.300000000000001" x2="32.5" y2="2.6999999999999993" stroke="currentColor" stroke-width="0.885"></line><line x1="46.1" y1="8.944109017063269" x2="47.400000000000006" y2="6.69244296722373" stroke="currentColor" stroke-width="0.885"></line><line x1="56.05589098293673" y1="18.900000000000002" x2="58.30755703277627" y2="17.6" stroke="currentColor" stroke-width="0.885"></line><line x1="59.7" y1="32.5" x2="62.3" y2="32.5" stroke="currentColor" stroke-width="0.885"></line><line x1="56.05589098293673" y1="46.099999999999994" x2="58.30755703277627" y2="47.4" stroke="currentColor" stroke-width="0.885"></line><line x1="46.1" y1="56.05589098293673" x2="47.400000000000006" y2="58.30755703277627" stroke="currentColor" stroke-width="0.885"></line><line x1="32.5" y1="59.7" x2="32.5" y2="62.3" stroke="currentColor" stroke-width="0.885"></line><line x1="18.900000000000006" y1="56.05589098293673" x2="17.60000000000001" y2="58.30755703277627" stroke="currentColor" stroke-width="0.885"></line><line x1="8.944109017063269" y1="46.099999999999994" x2="6.692442967223727" y2="47.4" stroke="currentColor" stroke-width="0.885"></line><line x1="5.300000000000001" y1="32.5" x2="2.6999999999999993" y2="32.50000000000001" stroke="currentColor" stroke-width="0.885"></line><line x1="8.944109017063269" y1="18.9" x2="6.69244296722373" y2="17.599999999999994" stroke="currentColor" stroke-width="0.885"></line><line x1="18.899999999999988" y1="8.944109017063273" x2="17.599999999999987" y2="6.692442967223734" stroke="currentColor" stroke-width="0.885"></line> <line x1="35.479061203128126" y1="4.1561259820042125" x2="35.61494820537607" y2="2.8632475180254566" stroke="currentColor" stroke-width="0.295"></line><line x1="38.425483188306146" y1="4.622793379086541" x2="38.69576838636923" y2="3.3512014981325926" stroke="currentColor" stroke-width="0.295"></line><line x1="41.306984339686004" y1="5.394889285588125" x2="41.70870643237343" y2="4.158515814404424" stroke="currentColor" stroke-width="0.295"></line><line x1="44.0919943276603" y1="6.463954457185874" x2="44.62075196365885" y2="5.276345362250492" stroke="currentColor" stroke-width="0.295"></line><line x1="49.251879690335485" y1="9.443015660313996" x2="50.0160005183157" y2="8.391293567626565" stroke="currentColor" stroke-width="0.295"></line><line x1="51.57022228122746" y1="11.320372473894263" x2="52.44009206949397" y2="10.354284200773652" stroke="currentColor" stroke-width="0.295"></line><line x1="53.67962752610573" y1="13.429777718772542" x2="54.64571579922635" y2="12.559907930506025" stroke="currentColor" stroke-width="0.295"></line><line x1="55.556984339686004" y1="15.748120309664515" x2="56.60870643237344" y2="14.9839994816843" stroke="currentColor" stroke-width="0.295"></line><line x1="58.53604554281412" y1="20.908005672339698" x2="59.723654637749505" y2="20.379248036341153" stroke="currentColor" stroke-width="0.295"></line><line x1="59.60511071441188" y1="23.693015660314" x2="60.841484185595576" y2="23.291293567626568" stroke="currentColor" stroke-width="0.295"></line><line x1="60.37720662091346" y1="26.57451681169386" x2="61.64879850186741" y2="26.304231613630773" stroke="currentColor" stroke-width="0.295"></line><line x1="60.84387401799579" y1="29.520938796871878" x2="62.13675248197454" y2="29.385051794623926" stroke="currentColor" stroke-width="0.295"></line><line x1="60.84387401799579" y1="35.479061203128126" x2="62.13675248197454" y2="35.61494820537607" stroke="currentColor" stroke-width="0.295"></line><line x1="60.37720662091346" y1="38.42548318830614" x2="61.64879850186741" y2="38.695768386369224" stroke="currentColor" stroke-width="0.295"></line><line x1="59.60511071441188" y1="41.306984339686" x2="60.841484185595576" y2="41.70870643237343" stroke="currentColor" stroke-width="0.295"></line><line x1="58.53604554281412" y1="44.0919943276603" x2="59.723654637749505" y2="44.62075196365885" stroke="currentColor" stroke-width="0.295"></line><line x1="55.556984339686004" y1="49.251879690335485" x2="56.60870643237344" y2="50.0160005183157" stroke="currentColor" stroke-width="0.295"></line><line x1="53.67962752610573" y1="51.57022228122746" x2="54.64571579922635" y2="52.44009206949397" stroke="currentColor" stroke-width="0.295"></line><line x1="51.57022228122746" y1="53.67962752610573" x2="52.44009206949397" y2="54.64571579922635" stroke="currentColor" stroke-width="0.295"></line><line x1="49.251879690335485" y1="55.556984339686004" x2="50.0160005183157" y2="56.60870643237344" stroke="currentColor" stroke-width="0.295"></line><line x1="44.0919943276603" y1="58.53604554281412" x2="44.62075196365885" y2="59.723654637749505" stroke="currentColor" stroke-width="0.295"></line><line x1="41.306984339686004" y1="59.60511071441188" x2="41.70870643237343" y2="60.841484185595576" stroke="currentColor" stroke-width="0.295"></line><line x1="38.425483188306146" y1="60.377206620913455" x2="38.69576838636923" y2="61.648798501867404" stroke="currentColor" stroke-width="0.295"></line><line x1="35.479061203128126" y1="60.84387401799579" x2="35.61494820537607" y2="62.13675248197454" stroke="currentColor" stroke-width="0.295"></line><line x1="29.52093879687188" y1="60.84387401799579" x2="29.38505179462393" y2="62.13675248197455" stroke="currentColor" stroke-width="0.295"></line><line x1="26.574516811693865" y1="60.37720662091346" x2="26.304231613630776" y2="61.64879850186741" stroke="currentColor" stroke-width="0.295"></line><line x1="23.693015660314003" y1="59.60511071441188" x2="23.291293567626568" y2="60.841484185595576" stroke="currentColor" stroke-width="0.295"></line><line x1="20.908005672339698" y1="58.53604554281413" x2="20.379248036341156" y2="59.723654637749505" stroke="currentColor" stroke-width="0.295"></line><line x1="15.748120309664518" y1="55.556984339686004" x2="14.983999481684304" y2="56.60870643237344" stroke="currentColor" stroke-width="0.295"></line><line x1="13.429777718772542" y1="53.67962752610573" x2="12.559907930506025" y2="54.64571579922635" stroke="currentColor" stroke-width="0.295"></line><line x1="11.320372473894267" y1="51.57022228122746" x2="10.354284200773655" y2="52.44009206949398" stroke="currentColor" stroke-width="0.295"></line><line x1="9.443015660314" y1="49.251879690335485" x2="8.391293567626569" y2="50.01600051831571" stroke="currentColor" stroke-width="0.295"></line><line x1="6.463954457185878" y1="44.091994327660316" x2="5.276345362250495" y2="44.620751963658854" stroke="currentColor" stroke-width="0.295"></line><line x1="5.394889285588125" y1="41.306984339686004" x2="4.158515814404424" y2="41.70870643237343" stroke="currentColor" stroke-width="0.295"></line><line x1="4.622793379086538" y1="38.42548318830614" x2="3.351201498132589" y2="38.695768386369224" stroke="currentColor" stroke-width="0.295"></line><line x1="4.1561259820042125" y1="35.47906120312813" x2="2.8632475180254566" y2="35.61494820537608" stroke="currentColor" stroke-width="0.295"></line><line x1="4.156125982004209" y1="29.52093879687189" x2="2.863247518025453" y2="29.38505179462394" stroke="currentColor" stroke-width="0.295"></line><line x1="4.622793379086538" y1="26.57451681169387" x2="3.351201498132589" y2="26.30423161363078" stroke="currentColor" stroke-width="0.295"></line><line x1="5.394889285588125" y1="23.69301566031399" x2="4.158515814404424" y2="23.291293567626557" stroke="currentColor" stroke-width="0.295"></line><line x1="6.463954457185871" y1="20.908005672339705" x2="5.276345362250488" y2="20.379248036341167" stroke="currentColor" stroke-width="0.295"></line><line x1="9.443015660313996" y1="15.748120309664518" x2="8.391293567626565" y2="14.983999481684304" stroke="currentColor" stroke-width="0.295"></line><line x1="11.320372473894263" y1="13.429777718772542" x2="10.354284200773652" y2="12.559907930506025" stroke="currentColor" stroke-width="0.295"></line><line x1="13.429777718772534" y1="11.32037247389427" x2="12.559907930506018" y2="10.354284200773659" stroke="currentColor" stroke-width="0.295"></line><line x1="15.748120309664511" y1="9.443015660314" x2="14.983999481684297" y2="8.391293567626569" stroke="currentColor" stroke-width="0.295"></line><line x1="20.908005672339698" y1="6.463954457185871" x2="20.379248036341156" y2="5.276345362250492" stroke="currentColor" stroke-width="0.295"></line><line x1="23.693015660313996" y1="5.394889285588125" x2="23.29129356762656" y2="4.158515814404424" stroke="currentColor" stroke-width="0.295"></line><line x1="26.574516811693847" y1="4.622793379086541" x2="26.30423161363076" y2="3.3512014981325926" stroke="currentColor" stroke-width="0.295"></line><line x1="29.520938796871878" y1="4.156125982004209" x2="29.38505179462393" y2="2.863247518025453" stroke="currentColor" stroke-width="0.295"></line> <!-- Hour hand (black) --> <line data-clock-hour x1="32.5" y1="19.5" x2="32.5" y2="32.5" stroke="currentColor" stroke-width="0.885" stroke-linecap="round" style="transform: rotate(144.5deg); transform-origin: 32.5px 32.5px; transform-box: view-box; transition: transform 900ms cubic-bezier(0.65, 0, 0.35, 1);"></line> <!-- Minute hand (coral) --> <line data-clock-minute x1="32.5" y1="10.5" x2="32.5" y2="32.5" class="clock-hand" stroke-width="0.885" style="transform: rotate(294deg); transform-origin: 32.5px 32.5px; transform-box: view-box; transition: transform 900ms cubic-bezier(0.65, 0, 0.35, 1);"></line> <!-- Center dot --> <circle cx="32.5" cy="32.5" r="1.625" fill="currentColor"></circle> </svg> <ul class="font-mono text-[11px] leading-[1.4] tracking-tight"> <li> <button type="button" data-clock-city data-code="LA" data-tz="America/Los_Angeles" class="flex items-center gap-2 transition hover:text-coral "> <span aria-hidden="true">[<span class="inline-block w-[1ch] text-center" data-clock-dot> </span>]</span> <span>LA</span> </button> </li><li> <button type="button" data-clock-city data-code="NY" data-tz="America/New_York" aria-pressed="true" class="flex items-center gap-2 transition hover:text-coral is-active"> <span aria-hidden="true">[<span class="inline-block w-[1ch] text-center" data-clock-dot>•</span>]</span> <span>NY</span> </button> </li><li> <button type="button" data-clock-city data-code="HK" data-tz="Asia/Hong_Kong" class="flex items-center gap-2 transition hover:text-coral "> <span aria-hidden="true">[<span class="inline-block w-[1ch] text-center" data-clock-dot> </span>]</span> <span>HK</span> </button> </li> </ul> </div> <script>
-  (() => {
-    const getTime = (tz) => {
-      const fmt = new Intl.DateTimeFormat('en-US', {
-        timeZone: tz,
-        hour: 'numeric',
-        minute: 'numeric',
-        hour12: false,
-      });
-      const parts = fmt.formatToParts(new Date());
-      const h = Number(parts.find((p) => p.type === 'hour')?.value ?? 0);
-      const m = Number(parts.find((p) => p.type === 'minute')?.value ?? 0);
-      return { h: h % 12, m };
-    };
-
-    const setupClock = (root) => {
-      const buttons = root.querySelectorAll('[data-clock-city]');
-      const hourEl = root.querySelector('[data-clock-hour]');
-      const minuteEl = root.querySelector('[data-clock-minute]');
-      if (!hourEl || !minuteEl) return null;
-
-      let activeTz = root.querySelector('[data-clock-city][aria-pressed="true"]')?.dataset.tz
-        || 'America/New_York';
-
-      // Cumulative angles so transitions always go clockwise.
-      // Read initial values from inline style.transform.
-      const parseAngle = (el) => {
-        const m = (el.style.transform || '').match(/rotate\(([-\d.]+)/);
-        return m ? parseFloat(m[1]) : 0;
-      };
-      let cumHour = parseAngle(hourEl);
-      let cumMinute = parseAngle(minuteEl);
-
-      const setHands = (forceFullIfSame) => {
-        const { h, m } = getTime(activeTz);
-        const targetHour = h * 30 + m * 0.5;
-        const targetMinute = m * 6;
-
-        // Forward (clockwise) delta to reach target dial position
-        let hourDelta = ((targetHour - cumHour) % 360 + 360) % 360;
-        let minuteDelta = ((targetMinute - cumMinute) % 360 + 360) % 360;
-
-        // On a city click, if the hour-hand dial position is unchanged
-        // (NY <-> HK share a position on a 12-hour dial), spin the hour
-        // hand a full revolution for visual feedback.
-        if (forceFullIfSame && hourDelta < 0.001) {
-          hourDelta = 360;
-        }
-
-        cumHour += hourDelta;
-        cumMinute += minuteDelta;
-        hourEl.style.transform = `rotate(${cumHour}deg)`;
-        minuteEl.style.transform = `rotate(${cumMinute}deg)`;
-      };
-
-      buttons.forEach((btn) => {
-        btn.addEventListener('click', () => {
-          activeTz = btn.dataset.tz;
-          buttons.forEach((b) => {
-            const isActive = b === btn;
-            b.setAttribute('aria-pressed', String(isActive));
-            b.classList.toggle('is-active', isActive);
-            const dot = b.querySelector('[data-clock-dot]');
-            if (dot) dot.textContent = isActive ? '•' : ' ';
-          });
-          setHands(true);
-        });
-      });
-
-      return () => setHands(false);
-    };
-
-    const refreshers = Array.from(document.querySelectorAll('[data-clock]'))
-      .map(setupClock)
-      .filter(Boolean);
-
-    setInterval(() => refreshers.forEach((r) => r()), 30 * 1000);
-  })();
-</script> </div> </div> </footer> <script>
-  (() => {
-    const isEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-    document.querySelectorAll('form.newsletter-form').forEach((form) => {
-      const input = form.querySelector('input[name=email]');
-      const hp = form.querySelector('input[name=website]');
-      const btn = form.querySelector('button[type=submit]');
-      const status = form.parentElement?.querySelector('.newsletter-status');
-      const openedAt = Date.now();
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = (input?.value || '').trim().toLowerCase();
-        if (!isEmail(email)) {
-          if (status) {
-            status.textContent = 'Please enter a valid email.';
-            status.classList.remove('hidden');
-          }
-          return;
-        }
-        btn?.setAttribute('disabled', 'true');
-        if (status) {
-          status.textContent = 'Sending…';
-          status.classList.remove('hidden');
-        }
-        try {
-          const res = await fetch('https://www.elevatorgoods.com/api/newsletter/subscribe', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              email,
-              source: 'elevatorgoods.com/footer',
-              website: hp?.value || '',
-              _ts: String(Date.now() - openedAt),
-            }),
-          });
-          if (!res.ok) throw new Error(String(res.status));
-          form.innerHTML = '<p class="text-ink/80">Thanks. You’re in.</p>';
-          if (status) {
-            status.textContent = '';
-            status.classList.add('hidden');
-          }
-        } catch (err) {
-          if (status) status.textContent = 'Couldn’t subscribe. Try again in a moment.';
-          btn?.removeAttribute('disabled');
-        }
-      });
-    });
-  })();
-</script> </body></html>  <script>
-  // Tap/click toggles the description on every viewport.
-  // First click expands; second click on the same item follows the link.
-  (() => {
-    document.querySelectorAll('.brand-hover-list .brand-link').forEach((el) => {
-      el.addEventListener('click', (e) => {
-        if (el.classList.contains('is-open')) return; // second click — let the link navigate
-        e.preventDefault();
-        document.querySelectorAll('.brand-hover-list .brand-link.is-open').forEach((other) => {
-          if (other !== el) other.classList.remove('is-open');
-        });
-        el.classList.add('is-open');
-      });
-    });
-
-    // Click outside any brand link → collapse all
-    document.addEventListener('click', (e) => {
-      if (!e.target.closest('.brand-link')) {
-        document.querySelectorAll('.brand-hover-list .brand-link.is-open').forEach((o) => o.classList.remove('is-open'));
-      }
-    });
-  })();
-</script>
+    <footer class="site-footer">
+      <div>
+        <a class="brand-mark" href="/" aria-label="Care & Bloom home"><span class="mark-sigil">C&B</span><span class="brand-name"><strong>Care & Bloom</strong><span>Colorful physical health empires</span></span></a>
+        <nav class="footer-links" aria-label="Footer"><a href="/mission/">Mission</a><a href="/capital/">Capital</a><a href="/creators/">Talents</a><a href="mailto:hello@careandbloom.com">hello@careandbloom.com</a></nav>
+      </div>
+      <p class="footer-note">Brands are where the operating system proves itself: trust first, product close behind.</p>
+    </footer>
+    <script src="/scripts/header-scroll.js"></script>
+  </body>
+</html>
