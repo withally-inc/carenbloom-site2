@@ -6,9 +6,9 @@ const ROOT = path.resolve(new URL("..", import.meta.url).pathname);
 
 const pages = [
   { livePath: "/", outPath: "index.html" },
-  { livePath: "/goods", outPath: "goods/index.html" },
+  { livePath: "/brands", outPath: "brands/index.html" },
   { livePath: "/capital", outPath: "capital/index.html" },
-  { livePath: "/creators", outPath: "creators/index.html" }
+  { livePath: "/talents", outPath: "talents/index.html" }
 ];
 
 const assetExtensions = new Set([

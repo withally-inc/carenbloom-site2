@@ -1,6 +1,6 @@
 # Elevator Goods Studio Template
 
-Static mirror of `https://www.elevatorgoods.com/` plus `/goods`, `/capital`, and `/creators`.
+Static mirror of `https://www.elevatorgoods.com/` plus `/brands`, `/capital`, and `/talents`.
 
 ```bash
 npm install

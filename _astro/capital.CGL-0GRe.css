@@ -1,15 +1,15 @@
 @font-face {
-  font-family: "AF Quartermaster";
-  src: url("/fonts/AFQuartermaster-Regular.otf") format("opentype");
+  font-family: "PP Mori";
+  src: url("/fonts/PPMori-Regular.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "AF Quartermaster";
-  src: url("/fonts/AFQuartermaster-Semi.otf") format("opentype");
-  font-weight: 760;
+  font-family: "PP Mori";
+  src: url("/fonts/PPMori-Semibold.otf") format("opentype");
+  font-weight: 650;
   font-style: normal;
   font-display: swap;
 }
@@ -48,7 +48,7 @@ html {
   scroll-behavior: smooth;
   background: var(--mineral-ink);
   color: var(--ash-paper);
-  font-family: "AF Quartermaster", Arial Narrow, system-ui, sans-serif;
+  font-family: "PP Mori", Arial Narrow, system-ui, sans-serif;
   letter-spacing: 0;
 }
 
@@ -178,7 +178,7 @@ input {
 }
 
 .brand-name strong {
-  font-weight: 760;
+  font-weight: 650;
   text-transform: uppercase;
 }
 
@@ -333,7 +333,7 @@ input {
   gap: clamp(0.6rem, 1.3vw, 1.2rem);
   color: var(--ash-paper);
   font-size: clamp(4.1rem, 12.4vw, 12rem);
-  font-weight: 760;
+  font-weight: 650;
   line-height: 0.82;
   text-transform: uppercase;
   transform: translateY(var(--reveal-y, 0)) translateY(var(--hover-y, 0));
@@ -342,6 +342,10 @@ input {
 
 .home-hero .index-link {
   justify-content: center;
+}
+
+.index-link strong {
+  font-weight: inherit;
 }
 
 .index-link:hover,
@@ -484,7 +488,7 @@ input {
   display: block;
   color: var(--accent, var(--signal-yellow));
   font-size: clamp(2rem, 5vw, 4.4rem);
-  font-weight: 760;
+  font-weight: 650;
   line-height: 0.9;
 }
 
@@ -519,7 +523,7 @@ input {
   max-width: 11ch;
   color: var(--ash-paper);
   font-size: clamp(3.8rem, 8.6vw, 8.8rem);
-  font-weight: 760;
+  font-weight: 650;
   line-height: 0.86;
   text-transform: uppercase;
   overflow-wrap: normal;
@@ -547,7 +551,7 @@ input {
   max-width: min(14ch, 100%);
   color: var(--ash-paper);
   font-size: clamp(2.4rem, 6vw, 6rem);
-  font-weight: 760;
+  font-weight: 650;
   line-height: 0.9;
   text-transform: uppercase;
   overflow-wrap: break-word;
@@ -719,7 +723,7 @@ input {
 
 .brand-directory strong {
   font-size: clamp(3.6rem, 8vw, 8.2rem);
-  font-weight: 760;
+  font-weight: 650;
   line-height: 0.86;
   text-transform: uppercase;
 }
@@ -772,7 +776,7 @@ input {
   max-width: 11rem;
   color: var(--ash-paper);
   font-size: clamp(1.7rem, 2.8vw, 3.2rem);
-  font-weight: 760;
+  font-weight: 650;
   line-height: 0.9;
   text-transform: uppercase;
 }
@@ -817,7 +821,7 @@ input {
   display: block;
   max-width: 7ch;
   font-size: clamp(3rem, 6.2vw, 6.4rem);
-  font-weight: 760;
+  font-weight: 650;
   line-height: 0.86;
   text-transform: uppercase;
 }
@@ -833,7 +837,7 @@ input {
   margin: 0;
   color: oklch(42% 0.017 268 / 0.38);
   font-size: clamp(1.8rem, 4.4vw, 4.4rem);
-  font-weight: 760;
+  font-weight: 650;
   line-height: 0.9;
   text-transform: uppercase;
 }
@@ -853,7 +857,7 @@ input {
   margin: 0;
   color: var(--ash-paper);
   font-size: clamp(5.2rem, 12.5vw, 13rem);
-  font-weight: 760;
+  font-weight: 650;
   line-height: 0.82;
   text-transform: uppercase;
 }
@@ -870,7 +874,7 @@ input {
   border-radius: 999px;
   color: var(--ash-paper);
   font-size: clamp(0.8rem, 1.1vw, 0.96rem);
-  font-weight: 760;
+  font-weight: 650;
   line-height: 1;
   text-transform: uppercase;
   transition: background 220ms cubic-bezier(0.22, 1, 0.36, 1), color 220ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -944,7 +948,7 @@ input {
   max-width: 12ch;
   color: var(--ash-paper);
   font-size: clamp(2.8rem, 5.6vw, 6.4rem);
-  font-weight: 760;
+  font-weight: 650;
   line-height: 0.9;
   text-transform: uppercase;
 }
@@ -1028,7 +1032,7 @@ input {
   margin: 0;
   color: var(--ash-paper);
   font-size: clamp(3rem, 8vw, 8rem);
-  font-weight: 760;
+  font-weight: 650;
   line-height: 0.88;
   text-transform: uppercase;
 }
@@ -1059,7 +1063,7 @@ input {
   max-width: 8ch;
   color: var(--ash-paper);
   font-size: clamp(2.4rem, 5.8vw, 6rem);
-  font-weight: 760;
+  font-weight: 650;
   line-height: 0.9;
   text-transform: uppercase;
 }
@@ -1089,7 +1093,7 @@ input {
   border-radius: 999px;
   color: var(--ash-paper);
   font-size: 0.8rem;
-  font-weight: 760;
+  font-weight: 650;
   text-transform: uppercase;
   transition: background 220ms cubic-bezier(0.22, 1, 0.36, 1), color 220ms cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -1162,7 +1166,7 @@ input {
   max-width: 13ch;
   color: var(--ash-paper);
   font-size: clamp(2.4rem, 5.2vw, 5.4rem);
-  font-weight: 760;
+  font-weight: 650;
   line-height: 0.9;
   text-transform: uppercase;
 }
@@ -1218,7 +1222,7 @@ input {
   border-radius: 999px;
   background: transparent;
   color: var(--ash-paper);
-  font-weight: 760;
+  font-weight: 650;
   text-transform: uppercase;
 }
 

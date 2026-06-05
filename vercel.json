@@ -1,0 +1,24 @@
+{
+  "redirects": [
+    {
+      "source": "/goods",
+      "destination": "/brands",
+      "permanent": true
+    },
+    {
+      "source": "/goods/",
+      "destination": "/brands/",
+      "permanent": true
+    },
+    {
+      "source": "/creators",
+      "destination": "/talents",
+      "permanent": true
+    },
+    {
+      "source": "/creators/",
+      "destination": "/talents/",
+      "permanent": true
+    }
+  ]
+}
