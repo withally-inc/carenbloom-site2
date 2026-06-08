@@ -126,7 +126,11 @@
             <input type="file" name="resume" accept=".pdf,.doc,.docx,.odt,.txt,.rtf" required>
           </label>
           <label class="application-form-wide">
-            <span data-intro-video-label>Intro video (optional)</span>
+            <span class="application-label-row">
+              <span data-intro-video-label>Intro video (optional)</span>
+              <i class="application-tooltip" tabindex="0" aria-describedby="intro-video-tooltip">?</i>
+              <em class="application-tooltip-panel" id="intro-video-tooltip" role="tooltip">We encourage applicants to share a two-minute Loom video so we can get to know you sooner. Applicants' Loom videos will be prioritized in their review.</em>
+            </span>
             <input type="url" name="intro_video_url" placeholder="https://www.loom.com/share/...">
             <small>Attach a short video (1-2 min) introducing yourself and why you are a great fit. <a href="https://www.loom.com/" target="_blank" rel="noopener">Loom.com</a> works well.</small>
           </label>

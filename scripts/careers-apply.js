@@ -29,6 +29,12 @@
   const introVideoLabel = document.querySelector("[data-intro-video-label]");
   if (introVideoInput) introVideoInput.required = !!role.introVideoRequired;
   if (introVideoLabel) introVideoLabel.textContent = role.introVideoRequired ? "Intro video*" : "Intro video (optional)";
+  document.querySelectorAll(".application-tooltip").forEach((tooltip) => {
+    const row = tooltip.closest(".application-label-row");
+    if (!row) return;
+    tooltip.addEventListener("focus", () => row.classList.add("is-tooltip-open"));
+    tooltip.addEventListener("blur", () => row.classList.remove("is-tooltip-open"));
+  });
 
   const callingCodes = [
     "+1", "+7", "+20", "+27", "+30", "+31", "+32", "+33", "+34", "+36", "+39", "+40", "+41", "+43", "+44", "+45", "+46", "+47", "+48", "+49",

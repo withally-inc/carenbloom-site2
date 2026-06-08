@@ -1389,6 +1389,59 @@ body.is-application-visible .role-close-apply {
   text-transform: uppercase;
 }
 
+.application-label-row {
+  position: relative;
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.application-tooltip {
+  display: inline-grid;
+  place-items: center;
+  width: 1.05rem;
+  height: 1.05rem;
+  border: 1px solid var(--talent-magenta);
+  border-radius: 999px;
+  color: var(--talent-magenta);
+  cursor: help;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.72rem;
+  font-style: normal;
+  line-height: 1;
+}
+
+.application-tooltip-panel {
+  position: absolute;
+  top: calc(100% + 0.55rem);
+  left: 0;
+  z-index: 3;
+  width: min(22rem, calc(100vw - 3rem));
+  padding: 0.8rem 0.9rem;
+  border: 1px solid var(--line);
+  background: oklch(93% 0.018 82);
+  box-shadow: 0 0.8rem 2rem oklch(28% 0.025 282 / 0.15);
+  color: var(--ash-paper);
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.86rem;
+  font-style: normal;
+  line-height: 1.35;
+  opacity: 0;
+  pointer-events: none;
+  text-transform: none;
+  transform: translateY(-0.2rem);
+  transition: opacity 140ms cubic-bezier(0.22, 1, 0.36, 1), transform 140ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.application-label-row:hover .application-tooltip-panel,
+.application-label-row:focus-within .application-tooltip-panel,
+.application-label-row.is-tooltip-open .application-tooltip-panel,
+.application-tooltip:focus + .application-tooltip-panel {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .application-choice-field {
   display: grid;
   gap: 0.65rem;
