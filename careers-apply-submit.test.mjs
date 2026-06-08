@@ -24,6 +24,7 @@ await page.locator('[name="phone_country_code"]').selectOption("+1");
 await page.locator('[name="phone_number"]').fill("5551234567");
 await page.locator('[name="linkedin"]').fill("https://linkedin.com/in/ada");
 await page.locator('[name="resume"]').setInputFiles("/tmp/cb-resume.pdf");
+await page.locator('[name="intro_video_url"]').fill("https://www.loom.com/share/abc123");
 await page.locator('[name="monthly_income_usd"]').fill("12000");
 await page.locator('[name="open_time_zone"][value="US"]').check();
 await page.locator('[name="open_time_zone"][value="Europe"]').check();
@@ -38,12 +39,22 @@ assert.equal(capturedPayload.role, "Chief of Staff");
 assert.equal(capturedPayload.roleSlug, "chief-of-staff");
 assert.equal(capturedPayload.firstName, "Ada");
 assert.equal(capturedPayload.resume, "cb-resume.pdf");
+assert.equal(capturedPayload.introVideoUrl, "https://www.loom.com/share/abc123");
+assert.equal(capturedPayload.introVideoRequired, false);
 assert.equal(capturedPayload.monthlyIncomeUsd, "12000");
 assert.deepEqual(capturedPayload.timeZones, ["US", "Europe"]);
 assert.equal(capturedPayload.location, "United States");
 assert.equal(capturedPayload.questions.length, 3);
 assert.equal(capturedPayload.questions[0].answer, "Answer one.");
 assert.match(capturedPayload.questions[0].question, /messy cross-functional project/);
+
+await page.goto("http://localhost:49279/talents/apply/?role=video-editor", { waitUntil: "networkidle" });
+await page.locator('[name="intro_video_url"]').evaluate((input) => {
+  if (!input.required) throw new Error("Intro video should be required for video editor.");
+});
+await page.locator('[data-intro-video-label]').evaluate((label) => {
+  if (label.textContent !== "Intro video*") throw new Error("Intro video label should show required state.");
+});
 
 await browser.close();
 console.log("careers apply submit test passed");

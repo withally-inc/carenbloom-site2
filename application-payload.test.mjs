@@ -10,6 +10,7 @@ const payload = buildApplicationPayload("db-id", {
   phone: "+1 5551234567",
   linkedIn: "https://linkedin.com/in/ada",
   resume: "ada-resume.pdf",
+  introVideoUrl: "https://www.loom.com/share/abc123",
   additionalAttachment: "ada-case-study.pdf",
   monthlyIncomeUsd: "12000",
   timeZones: ["US", "Europe"],
@@ -29,6 +30,7 @@ assert.equal(payload.properties.Name.title[0].text.content, "Ada Lovelace");
 assert.equal(payload.properties.Email.email, "ada@example.com");
 assert.equal(payload.properties.Phone.phone_number, "+1 5551234567");
 assert.equal(payload.properties.Role.rich_text[0].text.content, "Chief of Staff");
+assert.equal(payload.properties["Intro Video"].url, "https://www.loom.com/share/abc123");
 assert.equal(payload.properties["Question 1"].rich_text[0].text.content, "Prompt one?");
 assert.equal(payload.properties["Answer 1"].rich_text[0].text.content, "Answer one.");
 assert.equal(payload.properties["Monthly Income"].number, 12000);

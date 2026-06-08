@@ -25,6 +25,11 @@
   if (mission) mission.textContent = role.mission;
   if (roleInput) roleInput.value = role.title;
 
+  const introVideoInput = document.querySelector('input[name="intro_video_url"]');
+  const introVideoLabel = document.querySelector("[data-intro-video-label]");
+  if (introVideoInput) introVideoInput.required = !!role.introVideoRequired;
+  if (introVideoLabel) introVideoLabel.textContent = role.introVideoRequired ? "Intro video*" : "Intro video (optional)";
+
   const callingCodes = [
     "+1", "+7", "+20", "+27", "+30", "+31", "+32", "+33", "+34", "+36", "+39", "+40", "+41", "+43", "+44", "+45", "+46", "+47", "+48", "+49",
     "+51", "+52", "+53", "+54", "+55", "+56", "+57", "+58", "+60", "+61", "+62", "+63", "+64", "+65", "+66", "+81", "+82", "+84", "+86", "+90",
@@ -169,6 +174,8 @@
         phoneNumber: data.get("phone_number"),
         linkedIn: data.get("linkedin"),
         resume: fileName("resume"),
+        introVideoUrl: data.get("intro_video_url"),
+        introVideoRequired: !!role.introVideoRequired,
         additionalAttachment: fileName("additional_attachment"),
         monthlyIncomeUsd: data.get("monthly_income_usd"),
         timeZones: data.getAll("open_time_zone"),

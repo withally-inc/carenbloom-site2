@@ -45,6 +45,7 @@ try {
       phoneCountryCode: "+1",
       phoneNumber: "5551234567",
       resume: "ada-resume.pdf",
+      introVideoUrl: "https://www.loom.com/share/abc123",
       monthlyIncomeUsd: "12000",
       timeZones: ["US"],
       location: "New York, NY",

@@ -14,6 +14,7 @@ function samplePayload(overrides = {}) {
     phoneNumber: "5551234567",
     linkedIn: "https://linkedin.com/in/ada",
     resume: "ada-resume.pdf",
+    introVideoUrl: "https://www.loom.com/share/abc123",
     additionalAttachment: "ada-case-study.pdf",
     monthlyIncomeUsd: "12000",
     timeZones: ["US"],
@@ -69,6 +70,9 @@ async function runHandler(body, env = {}, fetchImpl = async () => ({ ok: true, t
 assert.equal(_private.validatePayload(samplePayload({ email: "bad" })).error, "Enter a valid email address.");
 assert.equal(_private.validatePayload(samplePayload({ monthlyIncomeUsd: "12k" })).error, "Monthly income must be numbers only.");
 assert.equal(_private.validatePayload(samplePayload({ timeZones: ["Mars"] })).error, "Choose a valid time zone.");
+assert.equal(_private.validatePayload(samplePayload({ introVideoUrl: "not-a-url" })).error, "Enter a valid intro video URL.");
+assert.equal(_private.validatePayload(samplePayload({ roleSlug: "video-editor", introVideoUrl: "" })).error, "Intro video is required for this role.");
+assert.equal(_private.validatePayload(samplePayload({ roleSlug: "chief-of-staff", introVideoUrl: "" })).error, undefined);
 assert.equal(_private.validatePayload(samplePayload({ questions: [{ question: "One", answer: "" }] })).error, "Missing required answer: role question 1");
 
 {
@@ -95,6 +99,7 @@ assert.equal(_private.validatePayload(samplePayload({ questions: [{ question: "O
   assert.equal(calls.length, 1);
   assert.equal(calls[0].body.parent.database_id, "target-db");
   assert.equal(calls[0].body.properties["Application Ref"].rich_text[0].text.content, "CB-TEST");
+  assert.equal(calls[0].body.properties["Intro Video"].url, "https://www.loom.com/share/abc123");
   assert.deepEqual(calls[0].body.properties["Time Zone"].multi_select.map((item) => item.name), ["US"]);
   assert.equal(calls[0].body.properties["Question 1"].rich_text[0].text.content, "Prompt one?");
   assert.equal(calls[0].body.properties["Answer 1"].rich_text[0].text.content, "Answer one.");

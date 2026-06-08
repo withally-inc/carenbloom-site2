@@ -4,6 +4,7 @@ const careerRoles = [
     title: "Chief of Staff",
     team: "Operations",
     level: "Manager/Supervisor",
+    introVideoRequired: false,
     summary: "Bring order, accountability, and speed to cross-functional company-building work.",
     mission: "Act as the operating hub across founders, marketing, product, creative, finance, and vendors so high-priority work moves from idea to launch without drift.",
     responsibilities: [
@@ -27,6 +28,7 @@ const careerRoles = [
     title: "Graphic Designer",
     team: "Creative",
     level: "Individual Contributor",
+    introVideoRequired: true,
     summary: "Create brand, campaign, packaging, and ecommerce design for consumer health launches.",
     mission: "Turn positioning, customer insight, and product details into polished creative that can ship quickly across paid, owned, retail, and launch channels.",
     responsibilities: [
@@ -50,6 +52,7 @@ const careerRoles = [
     title: "Video Editor",
     team: "Creative",
     level: "Individual Contributor",
+    introVideoRequired: true,
     summary: "Cut paid social, direct-response, organic, and launch video creative.",
     mission: "Create video assets that make consumer health products clear, credible, and compelling in the first few seconds.",
     responsibilities: [
@@ -73,6 +76,7 @@ const careerRoles = [
     title: "Product Manager, Sexual Wellness",
     team: "Product",
     level: "Manager",
+    introVideoRequired: false,
     summary: "Own product definition, customer insight, supplier coordination, and launches in sexual wellness.",
     mission: "Turn customer needs, category gaps, and operational constraints into a focused product roadmap for sexual wellness.",
     responsibilities: [
@@ -96,6 +100,7 @@ const careerRoles = [
     title: "Executive Assistant",
     team: "Operations",
     level: "Individual Contributor",
+    introVideoRequired: false,
     summary: "Support scheduling, communication, follow-through, and operating cadence for a fast-moving team.",
     mission: "Protect time, reduce noise, and make sure important decisions and follow-ups do not get lost.",
     responsibilities: [
@@ -119,6 +124,7 @@ const careerRoles = [
     title: "Product Marketing Manager",
     team: "Marketing",
     level: "Manager",
+    introVideoRequired: false,
     summary: "Translate product truths into positioning, launch plans, lifecycle moments, and conversion messaging.",
     mission: "Make each product easy to understand, easy to trust, and easy to buy across launch, lifecycle, and paid channels.",
     responsibilities: [
@@ -142,6 +148,7 @@ const careerRoles = [
     title: "Social Media Manager",
     team: "Marketing",
     level: "Individual Contributor",
+    introVideoRequired: true,
     summary: "Run social calendars, platform-native content, community rhythms, and creator coordination.",
     mission: "Build social systems that make brands feel alive, useful, and culturally aware without losing commercial focus.",
     responsibilities: [
@@ -165,6 +172,7 @@ const careerRoles = [
     title: "Head of Performance Marketing",
     team: "Growth",
     level: "Director",
+    introVideoRequired: true,
     summary: "Lead growth strategy across paid channels, testing, budgets, measurement, and creative feedback loops.",
     mission: "Build a disciplined performance engine that connects media spend, creative testing, conversion rate, and business outcomes.",
     responsibilities: [
@@ -188,6 +196,7 @@ const careerRoles = [
     title: "Creative Strategist, Performance Marketing",
     team: "Growth",
     level: "Individual Contributor",
+    introVideoRequired: true,
     summary: "Turn customer insight and channel data into hooks, briefs, tests, and performance creative systems.",
     mission: "Create the strategy layer between customer research, performance data, and creative production.",
     responsibilities: [
@@ -211,6 +220,7 @@ const careerRoles = [
     title: "Entrepreneur-in-Residence",
     team: "Venture",
     level: "Founder Track",
+    introVideoRequired: false,
     summary: "Validate, build, buy, or launch new consumer health companies with capital and operating support.",
     mission: "Find and shape a company worth building, then drive it from insight to launch with Care & Bloom support.",
     responsibilities: [

@@ -3,6 +3,13 @@ import { createPage } from "./lib/notion-client.js";
 
 const DEFAULT_DATABASE_ID = "3792b7ec4597800fab56f5a61ff00187";
 const ALLOWED_TIME_ZONES = new Set(["US", "Europe", "Asia"]);
+const INTRO_VIDEO_REQUIRED_ROLES = new Set([
+  "graphic-designer",
+  "video-editor",
+  "social-media-manager",
+  "head-of-performance-marketing",
+  "creative-strategist-performance-marketing",
+]);
 
 function sendJson(res, status, payload) {
   res.statusCode = status;
@@ -32,6 +39,10 @@ function normalizeTimeZones(payload) {
   return values.map(clean).filter(Boolean);
 }
 
+function introVideoIsRequired(payload) {
+  return payload.introVideoRequired === true || clean(payload.introVideoRequired) === "true" || INTRO_VIDEO_REQUIRED_ROLES.has(clean(payload.roleSlug));
+}
+
 function validatePayload(payload) {
   const required = [
     "role",
@@ -50,6 +61,8 @@ function validatePayload(payload) {
 
   if (!emailIsValid(clean(payload.email))) return { error: "Enter a valid email address." };
   if (clean(payload.linkedIn) && !safeUrl(payload.linkedIn)) return { error: "Enter a valid LinkedIn URL." };
+  if (clean(payload.introVideoUrl) && !safeUrl(payload.introVideoUrl)) return { error: "Enter a valid intro video URL." };
+  if (introVideoIsRequired(payload) && !safeUrl(payload.introVideoUrl)) return { error: "Intro video is required for this role." };
   if (!/^\+\d{1,4}$/.test(clean(payload.phoneCountryCode))) return { error: "Choose a valid country / area code." };
   if (!/^[0-9][0-9\s().-]{3,}$/.test(clean(payload.phoneNumber))) return { error: "Enter a valid phone number." };
   if (!/^\d+$/.test(clean(payload.monthlyIncomeUsd))) return { error: "Monthly income must be numbers only." };
@@ -102,6 +115,7 @@ export default async function handler(req, res) {
     ...payload,
     phone: `${clean(payload.phoneCountryCode)} ${clean(payload.phoneNumber)}`,
     timeZones: normalizeTimeZones(payload),
+    introVideoRequired: introVideoIsRequired(payload),
     applicationRef,
   });
 

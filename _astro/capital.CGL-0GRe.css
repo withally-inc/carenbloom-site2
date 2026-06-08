@@ -1377,6 +1377,11 @@ body.is-application-visible .role-close-apply {
   line-height: 1.35;
 }
 
+.application-form label small a {
+  color: var(--talent-magenta);
+  text-underline-offset: 0.18em;
+}
+
 .application-form label span {
   color: var(--talent-magenta);
   font-family: "Space Mono", ui-monospace, monospace;

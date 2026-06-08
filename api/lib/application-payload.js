@@ -82,6 +82,7 @@ export function buildApplicationPayload(databaseId, payload) {
   const submittedAt = submittedAtIso(payload.submittedAt);
   const sourceUrl = safeUrl(payload.url);
   const linkedIn = safeUrl(payload.linkedIn);
+  const introVideo = safeUrl(payload.introVideoUrl);
   const monthlyIncome = Number.parseInt(clean(payload.monthlyIncomeUsd), 10);
   const applicationRef = clean(payload.applicationRef) || makeRef();
   const timeZones = timeZoneNames(payload);
@@ -105,6 +106,7 @@ export function buildApplicationPayload(databaseId, payload) {
   };
 
   if (linkedIn) properties.LinkedIn = { url: linkedIn };
+  if (introVideo) properties["Intro Video"] = { url: introVideo };
   if (sourceUrl) properties["Source URL"] = { url: sourceUrl };
 
   questions.forEach((item, index) => {
@@ -122,6 +124,7 @@ export function buildApplicationPayload(databaseId, payload) {
       paragraph(`Role slug: ${clean(payload.roleSlug)}`),
       paragraph(`Phone: ${clean(payload.phone)}`),
       paragraph(`Resume: ${clean(payload.resume) || "Not attached"}`),
+      paragraph(`Intro video: ${introVideo || "Not provided"}`),
       paragraph(`Additional attachment: ${clean(payload.additionalAttachment) || "Not attached"}`),
       ...answerBlocks(questions),
     ],
