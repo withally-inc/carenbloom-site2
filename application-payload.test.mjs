@@ -12,7 +12,7 @@ const payload = buildApplicationPayload("db-id", {
   resume: "ada-resume.pdf",
   additionalAttachment: "ada-case-study.pdf",
   monthlyIncomeUsd: "12000",
-  timeZone: "US",
+  timeZones: ["US", "Europe"],
   location: "New York, NY",
   submittedAt: "2026-06-08T12:00:00.000Z",
   url: "https://careandbloom.com/talents/apply/?role=chief-of-staff",
@@ -32,7 +32,7 @@ assert.equal(payload.properties.Role.rich_text[0].text.content, "Chief of Staff"
 assert.equal(payload.properties["Question 1"].rich_text[0].text.content, "Prompt one?");
 assert.equal(payload.properties["Answer 1"].rich_text[0].text.content, "Answer one.");
 assert.equal(payload.properties["Monthly Income"].number, 12000);
-assert.equal(payload.properties["Time Zone"].select.name, "US");
+assert.deepEqual(payload.properties["Time Zone"].multi_select.map((item) => item.name), ["US", "Europe"]);
 assert.equal(payload.properties.Resume.rich_text[0].text.content, "ada-resume.pdf");
 assert.equal(payload.applicationRef, "CB-TEST");
 assert.ok(payload.children.some((block) => JSON.stringify(block).includes("Application Answers")));

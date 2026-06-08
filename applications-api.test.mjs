@@ -16,7 +16,7 @@ function samplePayload(overrides = {}) {
     resume: "ada-resume.pdf",
     additionalAttachment: "ada-case-study.pdf",
     monthlyIncomeUsd: "12000",
-    timeZone: "US",
+    timeZones: ["US"],
     location: "New York, NY",
     url: "https://careandbloom.com/talents/apply/?role=chief-of-staff",
     submittedAt: "2026-06-08T12:00:00.000Z",
@@ -68,7 +68,7 @@ async function runHandler(body, env = {}, fetchImpl = async () => ({ ok: true, t
 
 assert.equal(_private.validatePayload(samplePayload({ email: "bad" })).error, "Enter a valid email address.");
 assert.equal(_private.validatePayload(samplePayload({ monthlyIncomeUsd: "12k" })).error, "Monthly income must be numbers only.");
-assert.equal(_private.validatePayload(samplePayload({ timeZone: "Mars" })).error, "Choose a valid time zone.");
+assert.equal(_private.validatePayload(samplePayload({ timeZones: ["Mars"] })).error, "Choose a valid time zone.");
 assert.equal(_private.validatePayload(samplePayload({ questions: [{ question: "One", answer: "" }] })).error, "Missing required answer: role question 1");
 
 {
@@ -95,6 +95,7 @@ assert.equal(_private.validatePayload(samplePayload({ questions: [{ question: "O
   assert.equal(calls.length, 1);
   assert.equal(calls[0].body.parent.database_id, "target-db");
   assert.equal(calls[0].body.properties["Application Ref"].rich_text[0].text.content, "CB-TEST");
+  assert.deepEqual(calls[0].body.properties["Time Zone"].multi_select.map((item) => item.name), ["US"]);
   assert.equal(calls[0].body.properties["Question 1"].rich_text[0].text.content, "Prompt one?");
   assert.equal(calls[0].body.properties["Answer 1"].rich_text[0].text.content, "Answer one.");
 }

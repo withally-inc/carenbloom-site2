@@ -130,18 +130,28 @@
             <input type="text" name="monthly_income_usd" inputmode="numeric" pattern="[0-9]*" placeholder="USD/month, numbers only" data-numeric-only required>
             <small>Enter the full monthly amount in USD before taxes, bonuses included.</small>
           </label>
-          <label>
-            <span>What time zone are you open to work in?*</span>
-            <select name="open_time_zone" required>
-              <option value="">Choose one</option>
-              <option>US</option>
-              <option>Europe</option>
-              <option>Asia</option>
-            </select>
-          </label>
+          <fieldset class="application-choice-field">
+            <legend>What time zone are you open to work in?*</legend>
+            <div class="application-choice-group">
+              <label class="application-choice">
+                <input type="checkbox" name="open_time_zone" value="US" required>
+                <span>US</span>
+              </label>
+              <label class="application-choice">
+                <input type="checkbox" name="open_time_zone" value="Europe">
+                <span>Europe</span>
+              </label>
+              <label class="application-choice">
+                <input type="checkbox" name="open_time_zone" value="Asia">
+                <span>Asia</span>
+              </label>
+            </div>
+          </fieldset>
           <label>
             <span>Location (where are you based)*</span>
-            <input type="text" name="location" autocomplete="address-level2" required>
+            <select name="location" autocomplete="country-name" required>
+              <option value="">Choose country</option>
+            </select>
           </label>
 
           <div class="application-form-head application-role-head">

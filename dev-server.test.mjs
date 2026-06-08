@@ -46,7 +46,7 @@ try {
       phoneNumber: "5551234567",
       resume: "ada-resume.pdf",
       monthlyIncomeUsd: "12000",
-      timeZone: "US",
+      timeZones: ["US"],
       location: "New York, NY",
       questions: [{ question: "Prompt?", answer: "Answer." }],
     }),

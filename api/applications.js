@@ -27,6 +27,11 @@ function emailIsValid(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+function normalizeTimeZones(payload) {
+  const values = Array.isArray(payload.timeZones) ? payload.timeZones : [payload.timeZone];
+  return values.map(clean).filter(Boolean);
+}
+
 function validatePayload(payload) {
   const required = [
     "role",
@@ -37,7 +42,6 @@ function validatePayload(payload) {
     "phoneCountryCode",
     "phoneNumber",
     "monthlyIncomeUsd",
-    "timeZone",
     "location",
   ];
   for (const field of required) {
@@ -49,7 +53,11 @@ function validatePayload(payload) {
   if (!/^\+\d{1,4}$/.test(clean(payload.phoneCountryCode))) return { error: "Choose a valid country / area code." };
   if (!/^[0-9][0-9\s().-]{3,}$/.test(clean(payload.phoneNumber))) return { error: "Enter a valid phone number." };
   if (!/^\d+$/.test(clean(payload.monthlyIncomeUsd))) return { error: "Monthly income must be numbers only." };
-  if (!ALLOWED_TIME_ZONES.has(clean(payload.timeZone))) return { error: "Choose a valid time zone." };
+
+  const timeZones = normalizeTimeZones(payload);
+  if (!timeZones.length || timeZones.some((timeZone) => !ALLOWED_TIME_ZONES.has(timeZone))) {
+    return { error: "Choose a valid time zone." };
+  }
 
   const questions = Array.isArray(payload.questions) ? payload.questions.slice(0, 3) : [];
   for (let i = 0; i < questions.length; i += 1) {
@@ -93,6 +101,7 @@ export default async function handler(req, res) {
   const notionPayload = buildApplicationPayload(databaseId, {
     ...payload,
     phone: `${clean(payload.phoneCountryCode)} ${clean(payload.phoneNumber)}`,
+    timeZones: normalizeTimeZones(payload),
     applicationRef,
   });
 

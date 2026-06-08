@@ -69,6 +69,11 @@ export function answerBlocks(questions = []) {
   return blocks;
 }
 
+function timeZoneNames(payload) {
+  const values = Array.isArray(payload.timeZones) ? payload.timeZones : [payload.timeZone];
+  return values.map(clean).filter(Boolean);
+}
+
 export function buildApplicationPayload(databaseId, payload) {
   const firstName = clean(payload.firstName);
   const lastName = clean(payload.lastName);
@@ -79,6 +84,7 @@ export function buildApplicationPayload(databaseId, payload) {
   const linkedIn = safeUrl(payload.linkedIn);
   const monthlyIncome = Number.parseInt(clean(payload.monthlyIncomeUsd), 10);
   const applicationRef = clean(payload.applicationRef) || makeRef();
+  const timeZones = timeZoneNames(payload);
 
   const properties = {
     Name: { title: richText(fullName) },
@@ -90,7 +96,7 @@ export function buildApplicationPayload(databaseId, payload) {
     Email: { email: clean(payload.email).toLowerCase() },
     Phone: { phone_number: clean(payload.phone) },
     Location: { rich_text: richText(payload.location) },
-    "Time Zone": { select: { name: clean(payload.timeZone) } },
+    "Time Zone": { multi_select: timeZones.map((name) => ({ name })) },
     "Monthly Income": { number: Number.isFinite(monthlyIncome) ? monthlyIncome : null },
     "Applied At": { date: { start: submittedAt } },
     "Application Ref": { rich_text: richText(applicationRef) },
