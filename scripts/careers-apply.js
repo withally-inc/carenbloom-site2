@@ -1,0 +1,175 @@
+(function () {
+  const roles = window.careerRoles || [];
+  const params = new URLSearchParams(window.location.search);
+  const slug = params.get("role") || roles[0]?.slug;
+  const role = roles.find((item) => item.slug === slug) || roles[0];
+
+  if (!role) return;
+
+  document.title = `${role.title} | Care & Bloom`;
+  const metaDescription = document.querySelector('meta[name="description"]');
+  if (metaDescription) metaDescription.setAttribute("content", `${role.title} is a remote role at Care & Bloom.`);
+
+  const title = document.querySelector("[data-role-title]");
+  const summary = document.querySelector("[data-role-summary]");
+  const level = document.querySelector("[data-role-level]");
+  const mission = document.querySelector("[data-role-mission]");
+  const responsibilities = document.querySelector("[data-role-responsibilities]");
+  const requirements = document.querySelector("[data-role-requirements]");
+  const questions = document.querySelector("[data-role-questions]");
+  const roleInput = document.querySelector('input[name="role"]');
+
+  if (title) title.textContent = role.title;
+  if (summary) summary.textContent = role.summary;
+  if (level) level.textContent = role.level;
+  if (mission) mission.textContent = role.mission;
+  if (roleInput) roleInput.value = role.title;
+
+  const callingCodes = [
+    "+1", "+7", "+20", "+27", "+30", "+31", "+32", "+33", "+34", "+36", "+39", "+40", "+41", "+43", "+44", "+45", "+46", "+47", "+48", "+49",
+    "+51", "+52", "+53", "+54", "+55", "+56", "+57", "+58", "+60", "+61", "+62", "+63", "+64", "+65", "+66", "+81", "+82", "+84", "+86", "+90",
+    "+91", "+92", "+93", "+94", "+95", "+98", "+211", "+212", "+213", "+216", "+218", "+220", "+221", "+222", "+223", "+224", "+225", "+226", "+227", "+228",
+    "+229", "+230", "+231", "+232", "+233", "+234", "+235", "+236", "+237", "+238", "+239", "+240", "+241", "+242", "+243", "+244", "+245", "+246", "+248", "+249",
+    "+250", "+251", "+252", "+253", "+254", "+255", "+256", "+257", "+258", "+260", "+261", "+262", "+263", "+264", "+265", "+266", "+267", "+268", "+269", "+290",
+    "+291", "+297", "+298", "+299", "+350", "+351", "+352", "+353", "+354", "+355", "+356", "+357", "+358", "+359", "+370", "+371", "+372", "+373", "+374", "+375",
+    "+376", "+377", "+378", "+380", "+381", "+382", "+383", "+385", "+386", "+387", "+389", "+420", "+421", "+423", "+500", "+501", "+502", "+503", "+504", "+505",
+    "+506", "+507", "+508", "+509", "+590", "+591", "+592", "+593", "+594", "+595", "+596", "+597", "+598", "+599", "+670", "+672", "+673", "+674", "+675", "+676",
+    "+677", "+678", "+679", "+680", "+681", "+682", "+683", "+685", "+686", "+687", "+688", "+689", "+690", "+691", "+692", "+850", "+852", "+853", "+855", "+856", "+880",
+    "+886", "+960", "+961", "+962", "+963", "+964", "+965", "+966", "+967", "+968", "+970", "+971", "+972", "+973", "+974", "+975", "+976", "+977", "+992", "+993",
+    "+994", "+995", "+996", "+998"
+  ];
+  const codeSelect = document.querySelector('select[name="phone_country_code"]');
+  if (codeSelect) {
+    codeSelect.append(...callingCodes.map((code) => {
+      const option = document.createElement("option");
+      option.value = code;
+      option.textContent = code;
+      return option;
+    }));
+  }
+
+  document.querySelectorAll("[data-numeric-only]").forEach((input) => {
+    input.addEventListener("input", () => {
+      input.value = input.value.replace(/\D/g, "");
+    });
+  });
+
+  const countdown = document.querySelector("[data-close-countdown]");
+  const closeAt = new Date("2026-06-29T23:59:59");
+  const updateCountdown = () => {
+    if (!countdown) return;
+    const remaining = Math.max(0, closeAt.getTime() - Date.now());
+    const totalSeconds = Math.floor(remaining / 1000);
+    const days = Math.floor(totalSeconds / 86400);
+    const hours = Math.floor((totalSeconds % 86400) / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+    countdown.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  };
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  const applicationForm = document.querySelector("#application-form");
+  if (applicationForm && "IntersectionObserver" in window) {
+    const observer = new IntersectionObserver((entries) => {
+      document.body.classList.toggle("is-application-visible", entries.some((entry) => entry.isIntersecting));
+    }, { threshold: 0.12 });
+    observer.observe(applicationForm);
+  }
+
+  const renderList = (node, items) => {
+    if (!node) return;
+    node.replaceChildren(...items.map((item) => {
+      const li = document.createElement("li");
+      li.textContent = item;
+      return li;
+    }));
+  };
+
+  renderList(responsibilities, role.responsibilities);
+  renderList(requirements, role.requirements);
+
+  if (questions) {
+    questions.replaceChildren(...role.questions.slice(0, 3).map((question, index) => {
+      const label = document.createElement("label");
+      label.className = "application-form-wide";
+      const span = document.createElement("span");
+      span.textContent = `Role-specific question ${index + 1}`;
+      const textarea = document.createElement("textarea");
+      textarea.name = `role_question_${index + 1}`;
+      textarea.rows = 4;
+      textarea.required = true;
+      textarea.placeholder = question;
+      label.append(span, textarea);
+      return label;
+    }));
+  }
+
+  const form = document.querySelector("#application-form");
+  const status = document.querySelector(".application-form-status");
+  const submitButton = form ? form.querySelector('button[type="submit"]') : null;
+  const endpoint = window.CB_TALENTS_ENDPOINT || "/api/applications";
+  const setStatus = (message, state) => {
+    if (!status) return;
+    status.textContent = message;
+    status.dataset.state = state || "";
+  };
+
+  const fileName = (field) => {
+    const input = form.querySelector(`[name="${field}"]`);
+    return input && input.files && input.files[0] ? input.files[0].name : "";
+  };
+
+  const collectQuestions = () => [...form.querySelectorAll("[data-role-questions] textarea")].slice(0, 3).map((textarea) => ({
+    question: textarea.placeholder || textarea.closest("label")?.querySelector("span")?.textContent || "",
+    answer: textarea.value,
+  }));
+
+  if (form) {
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+
+      const data = new FormData(form);
+      const payload = {
+        role: role.title,
+        roleSlug: role.slug,
+        firstName: data.get("first_name"),
+        lastName: data.get("last_name"),
+        name: `${data.get("first_name") || ""} ${data.get("last_name") || ""}`.trim(),
+        email: data.get("email"),
+        phoneCountryCode: data.get("phone_country_code"),
+        phoneNumber: data.get("phone_number"),
+        linkedIn: data.get("linkedin"),
+        resume: fileName("resume"),
+        additionalAttachment: fileName("additional_attachment"),
+        monthlyIncomeUsd: data.get("monthly_income_usd"),
+        timeZone: data.get("open_time_zone"),
+        location: data.get("location"),
+        questions: collectQuestions(),
+        submittedAt: new Date().toISOString(),
+        url: window.location.href,
+        referrer: document.referrer,
+      };
+
+      setStatus("Submitting application...", "loading");
+      if (submitButton) submitButton.disabled = true;
+
+      try {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok || !result.success) throw new Error(result.error || "Submission failed.");
+        setStatus(`Application received. Reference: ${result.ref || "submitted"}.`, "success");
+        form.reset();
+      } catch (error) {
+        setStatus(error.message || "Could not submit application right now.", "error");
+      } finally {
+        if (submitButton) submitButton.disabled = false;
+      }
+    });
+  }
+})();

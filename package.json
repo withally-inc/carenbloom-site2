@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "sync": "node scripts/sync-live.mjs",
-    "serve": "python3 -m http.server 4175"
+    "serve": "node scripts/dev-server.mjs",
+    "test": "node application-payload.test.mjs && node applications-api.test.mjs && node dev-server.test.mjs",
+    "test:browser": "node careers-apply-submit.test.mjs"
   },
   "devDependencies": {
     "playwright": "^1.53.0"

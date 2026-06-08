@@ -1112,15 +1112,355 @@ input {
 
 .talent-row {
   display: grid;
-  grid-template-columns: 4rem minmax(11rem, 0.45fr) minmax(0, 1fr);
+  grid-template-columns: 8rem minmax(11rem, 0.45fr) minmax(0, 1fr);
   gap: clamp(1rem, 3vw, 3rem);
   align-items: baseline;
   padding: clamp(1.1rem, 2.5vw, 1.8rem) 0;
   border-bottom: 1px solid var(--line);
+  color: inherit;
+  text-decoration: none;
+  transition: background 180ms cubic-bezier(0.22, 1, 0.36, 1), padding-inline 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.talent-row:hover,
+.talent-row:focus-visible {
+  background: oklch(88% 0.022 82 / 0.38);
+  outline: none;
+  padding-inline: 0.75rem;
+}
+
+.role-back {
+  display: inline-flex;
+  width: fit-content;
+  margin-bottom: clamp(1rem, 2vw, 1.5rem);
+  color: var(--talent-magenta);
+  font-family: "Space Mono", ui-monospace, monospace;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+}
+
+.role-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(18rem, 0.55fr);
+  gap: clamp(2rem, 7vw, 7rem);
+  min-height: 60svh;
+  align-items: end;
+}
+
+.role-hero .page-title {
+  max-width: 14ch;
+}
+
+.role-hero > *,
+.role-meta {
+  min-width: 0;
+}
+
+.role-meta {
+  display: grid;
+  gap: clamp(1.2rem, 3vw, 2rem);
+}
+
+.role-close-apply {
+  position: fixed;
+  right: 2rem;
+  bottom: 1rem;
+  left: 2rem;
+  z-index: 8;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.85rem;
+  width: calc(100vw - 4rem);
+  min-height: 3.4rem;
+  padding: 0.45rem 0.55rem 0.45rem 0.85rem;
+  border: 1px solid var(--talent-magenta);
+  background: oklch(63% 0.2 334 / 0.1);
+  color: inherit;
+  text-decoration: none;
+  box-shadow: 0 0.7rem 2rem oklch(28% 0.025 282 / 0.18);
+  backdrop-filter: blur(14px);
+  transition: opacity 180ms cubic-bezier(0.22, 1, 0.36, 1), transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.role-close-copy {
+  display: grid;
+  grid-template-rows: repeat(2, auto);
+  gap: 0.18rem;
+  padding: 0;
+}
+
+.role-close-copy span,
+.role-close-copy time,
+.role-close-copy small {
+  color: var(--talent-magenta);
+  font-family: "Space Mono", ui-monospace, monospace;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+}
+
+.role-close-line,
+.role-close-timer {
+  display: inline-flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.role-close-copy small {
+  color: var(--ash-paper-dim);
+}
+
+.role-close-apply-bar {
+  display: grid;
+  place-items: center;
+  min-width: 5.4rem;
+  min-height: 2.35rem;
+  border-radius: 999px;
+  background: var(--ash-paper);
+  color: oklch(93% 0.018 82);
+  font-weight: 650;
+  text-transform: uppercase;
+  writing-mode: horizontal-tb;
+}
+
+.role-close-apply:hover,
+.role-close-apply:focus-visible {
+  transform: translateY(-0.15rem);
+  outline: none;
+}
+
+body.is-application-visible .role-close-apply {
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(0.75rem);
+}
+
+.role-meta p {
+  margin: 0;
+  color: var(--ash-paper);
+  font-size: clamp(1.35rem, 2.4vw, 2.1rem);
+  line-height: 1.1;
+}
+
+.role-meta dl {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  border-top: 1px solid var(--line);
+}
+
+.role-meta dl div {
+  display: grid;
+  grid-template-columns: minmax(7rem, 0.5fr) minmax(0, 1fr);
+  gap: 1rem;
+  padding-block: 0.8rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.role-meta dt,
+.role-meta dd {
+  margin: 0;
+}
+
+.role-meta dt {
+  color: var(--talent-magenta);
+  font-family: "Space Mono", ui-monospace, monospace;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+}
+
+.role-meta dd {
+  color: var(--ash-paper);
+}
+
+.role-detail {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(22rem, 0.68fr);
+  gap: clamp(2rem, 6vw, 6rem);
+  align-items: start;
+  padding-block: clamp(4rem, 8vw, 8rem);
+  border-top: 1px solid var(--line);
+}
+
+.role-copy {
+  display: grid;
+  gap: 1rem;
+  color: var(--ash-paper-dim);
+  font-size: clamp(1rem, 1.35vw, 1.12rem);
+  line-height: 1.58;
+}
+
+.role-copy h2,
+.role-copy h3,
+.application-form h2 {
+  margin: 0;
+  color: var(--ash-paper);
+  line-height: 0.96;
+  text-transform: uppercase;
+}
+
+.role-copy h2 {
+  max-width: 10ch;
+  font-size: clamp(2.5rem, 5vw, 5.5rem);
+}
+
+.role-copy h3,
+.application-form h2 {
+  margin-top: clamp(1.5rem, 3vw, 2.5rem);
+  font-size: clamp(1.45rem, 2vw, 2.1rem);
+}
+
+.role-copy p {
+  margin: 0;
+}
+
+.role-copy ul {
+  display: grid;
+  gap: 0.8rem;
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.application-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  padding: clamp(1rem, 2.4vw, 1.6rem);
+  border: 1px solid var(--line);
+  background: oklch(88% 0.022 82 / 0.38);
+}
+
+.application-form-head,
+.application-form-wide,
+.application-form-fields,
+.phone-field,
+.application-form button,
+.application-form-status {
+  grid-column: 1 / -1;
+}
+
+.application-form-head {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.application-form-head p {
+  margin: 0;
+  color: var(--ash-paper-dim);
+}
+
+.application-role-head {
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+
+.application-form-fields {
+  display: grid;
+  gap: 1rem;
+}
+
+.phone-field {
+  display: grid;
+  grid-template-columns: minmax(8rem, 0.42fr) minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.application-form label {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.application-form label small {
+  color: var(--ash-paper-dim);
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+.application-form label span {
+  color: var(--talent-magenta);
+  font-family: "Space Mono", ui-monospace, monospace;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+}
+
+.application-form input,
+.application-form select,
+.application-form textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  background: oklch(84% 0.025 82 / 0.42);
+  color: var(--ash-paper);
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.application-form input,
+.application-form select {
+  min-height: 3.15rem;
+  padding: 0 0.85rem;
+}
+
+.application-form input[type="file"] {
+  display: grid;
+  align-items: center;
+  padding: 0.72rem 0.85rem;
+}
+
+.application-form textarea {
+  resize: vertical;
+  padding: 0.85rem;
+}
+
+.application-form input:focus,
+.application-form select:focus,
+.application-form textarea:focus {
+  border-color: var(--talent-magenta);
+  outline: none;
+}
+
+.application-form button {
+  justify-self: start;
+  min-width: 12rem;
+  min-height: 3rem;
+  padding: 0 1.2rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ash-paper);
+  font-weight: 650;
+  text-transform: uppercase;
+}
+
+.application-form button:hover,
+.application-form button:focus-visible {
+  background: var(--talent-magenta);
+  color: oklch(93% 0.018 82);
+  outline: none;
+}
+
+.application-form button:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+
+.application-form-status {
+  min-height: 1.4rem;
+  margin: 0;
+  color: var(--ash-paper-dim);
+  font-size: 0.92rem;
+}
+
+.application-form-status[data-state="success"] {
+  color: oklch(44% 0.11 148);
+}
+
+.application-form-status[data-state="error"] {
+  color: oklch(52% 0.17 24);
 }
 
 .talent-row small {
-  color: var(--accent, var(--talent-magenta));
+  color: var(--ash-paper-dim);
   font-family: "Space Mono", ui-monospace, monospace;
   font-size: 0.72rem;
 }
@@ -1336,7 +1676,10 @@ input {
   .mission-brand-directory > li,
   .mission-brand,
   .talent-post,
-  .talent-form {
+  .talent-form,
+  .role-hero,
+  .role-detail,
+  .application-form {
     grid-template-columns: 1fr;
     align-items: start;
   }
@@ -1345,6 +1688,12 @@ input {
   .talent-post-copy,
   .post-jump {
     grid-column: 1;
+  }
+
+  .talent-row {
+    grid-template-columns: 1fr;
+    gap: 0.45rem;
+    align-items: start;
   }
 
   .capital-intro {
@@ -1382,6 +1731,23 @@ input {
   .page-title {
     font-size: clamp(2.85rem, 13.2vw, 4.1rem);
     line-height: 0.9;
+  }
+
+  .role-hero .page-title {
+    max-width: 100%;
+    font-size: clamp(2.4rem, 10.6vw, 3.2rem);
+    overflow-wrap: anywhere;
+  }
+
+  .role-close-apply {
+    right: 1rem;
+    bottom: 1rem;
+    grid-template-columns: minmax(0, 1fr) 4rem;
+    width: calc(100vw - 2rem);
+  }
+
+  .phone-field {
+    grid-template-columns: 1fr;
   }
 
   .capital-classic-head {
