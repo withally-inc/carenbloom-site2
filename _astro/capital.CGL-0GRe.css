@@ -1466,17 +1466,17 @@ body.is-application-visible .role-close-apply {
   min-width: 12rem;
   min-height: 3rem;
   padding: 0 1.2rem;
-  border: 1px solid var(--line-strong);
+  border: 1px solid var(--talent-magenta);
   border-radius: 999px;
-  background: transparent;
-  color: var(--ash-paper);
+  background: var(--talent-magenta);
+  color: oklch(93% 0.018 82);
   font-weight: 650;
   text-transform: uppercase;
 }
 
 .application-form button:hover,
 .application-form button:focus-visible {
-  background: var(--talent-magenta);
+  background: var(--ash-paper);
   color: oklch(93% 0.018 82);
   outline: none;
 }
