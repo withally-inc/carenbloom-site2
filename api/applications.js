@@ -131,7 +131,8 @@ export default async function handler(req, res) {
   }
 
   try {
-    const page = await createPage(token, notionPayload);
+    const { applicationRef: ref, ...pagePayload } = notionPayload;
+    const page = await createPage(token, pagePayload);
     sendJson(res, 200, { success: true, ref: notionPayload.applicationRef, notionPageId: page.id });
   } catch (error) {
     console.error("C&B talent intake failed", error);

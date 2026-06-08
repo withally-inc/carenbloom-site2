@@ -98,6 +98,7 @@ assert.equal(_private.validatePayload(samplePayload({ questions: [{ question: "O
   assert.equal(json.notionPageId, "notion-page-id");
   assert.equal(calls.length, 1);
   assert.equal(calls[0].body.parent.database_id, "target-db");
+  assert.equal(calls[0].body.applicationRef, undefined);
   assert.equal(calls[0].body.properties["Application Ref"].rich_text[0].text.content, "CB-TEST");
   assert.equal(calls[0].body.properties["Intro Video"].url, "https://www.loom.com/share/abc123");
   assert.deepEqual(calls[0].body.properties["Time Zone"].multi_select.map((item) => item.name), ["US"]);
