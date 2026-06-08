@@ -819,6 +819,7 @@ input {
   aspect-ratio: 16 / 10;
   overflow: hidden;
   border: 1px solid var(--line);
+  border-radius: 8px;
   background: oklch(93% 0.018 82);
   box-shadow: 0 1rem 2.4rem oklch(28% 0.025 282 / 0.18);
   opacity: 0;
