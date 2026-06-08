@@ -356,7 +356,12 @@ input {
 }
 
 .home-hero .index-list li {
+  --home-mask-buffer: clamp(0.75rem, 1.5vw, 1.25rem);
+  display: flex;
+  justify-content: center;
   overflow: hidden;
+  padding-block: var(--home-mask-buffer);
+  margin-block: calc(-1 * var(--home-mask-buffer));
 }
 
 .home-reveal-ready .home-hero .index-link {

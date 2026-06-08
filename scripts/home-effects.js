@@ -3,6 +3,7 @@
   if (!targets.length) return;
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const canScramble = !reduceMotion && window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 700px)').matches;
   const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   const timers = new WeakMap();
 
@@ -94,8 +95,10 @@
 
     renderLetters(labelElement, label);
 
-    trigger.addEventListener('mouseenter', () => scramble(target));
-    trigger.addEventListener('focus', () => scramble(target));
+    if (canScramble) {
+      trigger.addEventListener('mouseenter', () => scramble(target));
+      trigger.addEventListener('focus', () => scramble(target));
+    }
   });
 
   if (reduceMotion) return;
