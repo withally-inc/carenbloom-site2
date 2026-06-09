@@ -912,6 +912,22 @@ input {
   color: var(--ash-paper);
 }
 
+.stat-counter {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0;
+  white-space: nowrap;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
 .about-brands .body-copy {
   margin-top: 0;
 }
@@ -1035,12 +1051,29 @@ input {
 }
 
 .about-join {
+  position: relative;
+  isolation: isolate;
   display: grid;
   gap: clamp(1rem, 2vw, 1.6rem);
   justify-items: center;
   padding-block: clamp(4rem, 8vw, 8rem);
   border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background:
+    linear-gradient(135deg, oklch(96% 0.035 334 / 0.92), oklch(97% 0.026 31 / 0.86) 54%, oklch(97% 0.022 88 / 0.82));
   text-align: center;
+}
+
+.about-join::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.16;
+  background-image:
+    linear-gradient(to right, var(--ash-paper) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--ash-paper) 1px, transparent 1px);
+  background-size: 88px 88px;
 }
 
 .about-join h2 {
@@ -2053,6 +2086,10 @@ body.is-application-visible .role-close-apply {
   .value-list .evidence-row {
     grid-template-columns: 3rem 1fr;
   }
+
+  .value-list .evidence-row p {
+    grid-column: 2;
+  }
 }
 
 @media (hover: none) {
@@ -2155,13 +2192,45 @@ body.is-application-visible .role-close-apply {
     grid-column: auto;
   }
 
+  .about-proof .proof-strip b {
+    font-size: clamp(3rem, 16vw, 5.2rem);
+  }
+
+  .value-list .evidence-row {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .value-list .evidence-row p {
+    grid-column: auto;
+    max-width: 100%;
+  }
+
   .leader-card,
   .work-model-card {
     min-height: auto;
   }
 
+  .leader-card {
+    grid-template-columns: 7.25rem minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    gap: 1rem;
+    align-items: center;
+    padding: 1.1rem;
+  }
+
   .leader-photo {
-    width: min(100%, 10rem);
+    width: 7.25rem;
+  }
+
+  .leader-card h3 {
+    font-size: clamp(1.55rem, 8vw, 2.15rem);
+  }
+
+  .leader-card p {
+    grid-column: 1 / -1;
+    font-size: 0.98rem;
+    line-height: 1.5;
   }
 
   .about-join h2 {
