@@ -893,6 +893,25 @@ input {
   padding-block: 0 clamp(3rem, 6vw, 6rem);
 }
 
+.about-proof .proof-strip > * {
+  position: relative;
+  background: transparent;
+}
+
+.about-proof .proof-strip > *::before {
+  content: "";
+  position: absolute;
+  left: clamp(1rem, 2.4vw, 2rem);
+  top: 0;
+  width: clamp(2.2rem, 4vw, 4rem);
+  height: 2px;
+  background: var(--ash-paper);
+}
+
+.about-proof .proof-strip b {
+  color: var(--ash-paper);
+}
+
 .about-brands .body-copy {
   margin-top: 0;
 }
@@ -968,6 +987,19 @@ input {
   transform: translateY(-0.12rem);
 }
 
+.leader-card {
+  grid-template-rows: auto auto 1fr;
+}
+
+.leader-photo {
+  width: min(100%, 13rem);
+  aspect-ratio: 1;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  filter: saturate(1.02) contrast(1.02);
+}
+
 .leader-card small,
 .work-model-card small {
   color: var(--accent, var(--lab-cobalt));
@@ -1000,6 +1032,49 @@ input {
 
 .work-model-card {
   min-height: clamp(12rem, 17vw, 16rem);
+}
+
+.about-join {
+  display: grid;
+  gap: clamp(1rem, 2vw, 1.6rem);
+  justify-items: center;
+  padding-block: clamp(4rem, 8vw, 8rem);
+  border-top: 1px solid var(--line);
+  text-align: center;
+}
+
+.about-join h2 {
+  margin: 0;
+  max-width: 13ch;
+  color: var(--ash-paper);
+  font-size: clamp(2.8rem, 7vw, 7.4rem);
+  font-weight: 650;
+  line-height: 0.88;
+  text-transform: uppercase;
+}
+
+.about-join-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  padding: 0.78rem 1.2rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  color: var(--ash-paper);
+  font-size: 0.8rem;
+  font-weight: 650;
+  line-height: 1;
+  text-transform: uppercase;
+  transition: background 220ms cubic-bezier(0.22, 1, 0.36, 1), color 220ms cubic-bezier(0.22, 1, 0.36, 1), transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.about-join-link:hover,
+.about-join-link:focus-visible {
+  background: var(--talent-magenta);
+  color: oklch(93% 0.018 82);
+  outline: none;
+  transform: translateY(-0.08rem);
 }
 
 .capital-classic {
@@ -2083,5 +2158,14 @@ body.is-application-visible .role-close-apply {
   .leader-card,
   .work-model-card {
     min-height: auto;
+  }
+
+  .leader-photo {
+    width: min(100%, 10rem);
+  }
+
+  .about-join h2 {
+    max-width: 100%;
+    font-size: clamp(2.5rem, 12vw, 4rem);
   }
 }
