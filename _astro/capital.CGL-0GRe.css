@@ -910,8 +910,6 @@ input {
 
 .about-proof .proof-strip b {
   color: var(--ash-paper);
-  font-size: clamp(4.4rem, 12vw, 8.5rem);
-  line-height: 0.82;
 }
 
 .stat-counter {
@@ -919,6 +917,11 @@ input {
   align-items: baseline;
   gap: 0;
   white-space: nowrap;
+}
+
+.about-proof .stat-counter {
+  font-size: clamp(3.65rem, 7.2vw, 5.9rem);
+  line-height: 0.86;
 }
 
 .stat-counter > span {
@@ -2221,8 +2224,8 @@ body.is-application-visible .role-close-apply {
     grid-column: auto;
   }
 
-  .about-proof .proof-strip b {
-    font-size: clamp(5rem, 22vw, 7rem);
+  .about-proof .stat-counter {
+    font-size: clamp(4.2rem, 17vw, 5.2rem);
   }
 
   .value-list .evidence-row {
