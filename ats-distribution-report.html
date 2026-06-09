@@ -1,0 +1,1189 @@
+<!-- Report style adapted from the html-artifact status/report patterns. -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Care & Bloom - ATS / Job Distribution Report</title>
+<style>
+  :root {
+    --ivory: #FAF9F5;
+    --slate: #141413;
+    --clay: #D97757;
+    --oat: #E3DACC;
+    --olive: #788C5D;
+    --rust: #B04A3F;
+    --blue: #536E9E;
+    --gray-100: #F0EEE6;
+    --gray-300: #D1CFC5;
+    --gray-500: #87867F;
+    --gray-700: #3D3D3A;
+    --white: #FFFFFF;
+    --serif: ui-serif, Georgia, "Times New Roman", serif;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Monaco, monospace;
+    --border: 1.5px solid var(--gray-300);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    padding: 52px 24px 96px;
+    background: var(--ivory);
+    color: var(--gray-700);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  a { color: var(--blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  a.tool-link {
+    color: var(--slate);
+    font-weight: 650;
+    border-bottom: 1px dotted var(--gray-500);
+  }
+  a.tool-link:hover {
+    color: var(--blue);
+    border-bottom-color: var(--blue);
+    text-decoration: none;
+  }
+  code { font-family: var(--mono); font-size: 12.5px; color: var(--slate); }
+
+  .page {
+    max-width: 1180px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 210px minmax(0, 1fr);
+    gap: 46px;
+  }
+
+  nav {
+    position: sticky;
+    top: 28px;
+    align-self: start;
+    font-size: 13px;
+  }
+
+  nav .label,
+  .eyebrow,
+  .pill,
+  table th,
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  nav .label {
+    color: var(--gray-500);
+    margin-bottom: 12px;
+  }
+
+  nav a {
+    display: block;
+    padding: 6px 0 6px 12px;
+    border-left: 2px solid var(--gray-300);
+    color: var(--gray-700);
+  }
+
+  nav a:hover,
+  nav a:focus-visible {
+    border-color: var(--clay);
+    color: var(--slate);
+    text-decoration: none;
+  }
+
+  .nav-actions {
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid var(--gray-300);
+    display: grid;
+    gap: 8px;
+  }
+
+  button {
+    appearance: none;
+    border: var(--border);
+    background: var(--white);
+    color: var(--slate);
+    border-radius: 8px;
+    min-height: 36px;
+    padding: 0 11px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  button.primary {
+    background: var(--slate);
+    border-color: var(--slate);
+    color: var(--white);
+  }
+
+  header {
+    margin-bottom: 34px;
+  }
+
+  .head-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+
+  .eyebrow {
+    color: var(--gray-500);
+    margin: 0 0 10px;
+  }
+
+  h1 {
+    margin: 0;
+    color: var(--slate);
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(34px, 5vw, 48px);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+  }
+
+  .date {
+    color: var(--gray-500);
+    font-size: 14px;
+    margin-top: 10px;
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 0 10px;
+    border: var(--border);
+    border-radius: 999px;
+    background: var(--gray-100);
+    color: var(--gray-500);
+    white-space: nowrap;
+  }
+
+  section {
+    margin-bottom: 46px;
+    scroll-margin-top: 28px;
+  }
+
+  main {
+    min-width: 0;
+  }
+
+  h2 {
+    margin: 0 0 7px;
+    color: var(--slate);
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 25px;
+    letter-spacing: -0.01em;
+  }
+
+  h3 {
+    margin: 0 0 8px;
+    color: var(--slate);
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 18px;
+  }
+
+  .rule {
+    border: 0;
+    border-top: 1px solid var(--gray-300);
+    margin: 0 0 20px;
+  }
+
+  .memo {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 16px;
+  }
+
+  .tldr,
+  .panel,
+  .stat,
+  .vendor,
+  .callout {
+    background: var(--white);
+    border: var(--border);
+    border-radius: 12px;
+  }
+
+  .tldr {
+    border-left: 4px solid var(--clay);
+    padding: 18px 20px;
+  }
+
+  .tldr p {
+    margin: 0;
+    max-width: 720px;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .stat {
+    padding: 16px;
+  }
+
+  .stat-num {
+    color: var(--slate);
+    font-family: var(--serif);
+    font-size: 36px;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .stat-label {
+    color: var(--gray-500);
+  }
+
+  .highlights {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .highlights li {
+    position: relative;
+    padding: 0 0 13px 25px;
+  }
+
+  .highlights li::before {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 9px;
+    width: 7px;
+    height: 7px;
+    border-radius: 2px;
+    background: var(--clay);
+  }
+
+  .highlights strong {
+    color: var(--slate);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: var(--white);
+    border: var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  th {
+    color: var(--gray-500);
+    background: var(--gray-100);
+    text-align: left;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--gray-300);
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 13px 14px;
+    border-bottom: 1px solid var(--gray-100);
+    vertical-align: top;
+    font-size: 14px;
+  }
+
+  tr:last-child td {
+    border-bottom: 0;
+  }
+
+  tr:hover td {
+    background: rgba(227, 218, 204, 0.18);
+  }
+
+  .rank {
+    font-family: var(--mono);
+    color: var(--clay);
+    font-weight: 700;
+  }
+
+  .matrix td {
+    font-size: 13.5px;
+  }
+
+  .table-scroll {
+    max-width: 100%;
+    overflow-x: auto;
+    border-radius: 12px;
+  }
+
+  .table-scroll table {
+    min-width: 980px;
+  }
+
+  .score {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    white-space: nowrap;
+  }
+
+  .mark {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex: 0 0 auto;
+  }
+
+  .mark.high { background: var(--olive); }
+  .mark.mid { background: var(--clay); }
+  .mark.low { background: var(--rust); }
+  .mark.unknown {
+    background: transparent;
+    border: 1.5px solid var(--gray-500);
+  }
+
+  .fit {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    color: var(--gray-500);
+    white-space: nowrap;
+  }
+
+  .dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex: 0 0 auto;
+  }
+
+  .dot.strong { background: var(--olive); }
+  .dot.medium { background: var(--clay); }
+  .dot.low { background: var(--rust); }
+
+  .grid-2,
+  .grid-3 {
+    display: grid;
+    gap: 14px;
+  }
+
+  .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  .panel {
+    padding: 18px;
+  }
+
+  .panel p,
+  .panel ul,
+  .callout p {
+    margin: 0;
+  }
+
+  .panel ul {
+    padding-left: 18px;
+  }
+
+  .status {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+    padding: 0 8px;
+    border-radius: 999px;
+    background: var(--gray-100);
+    color: var(--gray-700);
+    font-family: var(--mono);
+    font-size: 11px;
+    margin-bottom: 10px;
+  }
+
+  .status.chosen { background: rgba(120,140,93,0.18); color: #52643a; }
+  .status.open { background: rgba(217,119,87,0.16); color: #9a5239; }
+  .status.stop { background: rgba(176,74,63,0.14); color: var(--rust); }
+
+  .callout {
+    border-left: 4px solid var(--clay);
+    padding: 16px 18px;
+  }
+
+  .steps {
+    counter-reset: step;
+    display: grid;
+    gap: 10px;
+  }
+
+  .step {
+    counter-increment: step;
+    display: grid;
+    grid-template-columns: 42px 1fr;
+    gap: 12px;
+    align-items: start;
+    background: var(--white);
+    border: var(--border);
+    border-radius: 10px;
+    padding: 14px;
+  }
+
+  .step::before {
+    content: counter(step);
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    border-radius: 8px;
+    background: var(--slate);
+    color: var(--white);
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .step strong {
+    color: var(--slate);
+  }
+
+  .question-list {
+    columns: 2;
+    column-gap: 32px;
+    margin: 0;
+    padding-left: 22px;
+  }
+
+  .question-list li {
+    break-inside: avoid;
+    margin-bottom: 10px;
+  }
+
+  .source-list {
+    columns: 2;
+    column-gap: 28px;
+    margin: 0;
+    padding-left: 18px;
+    font-size: 13px;
+  }
+
+  .source-list li {
+    break-inside: avoid;
+    margin-bottom: 8px;
+  }
+
+  .vendor-stack {
+    display: grid;
+    gap: 14px;
+  }
+
+  .vendor-block {
+    background: var(--white);
+    border: var(--border);
+    border-radius: 12px;
+    padding: 18px;
+  }
+
+  .vendor-block h3 {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .vendor-block h4 {
+    margin: 14px 0 6px;
+    color: var(--slate);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .vendor-block p,
+  .vendor-block ul,
+  .vendor-block ol {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .vendor-block ul,
+  .vendor-block ol {
+    padding-left: 20px;
+  }
+
+  .vendor-block li + li {
+    margin-top: 5px;
+  }
+
+  .vendor-block .meta {
+    color: var(--gray-500);
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .toast {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    background: var(--slate);
+    color: var(--white);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 13px;
+    opacity: 0;
+    transform: translateY(8px);
+    pointer-events: none;
+    transition: opacity 160ms ease, transform 160ms ease;
+  }
+
+  .toast.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 920px) {
+    body { padding: 30px 18px 72px; }
+    .page { display: block; }
+    nav { display: none; }
+    .memo,
+    .grid-2,
+    .grid-3 {
+      grid-template-columns: 1fr;
+    }
+    .question-list,
+    .source-list {
+      columns: 1;
+    }
+    table { display: block; overflow-x: auto; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <nav>
+    <div class="label">On this page</div>
+    <a href="#summary">Summary</a>
+    <a href="#ranked">Ranked shortlist</a>
+    <a href="#matrix">Comparison matrix</a>
+    <a href="#pricing">Pricing guardrail</a>
+    <a href="#paths">Decision paths</a>
+    <a href="#boards">Board reality</a>
+    <a href="#prep">Site prep</a>
+    <a href="#integration">Integration work</a>
+    <a href="#questions">Demo questions</a>
+    <a href="#sources">Sources</a>
+    <div class="nav-actions">
+      <button class="primary" id="copySummary">Copy summary</button>
+      <button id="copyQuestions">Copy questions</button>
+    </div>
+  </nav>
+
+  <main>
+    <header>
+      <div class="head-row">
+        <div>
+          <p class="eyebrow">Care & Bloom research report</p>
+          <h1>ATS / Job Distribution Decision</h1>
+          <div class="date">Updated June 9, 2026 · Source doc: <a href="ATS_DISTRIBUTION_RESEARCH.md"><code>ATS_DISTRIBUTION_RESEARCH.md</code></a></div>
+        </div>
+        <span class="pill">Decision surface</span>
+      </div>
+    </header>
+
+    <section id="summary">
+      <div class="memo">
+        <div class="tldr">
+          <h2>Executive answer</h2>
+          <p><strong>Start distribution-first.</strong> Pilot <a href="https://www.jobtarget.com/job-site-marketplace" target="_blank" rel="noopener">JobTarget</a> or <a href="https://www.equest.com/xpress/" target="_blank" rel="noopener">eQuestXpress</a> before replacing the recruiting workflow. The current Care & Bloom form and Notion intake already cover most workflow needs; the missing capability is reliable multi-board posting with source tracking and field parity.</p>
+        </div>
+        <div class="stats">
+          <div class="stat"><div class="stat-num">10-20</div><div class="stat-label">active roles / month</div></div>
+          <div class="stat"><div class="stat-num">100+</div><div class="stat-label">applicants / role</div></div>
+          <div class="stat"><div class="stat-num">&lt;$1K</div><div class="stat-label">software target</div></div>
+          <div class="stat"><div class="stat-num">Hybrid</div><div class="stat-label">apply model</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Why this is the right starting point</h2>
+      <hr class="rule">
+      <ul class="highlights">
+        <li><strong>The core problem is distribution, not workflow.</strong> You already have a role-aware application form and Notion intake.</li>
+        <li><strong>ATS-first creates migration drag.</strong> <a href="https://www.jazzhr.com/pricing" target="_blank" rel="noopener">JazzHR</a>, <a href="https://help.workable.com/hc/en-us/articles/115012441868-Which-job-boards-can-I-post-to-through-Workable" target="_blank" rel="noopener">Workable</a>, and <a href="https://docs.ashbyhq.com/how-do-i-set-up-job-board-connections" target="_blank" rel="noopener">Ashby</a> are useful fallback tests, but they may push candidates into hosted forms before proving board reach.</li>
+        <li><strong>DIY is helpful but incomplete.</strong> <a href="https://developers.google.com/search/docs/appearance/structured-data/job-posting" target="_blank" rel="noopener">Google Jobs schema</a> and a feed are worth building, but <a href="https://learn.microsoft.com/en-us/linkedin/talent/job-postings/api/overview" target="_blank" rel="noopener">LinkedIn</a>, <a href="https://docs.indeed.com/indeed-apply/xml-feed" target="_blank" rel="noopener">Indeed</a>, and <a href="https://www.ziprecruiter.com/partner/documentation/apply-webhook/" target="_blank" rel="noopener">ZipRecruiter</a> posting automation is partner/approval-gated.</li>
+        <li><strong>Field parity is the guardrail.</strong> Native board apply is acceptable only if resume, phone, location, timezone, monthly income, role questions, intro video, and source arrive cleanly.</li>
+        <li><strong>Pricing unknown is not free.</strong> No public pricing means budget risk until a quote or cart proves the total under $1K/month.</li>
+      </ul>
+    </section>
+
+    <section id="ranked">
+      <h2>Ranked shortlist</h2>
+      <hr class="rule">
+      <table>
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Tool</th>
+            <th>Type</th>
+            <th>Fit</th>
+            <th>Verdict</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="rank">01</td><td><a class="tool-link" href="https://www.jobtarget.com/job-site-marketplace" target="_blank" rel="noopener">JobTarget</a></td><td>Distribution-first</td><td><span class="fit"><span class="dot strong"></span>Strong</span></td><td>Best first call. 25,000+ boards, no subscription/platform fee found, but postings/products/campaigns are paid à la carte.</td></tr>
+          <tr><td class="rank">02</td><td><a class="tool-link" href="https://www.equest.com/xpress/" target="_blank" rel="noopener">eQuest / eQuestXpress</a></td><td>Distribution-first</td><td><span class="fit"><span class="dot strong"></span>Strong</span></td><td>Best second call. Pay-as-you-go path, 5,000+ boards, global reach, and paid board spend still applies.</td></tr>
+          <tr><td class="rank">03</td><td><a class="tool-link" href="https://join.com/features/multiposting" target="_blank" rel="noopener">JOIN</a></td><td>Distribution + light ATS</td><td><span class="fit"><span class="dot strong"></span>Strong if cap works</span></td><td>Low-cost hybrid; watch 15 active-job cap and whether your own apply URL is allowed.</td></tr>
+          <tr><td class="rank">04</td><td><a class="tool-link" href="https://www.jazzhr.com/pricing" target="_blank" rel="noopener">JazzHR</a></td><td>ATS with multiposting</td><td><span class="fit"><span class="dot strong"></span>Strong fallback</span></td><td>Budget ATS benchmark; competitor-used, source reports, workflow helpers, active-job volume fit.</td></tr>
+          <tr><td class="rank">05</td><td><a class="tool-link" href="https://help.workable.com/hc/en-us/articles/115012441868-Which-job-boards-can-I-post-to-through-Workable" target="_blank" rel="noopener">Workable</a></td><td>ATS with multiposting</td><td><span class="fit"><span class="dot strong"></span>Strong fallback</span></td><td>Best ATS fallback for API, custom questions, source tracking, and workflow depth.</td></tr>
+          <tr><td class="rank">06</td><td><a class="tool-link" href="https://docs.ashbyhq.com/how-do-i-set-up-job-board-connections" target="_blank" rel="noopener">Ashby</a></td><td>ATS with multiposting</td><td><span class="fit"><span class="dot medium"></span>Medium / strong</span></td><td>Best workflow/data architecture; less compelling as a broad board distributor.</td></tr>
+          <tr><td class="rank">07</td><td><a class="tool-link" href="https://support.recruitee.com/en/articles/1066253-post-your-jobs-to-job-boards" target="_blank" rel="noopener">Recruitee</a></td><td>ATS with multiposting</td><td><span class="fit"><span class="dot medium"></span>Medium</span></td><td>Good board claims and JOIN/VONQ integrations; pricing and apply-path need confirmation.</td></tr>
+          <tr><td class="rank">08</td><td><a class="tool-link" href="https://www.teamtailor.com/en-us/pricing/" target="_blank" rel="noopener">Teamtailor</a></td><td>ATS / recruitment marketing</td><td><span class="fit"><span class="dot medium"></span>Medium</span></td><td>Strong candidate UX, unlimited jobs/users; quote-only and board/apply details need demo.</td></tr>
+          <tr><td class="rank">09</td><td><a class="tool-link" href="https://www.zoho.com/recruit/pricing.html" target="_blank" rel="noopener">Zoho Recruit</a></td><td>Budget ATS</td><td><span class="fit"><span class="dot medium"></span>Medium / low</span></td><td>Cheapest plausible ATS; likely weaker UX and distribution quality.</td></tr>
+          <tr><td class="rank">10+</td><td><a class="tool-link" href="https://www.broadbean.com/product-suite/job-distribution-platform/" target="_blank" rel="noopener">Broadbean</a>, <a class="tool-link" href="https://www.vonq.com/hapi/" target="_blank" rel="noopener">VONQ</a>, <a class="tool-link" href="https://www.pinpointhq.com/features/job-board-advertising-software/" target="_blank" rel="noopener">Pinpoint</a>, <a class="tool-link" href="https://www.loxo.co/products/boost" target="_blank" rel="noopener">Loxo</a>, <a class="tool-link" href="https://support.manatal.com/docs/premium-job-board-posting" target="_blank" rel="noopener">Manatal</a>, <a class="tool-link" href="https://www.bamboohr.com/hr-software/hiring-and-onboarding" target="_blank" rel="noopener">BambooHR</a>, <a class="tool-link" href="https://www.greenhouse.com/" target="_blank" rel="noopener">Greenhouse</a>, <a class="tool-link" href="https://www.lever.co/" target="_blank" rel="noopener">Lever</a>, <a class="tool-link" href="https://www.smartrecruiters.com/pricing/" target="_blank" rel="noopener">SmartRecruiters</a>, <a class="tool-link" href="https://recruiterflow.com/pricing" target="_blank" rel="noopener">Recruiterflow</a>, <a class="tool-link" href="https://www.50skills.com/" target="_blank" rel="noopener">50skills</a></td><td>Mixed</td><td><span class="fit"><span class="dot low"></span>Lower priority</span></td><td>Either enterprise/custom, ATS-first, unclear apply control, outside budget, or insufficiently distribution-first.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="matrix">
+      <h2>Comparison matrix</h2>
+      <hr class="rule">
+      <div class="table-scroll">
+      <table class="matrix">
+        <thead>
+          <tr>
+            <th>Tool</th>
+            <th>Best role</th>
+            <th>Board reach</th>
+            <th>Custom apply URL</th>
+            <th>Field parity</th>
+            <th>Pricing status</th>
+            <th>Workflow value</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><a class="tool-link" href="https://www.jobtarget.com/job-site-marketplace" target="_blank" rel="noopener">JobTarget</a></td>
+            <td>Standalone multiposter</td>
+            <td><span class="score"><span class="mark high"></span>Very high</span></td>
+            <td><span class="score"><span class="mark high"></span>Likely strong</span></td>
+            <td><span class="score"><span class="mark mid"></span>Demo verify</span></td>
+            <td><span class="score"><span class="mark mid"></span>No platform fee; paid posts</span></td>
+            <td><span class="score"><span class="mark low"></span>Not the point</span></td>
+            <td>First demo</td>
+          </tr>
+          <tr>
+            <td><a class="tool-link" href="https://www.equest.com/xpress/" target="_blank" rel="noopener">eQuestXpress</a></td>
+            <td>Global/pay-as-you-go distribution</td>
+            <td><span class="score"><span class="mark high"></span>Very high</span></td>
+            <td><span class="score"><span class="mark high"></span>Likely strong</span></td>
+            <td><span class="score"><span class="mark mid"></span>Demo verify</span></td>
+            <td><span class="score"><span class="mark mid"></span>Pay as you go; paid posts</span></td>
+            <td><span class="score"><span class="mark low"></span>Not the point</span></td>
+            <td>Second demo</td>
+          </tr>
+          <tr>
+            <td><a class="tool-link" href="https://join.com/features/multiposting" target="_blank" rel="noopener">JOIN</a></td>
+            <td>Low-cost multiposting + light ATS</td>
+            <td><span class="score"><span class="mark mid"></span>Medium/high</span></td>
+            <td><span class="score"><span class="mark unknown"></span>Unclear</span></td>
+            <td><span class="score"><span class="mark mid"></span>Possible via JOIN</span></td>
+            <td><span class="score"><span class="mark high"></span>Very strong</span></td>
+            <td><span class="score"><span class="mark mid"></span>Light</span></td>
+            <td>Trial if 15 active jobs enough</td>
+          </tr>
+          <tr>
+            <td><a class="tool-link" href="https://www.jazzhr.com/pricing" target="_blank" rel="noopener">JazzHR</a></td>
+            <td>Budget ATS fallback</td>
+            <td><span class="score"><span class="mark mid"></span>Medium</span></td>
+            <td><span class="score"><span class="mark unknown"></span>Needs proof</span></td>
+            <td><span class="score"><span class="mark mid"></span>Possible in ATS</span></td>
+            <td><span class="score"><span class="mark high"></span>Very strong</span></td>
+            <td><span class="score"><span class="mark mid"></span>Good enough</span></td>
+            <td>Competitor benchmark</td>
+          </tr>
+          <tr>
+            <td><a class="tool-link" href="https://help.workable.com/hc/en-us/articles/115012441868-Which-job-boards-can-I-post-to-through-Workable" target="_blank" rel="noopener">Workable</a></td>
+            <td>Stronger ATS fallback</td>
+            <td><span class="score"><span class="mark mid"></span>Medium/high</span></td>
+            <td><span class="score"><span class="mark unknown"></span>Needs proof</span></td>
+            <td><span class="score"><span class="mark high"></span>Strong in ATS/API</span></td>
+            <td><span class="score"><span class="mark unknown"></span>Quote needed</span></td>
+            <td><span class="score"><span class="mark high"></span>Strong</span></td>
+            <td>Demo if workflow may move</td>
+          </tr>
+          <tr>
+            <td><a class="tool-link" href="https://docs.ashbyhq.com/how-do-i-set-up-job-board-connections" target="_blank" rel="noopener">Ashby</a></td>
+            <td>Workflow/data source of truth</td>
+            <td><span class="score"><span class="mark mid"></span>Core boards</span></td>
+            <td><span class="score"><span class="mark mid"></span>Tracking links</span></td>
+            <td><span class="score"><span class="mark high"></span>Very strong</span></td>
+            <td><span class="score"><span class="mark unknown"></span>Quote needed</span></td>
+            <td><span class="score"><span class="mark high"></span>Very strong</span></td>
+            <td>Only if ATS owns workflow</td>
+          </tr>
+          <tr>
+            <td><a class="tool-link" href="https://support.recruitee.com/en/articles/1066253-post-your-jobs-to-job-boards" target="_blank" rel="noopener">Recruitee</a></td>
+            <td>ATS + board integrations</td>
+            <td><span class="score"><span class="mark mid"></span>Medium/high</span></td>
+            <td><span class="score"><span class="mark unknown"></span>Needs proof</span></td>
+            <td><span class="score"><span class="mark mid"></span>Possible in ATS</span></td>
+            <td><span class="score"><span class="mark unknown"></span>Opaque</span></td>
+            <td><span class="score"><span class="mark mid"></span>Good</span></td>
+            <td>Secondary demo</td>
+          </tr>
+          <tr>
+            <td><a class="tool-link" href="https://www.teamtailor.com/en-us/pricing/" target="_blank" rel="noopener">Teamtailor</a></td>
+            <td>Candidate experience</td>
+            <td><span class="score"><span class="mark mid"></span>Medium</span></td>
+            <td><span class="score"><span class="mark unknown"></span>Needs proof</span></td>
+            <td><span class="score"><span class="mark mid"></span>Possible in ATS</span></td>
+            <td><span class="score"><span class="mark unknown"></span>Quote only</span></td>
+            <td><span class="score"><span class="mark high"></span>Strong UX</span></td>
+            <td>Secondary demo</td>
+          </tr>
+          <tr>
+            <td><a class="tool-link" href="https://www.zoho.com/recruit/pricing.html" target="_blank" rel="noopener">Zoho Recruit</a></td>
+            <td>Budget backup</td>
+            <td><span class="score"><span class="mark mid"></span>Medium</span></td>
+            <td><span class="score"><span class="mark unknown"></span>Needs proof</span></td>
+            <td><span class="score"><span class="mark mid"></span>Possible</span></td>
+            <td><span class="score"><span class="mark high"></span>Public subscription</span></td>
+            <td><span class="score"><span class="mark low"></span>Lower polish</span></td>
+            <td>Only if budget dominates</td>
+          </tr>
+          <tr>
+            <td><a class="tool-link" href="https://www.broadbean.com/product-suite/job-distribution-platform/" target="_blank" rel="noopener">Broadbean</a> / <a class="tool-link" href="https://www.vonq.com/hapi/" target="_blank" rel="noopener">VONQ</a></td>
+            <td>Enterprise distribution</td>
+            <td><span class="score"><span class="mark high"></span>Very high</span></td>
+            <td><span class="score"><span class="mark high"></span>Likely strong</span></td>
+            <td><span class="score"><span class="mark mid"></span>Demo verify</span></td>
+            <td><span class="score"><span class="mark unknown"></span>Likely custom</span></td>
+            <td><span class="score"><span class="mark low"></span>Distribution only</span></td>
+            <td>Quick screen after JobTarget/eQuest</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+    </section>
+
+    <section id="pricing">
+      <h2>Pricing guardrail</h2>
+      <hr class="rule">
+      <div class="grid-2">
+        <article class="panel">
+          <span class="status open">Important correction</span>
+          <h3>Unknown pricing is not free</h3>
+          <p>If a vendor does not publish pricing, treat it as quote-only or budget risk until a quote or cart proves it fits. Missing pricing should never be interpreted as free.</p>
+        </article>
+        <article class="panel">
+          <span class="status open">Distributor nuance</span>
+          <h3>No platform fee is not no cost</h3>
+          <p>JobTarget says there is no additional platform fee, but postings, campaigns, premium products, paid board inventory, and sometimes delivery/processing may still cost money. eQuestXpress says no setup/minimums and pay-as-you-go, which still implies per-use spend.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="paths">
+      <h2>Decision paths</h2>
+      <hr class="rule">
+      <div class="grid-3">
+        <article class="panel">
+          <span class="status chosen">Preferred</span>
+          <h3>Distribution-first</h3>
+          <p>Pilot <a href="https://www.jobtarget.com/job-site-marketplace" target="_blank" rel="noopener">JobTarget</a> or <a href="https://www.equest.com/xpress/" target="_blank" rel="noopener">eQuestXpress</a> with 2-3 roles. Keep Care & Bloom form/Notion if custom apply URLs and source parameters work.</p>
+        </article>
+        <article class="panel">
+          <span class="status open">Fallback</span>
+          <h3>ATS-owned workflow</h3>
+          <p>Use <a href="https://www.jazzhr.com/pricing" target="_blank" rel="noopener">JazzHR</a> or <a href="https://help.workable.com/hc/en-us/articles/115012441868-Which-job-boards-can-I-post-to-through-Workable" target="_blank" rel="noopener">Workable</a> if distribution-first tools cannot preserve apply flow. Use <a href="https://docs.ashbyhq.com/how-do-i-set-up-job-board-connections" target="_blank" rel="noopener">Ashby</a> if workflow/data rigor becomes more important than board breadth.</p>
+        </article>
+        <article class="panel">
+          <span class="status stop">Not enough alone</span>
+          <h3>DIY posting</h3>
+          <p>Build schema/feed/source tracking, but do not expect direct APIs to cover <a href="https://learn.microsoft.com/en-us/linkedin/talent/job-postings/api/overview" target="_blank" rel="noopener">LinkedIn</a>, <a href="https://docs.indeed.com/indeed-apply/xml-feed" target="_blank" rel="noopener">Indeed</a>, and <a href="https://www.ziprecruiter.com/partner/documentation/apply-webhook/" target="_blank" rel="noopener">ZipRecruiter</a> reliably.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="boards">
+      <h2>Board coverage reality</h2>
+      <hr class="rule">
+      <div class="grid-2">
+        <article class="panel">
+          <h3>Core boards</h3>
+          <ul>
+            <li><strong><a href="https://developers.google.com/search/docs/appearance/structured-data/job-posting" target="_blank" rel="noopener">Google Jobs</a>:</strong> easiest direct path via structured data.</li>
+            <li><strong><a href="https://docs.indeed.com/indeed-apply/xml-feed" target="_blank" rel="noopener">Indeed</a>:</strong> feed/Apply exist, but approval and quality checks matter.</li>
+            <li><strong><a href="https://learn.microsoft.com/en-us/linkedin/talent/job-postings/api/overview" target="_blank" rel="noopener">LinkedIn</a>:</strong> API access is partner-gated.</li>
+            <li><strong><a href="https://www.ziprecruiter.com/partner/documentation/apply-webhook/" target="_blank" rel="noopener">ZipRecruiter</a>:</strong> partner-oriented API/webhook route.</li>
+          </ul>
+        </article>
+        <article class="panel">
+          <h3>Remote + Asia gap</h3>
+          <p>Public docs do not prove coverage for <a href="https://www.onlinejobs.ph/" target="_blank" rel="noopener">OnlineJobs.ph</a>, <a href="https://www.kalibrr.com/" target="_blank" rel="noopener">Kalibrr</a>, <a href="https://bossjob.ph/" target="_blank" rel="noopener">Bossjob</a>, <a href="https://glints.com/" target="_blank" rel="noopener">Glints</a>, or <a href="https://www.jobstreet.com.ph/" target="_blank" rel="noopener">JobStreet</a> across the shortlist. This is a top demo question for <a href="https://www.jobtarget.com/job-site-marketplace" target="_blank" rel="noopener">JobTarget</a>, <a href="https://www.equest.com/xpress/" target="_blank" rel="noopener">eQuest</a>, <a href="https://join.com/features/multiposting" target="_blank" rel="noopener">JOIN</a>, <a href="https://www.broadbean.com/product-suite/job-distribution-platform/" target="_blank" rel="noopener">Broadbean</a>, and <a href="https://www.vonq.com/hapi/" target="_blank" rel="noopener">VONQ</a>.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="prep">
+      <h2>Site prep before any pilot</h2>
+      <hr class="rule">
+      <div class="steps">
+        <div class="step"><div><strong>Capture source/referrer in Notion.</strong><br>Use URLs like <code>/talents/apply/?role=video-editor&amp;source=linkedin&amp;utm_vendor=jobtarget</code>.</div></div>
+        <div class="step"><div><strong>Store real resume files or URLs.</strong><br>The current form only passes filenames, which is not enough for broad external apply flows.</div></div>
+        <div class="step"><div><strong>Add <a href="https://developers.google.com/search/docs/appearance/structured-data/job-posting" target="_blank" rel="noopener">Google Jobs schema</a>.</strong><br>Public role pages should include <code>JobPosting</code> JSON-LD.</div></div>
+        <div class="step"><div><strong>Create a jobs feed.</strong><br>Build JSON/XML with title, slug, role URL, apply URL, remote/location, description, and close date.</div></div>
+      </div>
+    </section>
+
+    <section id="integration">
+      <h2>Integration work for the options moving forward</h2>
+      <hr class="rule">
+      <div class="callout">
+        <p><strong>Current baseline:</strong> Care & Bloom roles are static site data, the apply flow posts to <code>/api/applications</code> and then Notion, source URL is stored, referrer is collected but not mapped to Notion, file inputs only submit filenames, and there is no jobs feed or Google Jobs schema yet.</p>
+      </div>
+
+      <h3 style="margin-top:24px;">Integration workload matrix</h3>
+      <div class="table-scroll">
+      <table class="matrix">
+        <thead>
+          <tr>
+            <th>Option</th>
+            <th>Integration model</th>
+            <th>Keep C&amp;B form?</th>
+            <th>Sync direction</th>
+            <th>Work</th>
+            <th>Main risk</th>
+            <th>Next proof</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><a class="tool-link" href="https://www.jobtarget.com/job-site-marketplace" target="_blank" rel="noopener">JobTarget</a></td>
+            <td>Importer/feed or manual jobs, then board distribution with apply URL</td>
+            <td><span class="score"><span class="mark high"></span>Yes, best path</span></td>
+            <td>C&amp;B -> Notion; JobTarget distributes</td>
+            <td>Medium-low</td>
+            <td>Hosted/native apply on some boards, source param loss</td>
+            <td>Demo importer + redirect apply on target boards</td>
+          </tr>
+          <tr>
+            <td><a class="tool-link" href="https://www.equest.com/xpress/" target="_blank" rel="noopener">eQuestXpress</a></td>
+            <td>AutoPost/career-site scrape or feed, source-coded apply URL, optional pixel</td>
+            <td><span class="score"><span class="mark high"></span>Yes, best path</span></td>
+            <td>C&amp;B -> Notion; eQuest distributes/attributes</td>
+            <td>Medium</td>
+            <td>Feed/scrape setup and completed-apply tracking</td>
+            <td>Confirm AutoPost + source-code passthrough</td>
+          </tr>
+          <tr>
+            <td><a class="tool-link" href="https://join.com/features/multiposting" target="_blank" rel="noopener">JOIN</a></td>
+            <td>JOIN multiposting + light ATS, or API bridge</td>
+            <td><span class="score"><span class="mark unknown"></span>Maybe, unclear</span></td>
+            <td>JOIN -> Notion or C&amp;B -> JOIN</td>
+            <td>Medium/high</td>
+            <td>Custom apply URL unclear; API/export tier</td>
+            <td>Confirm custom apply URL and API plan</td>
+          </tr>
+          <tr>
+            <td><a class="tool-link" href="https://www.jazzhr.com/pricing" target="_blank" rel="noopener">JazzHR</a></td>
+            <td>JazzHR jobs + Apply API custom form, or export webhook</td>
+            <td><span class="score"><span class="mark high"></span>Yes, plausible</span></td>
+            <td>C&amp;B -> JazzHR + Notion, or JazzHR -> Notion</td>
+            <td>Medium</td>
+            <td>API access, 48h token, 2MB resume limit</td>
+            <td>Test Apply API questions + create application</td>
+          </tr>
+          <tr>
+            <td><a class="tool-link" href="https://help.workable.com/hc/en-us/articles/115012441868-Which-job-boards-can-I-post-to-through-Workable" target="_blank" rel="noopener">Workable</a></td>
+            <td>Hosted forms/shortlinks + API/webhook sync</td>
+            <td><span class="score"><span class="mark unknown"></span>Less likely</span></td>
+            <td>Workable -> Notion</td>
+            <td>Medium/high</td>
+            <td>Custom form preservation less proven</td>
+            <td>Demo shortlink/source flow and API/export</td>
+          </tr>
+          <tr>
+            <td><a class="tool-link" href="https://docs.ashbyhq.com/how-do-i-set-up-job-board-connections" target="_blank" rel="noopener">Ashby</a></td>
+            <td>Ashby source of truth, custom careers/apply API</td>
+            <td><span class="score"><span class="mark mid"></span>Yes, with rebuild</span></td>
+            <td>C&amp;B/Ashby unified; Notion reporting</td>
+            <td>High</td>
+            <td>Secure proxy, field mapping, migration</td>
+            <td>Prototype <code>applicationForm.submit</code> with resume + UTM</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+
+      <h3 style="margin-top:24px;">Shared foundation before vendor work</h3>
+      <div class="grid-2">
+        <article class="panel">
+          <span class="status chosen">Build first</span>
+          <h3>Source and file plumbing</h3>
+          <p>Add <code>source</code>, <code>utm_source</code>, <code>utm_medium</code>, <code>utm_campaign</code>, <code>utm_vendor</code>, <code>referrer</code>, and landing URL to Notion. Replace filename-only resume handling with file uploads or resume URLs.</p>
+        </article>
+        <article class="panel">
+          <span class="status chosen">Build first</span>
+          <h3>Vendor-ready jobs feed</h3>
+          <p>Create stable JSON/XML with external job id, title, slug, public role URL, apply URL, remote/location, description, department, date posted, close date, and active/closed status.</p>
+        </article>
+      </div>
+
+      <div class="vendor-stack" style="margin-top:18px;">
+        <article class="vendor-block">
+          <h3><a class="tool-link" href="https://www.jobtarget.com/job-site-marketplace" target="_blank" rel="noopener">JobTarget</a><span class="meta">Medium-low work</span></h3>
+          <p><strong>Best model:</strong> keep Care & Bloom as the application source of truth. JobTarget imports jobs or receives manually-created jobs, then sends each board posting to a role-specific apply URL.</p>
+          <h4>Steps</h4>
+          <ol>
+            <li>Build a stable jobs feed or importer-friendly careers page.</li>
+            <li>Add source/referrer/UTM persistence in Notion.</li>
+            <li>Fix resume upload or resume URL capture.</li>
+            <li>Confirm which boards support redirect apply vs <a href="https://www.jobtarget.com/apply-systems-terms" target="_blank" rel="noopener">JobTarget Easy Apply/Candidate Manager</a>.</li>
+            <li>If a key board forces hosted apply, map required fields and export back into Notion.</li>
+          </ol>
+          <h4>Difficulty flags</h4>
+          <ul>
+            <li><a href="https://support.jobtarget.com/jobtarget-help-center/jt101-how-do-jobs-land-in-jobtarget" target="_blank" rel="noopener">Importer paths</a> can be daily/nightly, so edits may not appear instantly.</li>
+            <li>Source parameters must survive board and JobTarget redirects.</li>
+            <li><a href="https://platform.jobtarget.com/oc/partner/faq" target="_blank" rel="noopener">Free boards may still have delivery/posting fees</a> in some partner flows.</li>
+          </ul>
+          <h4>Decision check</h4>
+          <p>Pick it if custom apply URLs work on the actual board list. Do not pick it only because the platform fee is zero; posting and campaign costs still apply.</p>
+        </article>
+
+        <article class="vendor-block">
+          <h3><a class="tool-link" href="https://www.equest.com/xpress/" target="_blank" rel="noopener">eQuestXpress</a><span class="meta">Medium work</span></h3>
+          <p><strong>Best model:</strong> keep Care & Bloom as application source of truth. Use <a href="https://www.equest.com/solutions/autopost/" target="_blank" rel="noopener">AutoPost</a>, career-site scrape, or feed import, with eQuest source codes passed into the apply URL.</p>
+          <h4>Steps</h4>
+          <ol>
+            <li>Create a feed or make job pages structured enough for AutoPost.</li>
+            <li>Add source-code passthrough into apply URLs.</li>
+            <li>Add completed-application tracking, likely a thank-you page/event or <a href="https://support.equest.com/index.php?id=3846&amp;pg=kb.page" target="_blank" rel="noopener">apply pixel</a>, if available.</li>
+            <li>Persist source/referrer/UTM data in Notion.</li>
+            <li>Confirm board list for US remote, Europe, and Philippines/Asia.</li>
+          </ol>
+          <h4>Difficulty flags</h4>
+          <ul>
+            <li>Exact scrape/feed setup needs vendor configuration.</li>
+            <li>Completed-apply attribution may need a new completion page or event.</li>
+            <li>Public docs do not fully expose board-by-board apply behavior or total cost.</li>
+          </ul>
+          <h4>Decision check</h4>
+          <p>Pick it if it proves global board reach plus clean redirect/source tracking. Treat it as pay-as-you-go with paid board/cart spend, not free.</p>
+        </article>
+
+        <article class="vendor-block">
+          <h3><a class="tool-link" href="https://join.com/features/multiposting" target="_blank" rel="noopener">JOIN</a><span class="meta">Medium/high work</span></h3>
+          <p><strong>Best model:</strong> trial it as a hybrid. First decide whether JOIN collects candidates, or whether Care & Bloom keeps the form and pushes applications into JOIN.</p>
+          <h4>Steps if JOIN owns applications</h4>
+          <ol>
+            <li>Configure JOIN jobs/forms and screening questions.</li>
+            <li>Map Care & Bloom required fields into JOIN questions.</li>
+            <li>Use <a href="https://help.join.com/candidates-and-applications/application-export" target="_blank" rel="noopener">JOIN export</a>, API, or automation into Notion.</li>
+            <li>Represent role-specific workflows inside JOIN.</li>
+          </ol>
+          <h4>Steps if Care & Bloom form stays</h4>
+          <ol>
+            <li>Confirm JOIN can use a custom apply URL for multiposted jobs.</li>
+            <li>If not, bridge Care & Bloom applications into JOIN using <a href="https://docs.join.com/reference/createapplication-1" target="_blank" rel="noopener"><code>POST /v2/applications</code></a>.</li>
+            <li>Map resumes/documents into JOIN attachment fields.</li>
+            <li>Store JOIN application ids in Notion to prevent duplicates.</li>
+          </ol>
+          <h4>Difficulty flags</h4>
+          <ul>
+            <li>Public API docs prove application endpoints, not custom apply URL behavior for every board.</li>
+            <li><a href="https://join.com/pricing" target="_blank" rel="noopener">API/export/custom screening</a> appear tied to higher plan functionality.</li>
+            <li>The 15 active-job cap may matter if many roles are live simultaneously.</li>
+          </ul>
+          <h4>Decision check</h4>
+          <p>Trial it only if 15 active jobs is enough and the apply path is acceptable. If JOIN must own workflow, compare directly against JazzHR first.</p>
+        </article>
+
+        <article class="vendor-block">
+          <h3><a class="tool-link" href="https://www.jazzhr.com/pricing" target="_blank" rel="noopener">JazzHR</a><span class="meta">Medium work</span></h3>
+          <p><strong>Best model:</strong> budget ATS fallback that can plausibly preserve the Care & Bloom form through <a href="https://apidoc.jazzhrapis.com/custom-apply/" target="_blank" rel="noopener">JazzHR Apply API</a>. If JazzHR owns workflow, use <a href="https://apidoc.jazzhrapis.com/candidate-export/" target="_blank" rel="noopener">Candidate Export webhooks</a> back to Notion.</p>
+          <h4>Steps</h4>
+          <ol>
+            <li>Create each role in JazzHR and map site role slugs to JazzHR <code>jobBoardCode</code>.</li>
+            <li>Fetch JazzHR questions per role and map them to Care & Bloom form fields.</li>
+            <li>Update <code>/api/applications</code> or add a server integration endpoint that submits to JazzHR.</li>
+            <li>Add real resume upload/base64 handling inside JazzHR limits.</li>
+            <li>Manage Apply API authentication and token refresh.</li>
+            <li>Optionally sync stage changes back to Notion through Candidate Export webhooks.</li>
+          </ol>
+          <h4>Difficulty flags</h4>
+          <ul>
+            <li>Apply API token lifetime is short, so backend refresh/cache is needed.</li>
+            <li>Resume file limits and MIME rules are stricter than the current filename-only flow.</li>
+            <li>Role-specific JazzHR questions can change, so mapping needs maintenance.</li>
+          </ul>
+          <h4>Decision check</h4>
+          <p>This is the best "budget ATS but keep our form" candidate. The demo should include a real API application submit test.</p>
+        </article>
+
+        <article class="vendor-block">
+          <h3><a class="tool-link" href="https://help.workable.com/hc/en-us/articles/115012441868-Which-job-boards-can-I-post-to-through-Workable" target="_blank" rel="noopener">Workable</a><span class="meta">Medium/high work</span></h3>
+          <p><strong>Best model:</strong> Workable owns application intake and recruiting workflow. Care & Bloom can list jobs, but likely routes applications to Workable forms or <a href="https://help.workable.com/hc/en-us/articles/115012301427-Using-the-job-shortlink" target="_blank" rel="noopener">job shortlinks</a>.</p>
+          <h4>Steps</h4>
+          <ol>
+            <li>Configure jobs, custom application forms, stages, and source tracking in Workable.</li>
+            <li>Use Workable shortlinks/tracking links for distributed postings.</li>
+            <li>Optionally use the <a href="https://help.workable.com/hc/en-us/articles/115012771647-Using-the-Workable-API-to-create-a-careers-page" target="_blank" rel="noopener">Workable careers page API</a> to list jobs on the Care & Bloom site.</li>
+            <li>Map required fields into Workable custom questions.</li>
+            <li>Sync to Notion through <a href="https://help.workable.com/hc/en-us/articles/115013356548-Workable-API-Documentation" target="_blank" rel="noopener">Workable API/webhooks</a> if Notion remains needed.</li>
+          </ol>
+          <h4>Difficulty flags</h4>
+          <ul>
+            <li>Public docs show job listing and candidate retrieval better than custom-apply submission.</li>
+            <li><a href="https://help.workable.com/hc/en-us/articles/115012901987-Tracking-candidate-sources" target="_blank" rel="noopener">Source tracking</a> can become "Unknown" in some visitor/session cases.</li>
+            <li>Hosted forms may be a larger workflow change than desired.</li>
+          </ul>
+          <h4>Decision check</h4>
+          <p>Demo it if workflow may move into the ATS. Do not pick it purely for distribution unless custom apply URL/source handling is proven.</p>
+        </article>
+
+        <article class="vendor-block">
+          <h3><a class="tool-link" href="https://docs.ashbyhq.com/how-do-i-set-up-job-board-connections" target="_blank" rel="noopener">Ashby</a><span class="meta">High work</span></h3>
+          <p><strong>Best model:</strong> Ashby becomes the recruiting source of truth. It can support a custom Care & Bloom apply experience, but this is a real API integration, not just multiposting setup.</p>
+          <h4>Steps</h4>
+          <ol>
+            <li>Create jobs and <a href="https://docs.ashbyhq.com/application-forms" target="_blank" rel="noopener">application forms</a> in Ashby.</li>
+            <li>Map current role slugs to Ashby job posting ids.</li>
+            <li>Build a server-side proxy; do not call Ashby's private API directly from the browser.</li>
+            <li>Use <a href="https://developers.ashbyhq.com/docs/creating-a-custom-careers-page" target="_blank" rel="noopener"><code>jobPosting.list</code>/<code>jobPosting.info</code></a> to render jobs/forms, or map existing fields manually.</li>
+            <li>Submit applications with <a href="https://developers.ashbyhq.com/reference/applicationformsubmit" target="_blank" rel="noopener"><code>applicationForm.submit</code></a>, including files via multipart or upload handles.</li>
+            <li>Pass <code>utmData</code> so <a href="https://docs.ashbyhq.com/tracking-the-source-of-an-application" target="_blank" rel="noopener">source/campaign tracking</a> is preserved.</li>
+            <li>Sync Ashby back into Notion only if Notion remains a reporting layer.</li>
+          </ol>
+          <h4>Difficulty flags</h4>
+          <ul>
+            <li>Highest architecture lift because Ashby should own workflow to justify migration.</li>
+            <li>Custom form field paths/connectors need careful mapping.</li>
+            <li>File upload and application submission require secure backend work.</li>
+            <li>Pricing remains quote-needed.</li>
+          </ul>
+          <h4>Decision check</h4>
+          <p>Choose Ashby if workflow/data rigor matters more than broad marketplace distribution. Do not choose it if the only job is cheap one-click posting to many niche boards.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="questions">
+      <h2>Vendor demo questions</h2>
+      <hr class="rule">
+      <ol class="question-list" id="questionList"></ol>
+    </section>
+
+    <section id="sources">
+      <h2>Source references</h2>
+      <hr class="rule">
+      <ul class="source-list">
+        <li><a href="https://www.jobtarget.com/job-site-marketplace" target="_blank" rel="noopener">JobTarget Marketplace</a></li>
+        <li><a href="https://support.jobtarget.com/jobtarget-help-center/how-much-does-it-cost-to-use-jobtarget" target="_blank" rel="noopener">JobTarget pricing</a></li>
+        <li><a href="https://platform.jobtarget.com/oc/partner/faq" target="_blank" rel="noopener">JobTarget partner FAQ fees</a></li>
+        <li><a href="https://support.jobtarget.com/jobtarget-help-center/jt101-how-do-jobs-land-in-jobtarget" target="_blank" rel="noopener">JobTarget job import paths</a></li>
+        <li><a href="https://www.equest.com/xpress/" target="_blank" rel="noopener">eQuestXpress</a></li>
+        <li><a href="https://www.equest.com/solutions/global-job-postings/" target="_blank" rel="noopener">eQuest global posting</a></li>
+        <li><a href="https://www.equest.com/solutions/autopost/" target="_blank" rel="noopener">eQuest AutoPost</a></li>
+        <li><a href="https://kb.equest.com/docs/job-board-integrations" target="_blank" rel="noopener">eQuest job board integrations</a></li>
+        <li><a href="https://support.equest.com/index.php?id=4255&pg=kb.page" target="_blank" rel="noopener">eQuest apply URL handling</a></li>
+        <li><a href="https://support.equest.com/index.php?id=3846&pg=kb.page" target="_blank" rel="noopener">eQuest click/apply tracking</a></li>
+        <li><a href="https://join.com/pricing" target="_blank" rel="noopener">JOIN pricing</a></li>
+        <li><a href="https://join.com/features/multiposting" target="_blank" rel="noopener">JOIN multiposting</a></li>
+        <li><a href="https://help.join.com/join-api/api-documentation" target="_blank" rel="noopener">JOIN API documentation</a></li>
+        <li><a href="https://docs.join.com/reference/createapplication-1" target="_blank" rel="noopener">JOIN create application API</a></li>
+        <li><a href="https://help.join.com/candidates-and-applications/application-export" target="_blank" rel="noopener">JOIN application export</a></li>
+        <li><a href="https://www.jazzhr.com/pricing" target="_blank" rel="noopener">JazzHR pricing</a></li>
+        <li><a href="https://apidoc.jazzhrapis.com/" target="_blank" rel="noopener">JazzHR API overview</a></li>
+        <li><a href="https://apidoc.jazzhrapis.com/custom-apply/" target="_blank" rel="noopener">JazzHR Apply API</a></li>
+        <li><a href="https://apidoc.jazzhrapis.com/candidate-export/" target="_blank" rel="noopener">JazzHR Candidate Export webhook</a></li>
+        <li><a href="https://help.workable.com/hc/en-us/articles/115012441868-Which-job-boards-can-I-post-to-through-Workable" target="_blank" rel="noopener">Workable job boards</a></li>
+        <li><a href="https://help.workable.com/hc/en-us/articles/115012301427-Using-the-job-shortlink" target="_blank" rel="noopener">Workable job shortlinks</a></li>
+        <li><a href="https://help.workable.com/hc/en-us/articles/115012901987-Tracking-candidate-sources" target="_blank" rel="noopener">Workable source tracking</a></li>
+        <li><a href="https://help.workable.com/hc/en-us/articles/115013356548-Workable-API-Documentation" target="_blank" rel="noopener">Workable API documentation</a></li>
+        <li><a href="https://help.workable.com/hc/en-us/articles/115012771647-Using-the-Workable-API-to-create-a-careers-page" target="_blank" rel="noopener">Workable careers page API</a></li>
+        <li><a href="https://docs.ashbyhq.com/how-do-i-set-up-job-board-connections" target="_blank" rel="noopener">Ashby job boards</a></li>
+        <li><a href="https://developers.ashbyhq.com/docs/creating-a-custom-careers-page" target="_blank" rel="noopener">Ashby custom careers page API</a></li>
+        <li><a href="https://developers.ashbyhq.com/reference/applicationformsubmit" target="_blank" rel="noopener">Ashby application form submit</a></li>
+        <li><a href="https://docs.ashbyhq.com/application-forms" target="_blank" rel="noopener">Ashby application forms</a></li>
+        <li><a href="https://docs.ashbyhq.com/tracking-the-source-of-an-application" target="_blank" rel="noopener">Ashby source tracking</a></li>
+        <li><a href="https://developers.google.com/search/docs/appearance/structured-data/job-posting" target="_blank" rel="noopener">Google JobPosting schema</a></li>
+        <li><a href="https://docs.indeed.com/indeed-apply/xml-feed" target="_blank" rel="noopener">Indeed XML/feed</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/linkedin/talent/job-postings/api/overview" target="_blank" rel="noopener">LinkedIn Job Posting API</a></li>
+        <li><a href="https://www.ziprecruiter.com/partner/documentation/apply-webhook/" target="_blank" rel="noopener">ZipRecruiter Apply Webhook</a></li>
+      </ul>
+    </section>
+  </main>
+</div>
+
+<div class="toast" id="toast">Copied</div>
+
+<script>
+  const questions = [
+    "Can every posted job use our custom apply URL with source parameters?",
+    "Which boards force native apply or hosted apply instead of redirect?",
+    "For native apply, can we collect phone, resume file/URL, location, timezone availability, monthly income, role-specific questions, and intro video URL?",
+    "Can you pass source board and campaign into the application URL or webhook?",
+    "Can you import jobs from a static careers site, XML feed, JSON feed, or manually-created jobs?",
+    "Which of these boards are supported: LinkedIn, Indeed, Google Jobs, ZipRecruiter, Wellfound, Remote OK, We Work Remotely, FlexJobs, JobStreet, Kalibrr, OnlineJobs.ph, Bossjob, Glints, Talent.com?",
+    "Are LinkedIn/Indeed postings organic, sponsored, limited listings, or paid slots?",
+    "What is included under $1K/month for 10-20 active roles and 100-300+ applicants/role?",
+    "Are there usage limits, posting caps, feed eligibility requirements, or moderation risks?",
+    "Can we export candidates/applications to Notion via API, webhook, Zapier/Make, CSV, or candidate export?",
+    "Can we run a live pilot with 2-3 real roles before committing annually?"
+  ];
+
+  const questionList = document.getElementById("questionList");
+  questionList.innerHTML = questions.map((q) => `<li>${q}</li>`).join("");
+
+  function showToast(text) {
+    const toast = document.getElementById("toast");
+    toast.textContent = text;
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), 1400);
+  }
+
+  async function copy(text, label) {
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      const area = document.createElement("textarea");
+      area.value = text;
+      document.body.append(area);
+      area.select();
+      document.execCommand("copy");
+      area.remove();
+    }
+    showToast(label);
+  }
+
+  document.getElementById("copySummary").addEventListener("click", () => {
+    copy([
+      "Recommendation: Start distribution-first.",
+      "Pilot JobTarget or eQuestXpress before replacing the current Care & Bloom application form and Notion intake.",
+      "ATS fallback: JazzHR, Workable, Ashby.",
+      "Prep needed: source/referrer capture, real resume files/URLs, Google Jobs schema, and JSON/XML jobs feed."
+    ].join("\\n"), "Summary copied");
+  });
+
+  document.getElementById("copyQuestions").addEventListener("click", () => {
+    copy(questions.map((q, i) => `${i + 1}. ${q}`).join("\\n"), "Questions copied");
+  });
+</script>
+</body>
+</html>
