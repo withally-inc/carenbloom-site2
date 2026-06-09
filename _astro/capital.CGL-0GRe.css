@@ -921,6 +921,15 @@ input {
   white-space: nowrap;
 }
 
+.stat-counter > span {
+  display: inline;
+  margin-top: 0;
+  max-width: none;
+  color: inherit;
+  font: inherit;
+  line-height: inherit;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
