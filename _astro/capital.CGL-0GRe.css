@@ -1,6 +1,6 @@
 @font-face {
   font-family: "PP Mori";
-  src: url("/fonts/PPMori-Regular.otf") format("opentype");
+  src: url("../fonts/PPMori-Regular.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -8,7 +8,7 @@
 
 @font-face {
   font-family: "PP Mori";
-  src: url("/fonts/PPMori-Semibold.otf") format("opentype");
+  src: url("../fonts/PPMori-Semibold.otf") format("opentype");
   font-weight: 650;
   font-style: normal;
   font-display: swap;
@@ -16,7 +16,7 @@
 
 @font-face {
   font-family: "Space Mono";
-  src: url("/fonts/SpaceMono-Regular.ttf") format("truetype");
+  src: url("../fonts/SpaceMono-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -157,8 +157,8 @@ input {
   width: clamp(8.4rem, 12vw, 12.8rem);
   height: clamp(1.45rem, 2.1vw, 2.25rem);
   background: currentColor;
-  -webkit-mask: url("/images/cb-logo-white.svg") center / contain no-repeat;
-  mask: url("/images/cb-logo-white.svg") center / contain no-repeat;
+  -webkit-mask: url("../images/cb-logo-white.svg") center / contain no-repeat;
+  mask: url("../images/cb-logo-white.svg") center / contain no-repeat;
 }
 
 .mark-sigil {
@@ -883,6 +883,123 @@ input {
   font-weight: 650;
   line-height: 0.9;
   text-transform: uppercase;
+}
+
+.about-hero .page-title {
+  max-width: 13ch;
+}
+
+.about-proof {
+  padding-block: 0 clamp(3rem, 6vw, 6rem);
+}
+
+.about-brands .body-copy {
+  margin-top: 0;
+}
+
+.about-logo-grid,
+.leader-grid,
+.work-model-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: clamp(1.6rem, 3vw, 2.8rem);
+  border: 1px solid var(--line);
+  background: var(--line);
+}
+
+.leader-grid,
+.work-model-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 0;
+}
+
+.about-logo-card {
+  min-height: clamp(7rem, 13vw, 11rem);
+  display: grid;
+  place-items: center;
+  padding: clamp(1.2rem, 3vw, 2.4rem);
+  background: oklch(94% 0.014 82);
+  transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1), background 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.about-logo-card:hover,
+.about-logo-card:focus-visible {
+  background: oklch(88% 0.022 82);
+  outline: none;
+  transform: translateY(-0.12rem);
+}
+
+.about-logo-card img {
+  width: min(100%, 11rem);
+  max-height: 4rem;
+  object-fit: contain;
+}
+
+.about-logo-card.is-casetify img {
+  width: min(100%, 9.5rem);
+}
+
+.about-logo-card.is-peak21 {
+  background: var(--ash-paper);
+}
+
+.about-logo-card.is-peak21:hover,
+.about-logo-card.is-peak21:focus-visible {
+  background: oklch(28% 0.021 282);
+}
+
+.leader-card,
+.work-model-card {
+  min-height: clamp(15rem, 22vw, 20rem);
+  display: grid;
+  align-content: space-between;
+  gap: 1.2rem;
+  padding: clamp(1.2rem, 2.8vw, 2.2rem);
+  background: oklch(94% 0.014 82 / 0.66);
+  color: inherit;
+  transition: background 180ms cubic-bezier(0.22, 1, 0.36, 1), transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.leader-card:hover,
+.leader-card:focus-visible {
+  background: oklch(88% 0.022 82 / 0.74);
+  outline: none;
+  transform: translateY(-0.12rem);
+}
+
+.leader-card small,
+.work-model-card small {
+  color: var(--accent, var(--lab-cobalt));
+  font-family: "Space Mono", ui-monospace, monospace;
+  font-size: 0.72rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.leader-card h3,
+.work-model-card h3 {
+  margin: 0;
+  color: var(--ash-paper);
+  font-size: clamp(1.8rem, 3.3vw, 3.4rem);
+  line-height: 0.94;
+  text-transform: uppercase;
+}
+
+.leader-card p,
+.work-model-card p {
+  margin: 0;
+  color: var(--ash-paper-dim);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.value-list .evidence-row {
+  grid-template-columns: 4rem minmax(10rem, 0.42fr) minmax(0, 1fr);
+}
+
+.work-model-card {
+  min-height: clamp(12rem, 17vw, 16rem);
 }
 
 .capital-classic {
@@ -1818,6 +1935,9 @@ body.is-application-visible .role-close-apply {
 
   .mission-brand-directory > li,
   .mission-brand,
+  .about-logo-grid,
+  .leader-grid,
+  .work-model-grid,
   .talent-post,
   .talent-form,
   .role-hero,
@@ -1853,6 +1973,10 @@ body.is-application-visible .role-close-apply {
 
   .capital-rows p {
     grid-column: 2;
+  }
+
+  .value-list .evidence-row {
+    grid-template-columns: 3rem 1fr;
   }
 }
 
@@ -1918,6 +2042,9 @@ body.is-application-visible .role-close-apply {
   .proof-strip,
   .media-grid,
   .category-board,
+  .about-logo-grid,
+  .leader-grid,
+  .work-model-grid,
   .site-footer {
     grid-template-columns: 1fr;
   }
@@ -1951,5 +2078,10 @@ body.is-application-visible .role-close-apply {
 
   .evidence-row p {
     grid-column: auto;
+  }
+
+  .leader-card,
+  .work-model-card {
+    min-height: auto;
   }
 }
