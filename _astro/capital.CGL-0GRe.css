@@ -919,11 +919,6 @@ input {
   white-space: nowrap;
 }
 
-.about-proof .stat-counter {
-  font-size: clamp(3.65rem, 7.2vw, 5.9rem);
-  line-height: 0.86;
-}
-
 .stat-counter > span {
   display: inline;
   margin-top: 0;
@@ -2222,10 +2217,6 @@ body.is-application-visible .role-close-apply {
 
   .evidence-row p {
     grid-column: auto;
-  }
-
-  .about-proof .stat-counter {
-    font-size: clamp(4.2rem, 17vw, 5.2rem);
   }
 
   .value-list .evidence-row {
