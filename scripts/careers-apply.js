@@ -29,6 +29,20 @@
   const introVideoLabel = document.querySelector("[data-intro-video-label]");
   if (introVideoInput) introVideoInput.required = !!role.introVideoRequired;
   if (introVideoLabel) introVideoLabel.textContent = role.introVideoRequired ? "Intro video*" : "Intro video (optional)";
+  const introVideoSmall = introVideoInput ? introVideoInput.closest("label")?.querySelector("small") : null;
+  if (introVideoSmall && role.loomPrompt) introVideoSmall.textContent = role.loomPrompt;
+
+  const attachmentInput = document.querySelector('input[name="additional_attachment"]');
+  const attachmentLabel = attachmentInput ? attachmentInput.closest("label")?.querySelector("span") : null;
+  if (attachmentInput && role.portfolioRequired) {
+    attachmentInput.required = true;
+    if (attachmentLabel) attachmentLabel.textContent = role.portfolioLabel || "Portfolio / Work Samples*";
+  } else if (attachmentLabel) {
+    attachmentLabel.textContent = "Additional attachment (optional) \u2014 resume addendum, case study, or any supporting work";
+  }
+
+  const locationTag = document.querySelector(".role-hero .eyebrow");
+  if (locationTag && role.locationType) locationTag.textContent = role.locationType;
   document.querySelectorAll(".application-tooltip").forEach((tooltip) => {
     const row = tooltip.closest(".application-label-row");
     if (!row) return;
@@ -132,12 +146,12 @@
       const label = document.createElement("label");
       label.className = "application-form-wide";
       const span = document.createElement("span");
-      span.textContent = `Role-specific question ${index + 1}`;
+      span.textContent = question;
       const textarea = document.createElement("textarea");
       textarea.name = `role_question_${index + 1}`;
       textarea.rows = 4;
       textarea.required = true;
-      textarea.placeholder = question;
+      textarea.placeholder = "Your answer";
       label.append(span, textarea);
       return label;
     }));

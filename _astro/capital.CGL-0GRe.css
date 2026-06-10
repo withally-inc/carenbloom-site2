@@ -527,7 +527,7 @@ input {
   margin: 0.65rem 0 0;
   max-width: 11ch;
   color: var(--ash-paper);
-  font-size: clamp(3.8rem, 8.6vw, 8.8rem);
+  font-size: clamp(3.2rem, 7.2vw, 7.5rem);
   font-weight: 650;
   line-height: 0.86;
   text-transform: uppercase;
@@ -1658,7 +1658,7 @@ body.is-application-visible .role-close-apply {
 .role-copy h3,
 .application-form h2 {
   margin-top: clamp(1.5rem, 3vw, 2.5rem);
-  font-size: clamp(1.45rem, 2vw, 2.1rem);
+  font-size: clamp(1.65rem, 2.3vw, 2.3rem);
 }
 
 .role-copy p {
