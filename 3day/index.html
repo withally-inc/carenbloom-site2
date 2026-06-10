@@ -465,6 +465,15 @@
         color: var(--paper-dim);
       }
 
+      .mode-tiles {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        margin-top: 28px;
+      }
+
+      .mode-tiles .tile {
+        min-height: 170px;
+      }
+
       .formula {
         border: 1px solid var(--line-strong);
         padding: clamp(20px, 3vw, 34px);
@@ -620,7 +629,8 @@
 
         .tiles,
         .agenda,
-        .rules {
+        .rules,
+        .mode-tiles {
           grid-template-columns: 1fr;
         }
       }
@@ -672,7 +682,7 @@
             <div class="kicker" aria-label="Event facts">
               <span>Hong Kong</span>
               <span>June 19-21</span>
-              <span>10AM-6PM</span>
+              <span>10AM-6PM HKT</span>
               <span>Invite only</span>
             </div>
             <h1 id="page-title">
@@ -709,7 +719,7 @@
               </div>
               <div class="meta">
                 <small>Daily</small>
-                <strong>10AM to 6PM</strong>
+                <strong>10AM to 6PM HKT</strong>
               </div>
               <div class="meta">
                 <small>Standard</small>
@@ -780,6 +790,18 @@
                   <span>Target return on ad spend</span>
                 </div>
               </div>
+              <div class="tiles mode-tiles" aria-label="Sprint team model">
+                <article class="tile">
+                  <small>Core team</small>
+                  <strong>Hong Kong room.</strong>
+                  <p>The in-person group works from The Studio, sharing context fast and unblocking each other around the commercial target.</p>
+                </article>
+                <article class="tile">
+                  <small>Remote mode</small>
+                  <strong>Satellite support.</strong>
+                  <p>Remote editors, funnel/page builders, and other support can plug in around the sprint so execution is not limited to the room.</p>
+                </article>
+              </div>
             </div>
           </div>
         </section>
@@ -800,12 +822,12 @@
               <article class="tile">
                 <small>Dates</small>
                 <strong>June 19-21.</strong>
-                <p>Three focused days. 10AM to 6PM daily.</p>
+                <p>Three focused days. 10AM to 6PM HKT daily.</p>
               </article>
               <article class="tile">
                 <small>Format</small>
                 <strong>Focused sprint, not conference.</strong>
-                <p>Work blocks, insights from speakers, meetings, satellite support, and final commercial progress shareout.</p>
+                <p>Work blocks, insights from speakers, meetings, remote satellite support, and final commercial progress shareout.</p>
               </article>
             </div>
           </div>
