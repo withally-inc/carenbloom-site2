@@ -491,8 +491,8 @@
       .day h3 {
         margin: 0 0 18px;
         font-family: var(--font-display);
-        font-size: clamp(2rem, 4vw, 4.3rem);
-        line-height: 0.9;
+        font-size: clamp(2rem, 2.55vw, 3rem);
+        line-height: 0.92;
         text-transform: uppercase;
         font-weight: 650;
       }
@@ -530,6 +530,42 @@
         background:
           linear-gradient(135deg, oklch(58% 0.17 257 / 0.14), transparent 42%),
           var(--ink-soft);
+      }
+
+      .rules {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1px;
+        background: var(--line);
+        border: 1px solid var(--line);
+      }
+
+      .rule {
+        min-height: 190px;
+        padding: 20px;
+        background: var(--ink);
+      }
+
+      .rule small {
+        display: block;
+        margin-bottom: 22px;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--paper-dim);
+        text-transform: uppercase;
+      }
+
+      .rule strong {
+        display: block;
+        font-size: clamp(1.22rem, 1.8vw, 2rem);
+        line-height: 0.96;
+        text-transform: uppercase;
+      }
+
+      .rule p {
+        margin: 16px 0 0;
+        color: var(--paper-dim);
+        line-height: 1.48;
       }
 
       .prep h3 {
@@ -570,7 +606,8 @@
         }
 
         .tiles,
-        .agenda {
+        .agenda,
+        .rules {
           grid-template-columns: 1fr;
         }
       }
@@ -799,6 +836,47 @@
                   </ul>
                 </article>
               </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="rules">
+          <div class="section-grid">
+            <div>
+              <p class="section-label">[06] Rules / Vibes</p>
+              <h2>Rules / vibes.</h2>
+            </div>
+            <div class="rules">
+              <article class="rule">
+                <small>01 / Number</small>
+                <strong>Come with a number.</strong>
+                <p>“I plan to hit revenue of $X/day at Y ROAS.”</p>
+              </article>
+              <article class="rule">
+                <small>02 / Mindset</small>
+                <strong>No casual trying.</strong>
+                <p>Ask what has to be true for this to work. Then go after that seriously.</p>
+              </article>
+              <article class="rule">
+                <small>03 / Prep</small>
+                <strong>Prep before matters.</strong>
+                <p>At least 1 call before, probably 2, to get clear on goals, blockers, and support needed.</p>
+              </article>
+              <article class="rule">
+                <small>04 / Focus</small>
+                <strong>Focus during the sprint.</strong>
+                <p>The 3 days are for actual sprinting: deep work, quick unblockers, useful sharing.</p>
+              </article>
+              <article class="rule">
+                <small>05 / Share</small>
+                <strong>Share what you know.</strong>
+                <p>Bring insight from ads, offer, funnel, creative, sales, ops, retention, or whatever you are strong at.</p>
+              </article>
+              <article class="rule">
+                <small>06 / Support</small>
+                <strong>Set up support beforehand.</strong>
+                <p>We can help line up editors, funnel/page help, or remote support. You should also set up your own support where needed.</p>
+              </article>
             </div>
           </div>
         </section>
