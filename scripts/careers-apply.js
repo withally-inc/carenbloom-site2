@@ -167,9 +167,25 @@
     status.dataset.state = state || "";
   };
 
-  const fileName = (field) => {
+  const uploadEndpoint = window.CB_UPLOAD_ENDPOINT || "/api/upload";
+
+  const uploadFile = async (field, folder) => {
     const input = form.querySelector(`[name="${field}"]`);
-    return input && input.files && input.files[0] ? input.files[0].name : "";
+    if (!input || !input.files || !input.files[0]) return "";
+    const file = input.files[0];
+    const reader = new FileReader();
+    const base64 = await new Promise((resolve) => {
+      reader.onload = () => resolve(reader.result.split(",")[1]);
+      reader.readAsDataURL(file);
+    });
+    const response = await fetch(uploadEndpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ fileName: file.name, fileData: base64, mimeType: file.type, folder }),
+    });
+    const result = await response.json();
+    if (!response.ok || !result.success) throw new Error(result.error || "File upload failed.");
+    return result.url;
   };
 
   const collectQuestions = () => [...form.querySelectorAll("[data-role-questions] textarea")].slice(0, 3).map((textarea) => ({
@@ -183,6 +199,21 @@
       if (!form.reportValidity()) return;
 
       const data = new FormData(form);
+
+      setStatus("Uploading files...", "loading");
+      if (submitButton) submitButton.disabled = true;
+
+      let resumeUrl = "";
+      let attachmentUrl = "";
+      try {
+        resumeUrl = await uploadFile("resume", role.slug);
+        attachmentUrl = await uploadFile("additional_attachment", role.slug);
+      } catch (uploadError) {
+        setStatus(uploadError.message || "File upload failed.", "error");
+        if (submitButton) submitButton.disabled = false;
+        return;
+      }
+
       const payload = {
         role: role.title,
         roleSlug: role.slug,
@@ -193,10 +224,10 @@
         phoneCountryCode: data.get("phone_country_code"),
         phoneNumber: data.get("phone_number"),
         linkedIn: data.get("linkedin"),
-        resume: fileName("resume"),
+        resume: resumeUrl,
         introVideoUrl: data.get("intro_video_url"),
         introVideoRequired: !!role.introVideoRequired,
-        additionalAttachment: fileName("additional_attachment"),
+        additionalAttachment: attachmentUrl,
         monthlyIncomeUsd: data.get("monthly_income_usd"),
         timeZones: data.getAll("open_time_zone"),
         location: data.get("location"),
@@ -207,7 +238,6 @@
       };
 
       setStatus("Submitting application...", "loading");
-      if (submitButton) submitButton.disabled = true;
 
       try {
         const response = await fetch(endpoint, {
