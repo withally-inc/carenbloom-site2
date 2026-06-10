@@ -1,5 +1,6 @@
 import { buildApplicationPayload, clean, safeUrl } from "./lib/application-payload.js";
-import { createPage } from "./lib/notion-client.js";
+import { createPage, uploadFile } from "./lib/notion-client.js";
+import { Readable } from "node:stream";
 
 const DEFAULT_DATABASE_ID = "3792b7ec4597800fab56f5a61ff00187";
 const ALLOWED_TIME_ZONES = new Set(["US", "Europe", "Asia"]);
@@ -18,6 +19,34 @@ function sendJson(res, status, payload) {
 }
 
 async function readPayload(req) {
+  const contentType = req.headers?.["content-type"] || req.headers?.["Content-Type"] || "";
+  if (req.body instanceof FormData) {
+    const payload = JSON.parse(String(req.body.get("payload") || "{}"));
+    return {
+      payload,
+      files: {
+        resume: req.body.get("resume"),
+        additionalAttachment: req.body.get("additional_attachment"),
+      },
+    };
+  }
+  if (contentType.includes("multipart/form-data")) {
+    const request = new Request("http://localhost/api/applications", {
+      method: "POST",
+      headers: { "content-type": contentType },
+      body: Readable.toWeb(req),
+      duplex: "half",
+    });
+    const formData = await request.formData();
+    const payload = JSON.parse(String(formData.get("payload") || "{}"));
+    return {
+      payload,
+      files: {
+        resume: formData.get("resume"),
+        additionalAttachment: formData.get("additional_attachment"),
+      },
+    };
+  }
   if (req.body && typeof req.body === "object" && !Buffer.isBuffer(req.body)) return req.body;
   if (typeof req.body === "string") return req.body.trim() ? JSON.parse(req.body) : {};
   if (Buffer.isBuffer(req.body)) {
@@ -28,6 +57,10 @@ async function readPayload(req) {
   for await (const chunk of req) chunks.push(chunk);
   const raw = Buffer.concat(chunks).toString("utf8");
   return raw.trim() ? JSON.parse(raw) : {};
+}
+
+function isUploadFile(file) {
+  return file && typeof file.arrayBuffer === "function" && file.size > 0 && clean(file.name);
 }
 
 function emailIsValid(email) {
@@ -97,7 +130,9 @@ export default async function handler(req, res) {
 
   let payload;
   try {
-    payload = await readPayload(req);
+    const submission = await readPayload(req);
+    payload = submission.payload || submission;
+    payload.files = submission.files || {};
   } catch {
     sendJson(res, 400, { success: false, error: "Invalid JSON payload." });
     return;
@@ -111,15 +146,16 @@ export default async function handler(req, res) {
 
   const applicationRef = clean(payload.applicationRef) || undefined;
   const databaseId = clean(process.env.NOTION_CB_TALENTS_DB_ID) || DEFAULT_DATABASE_ID;
-  const notionPayload = buildApplicationPayload(databaseId, {
+  const baseNotionPayload = {
     ...payload,
     phone: `${clean(payload.phoneCountryCode)} ${clean(payload.phoneNumber)}`,
     timeZones: normalizeTimeZones(payload),
     introVideoRequired: introVideoIsRequired(payload),
     applicationRef,
-  });
+  };
 
   if (process.env.NOTION_INTAKE_DRY_RUN === "1") {
+    const notionPayload = buildApplicationPayload(databaseId, baseNotionPayload);
     sendJson(res, 200, { success: true, ref: notionPayload.applicationRef, dryRun: true });
     return;
   }
@@ -131,6 +167,13 @@ export default async function handler(req, res) {
   }
 
   try {
+    const resumeUpload = isUploadFile(payload.files.resume) ? await uploadFile(token, payload.files.resume) : null;
+    const additionalAttachmentUpload = isUploadFile(payload.files.additionalAttachment) ? await uploadFile(token, payload.files.additionalAttachment) : null;
+    const notionPayload = buildApplicationPayload(databaseId, {
+      ...baseNotionPayload,
+      resumeUpload,
+      additionalAttachmentUpload,
+    });
     const { applicationRef: ref, ...pagePayload } = notionPayload;
     const page = await createPage(token, pagePayload);
     sendJson(res, 200, { success: true, ref: notionPayload.applicationRef, notionPageId: page.id });

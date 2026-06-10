@@ -14,6 +14,18 @@ export function richText(value) {
   return content ? [{ type: "text", text: { content } }] : [];
 }
 
+export function fileUploadProperty(upload) {
+  if (!upload || !clean(upload.id)) return { files: [] };
+  const name = clean(upload.name) || clean(upload.filename) || "Attachment";
+  return {
+    files: [{
+      name,
+      type: "file_upload",
+      file_upload: { id: clean(upload.id) },
+    }],
+  };
+}
+
 export function safeUrl(value) {
   const text = clean(value);
   if (!text) return null;
@@ -101,8 +113,8 @@ export function buildApplicationPayload(databaseId, payload) {
     "Monthly Income": { number: Number.isFinite(monthlyIncome) ? monthlyIncome : null },
     "Applied At": { date: { start: submittedAt } },
     "Application Ref": { rich_text: richText(applicationRef) },
-    Resume: { rich_text: richText(payload.resume) },
-    "Additional Attachment": { rich_text: richText(payload.additionalAttachment) },
+    Resume: fileUploadProperty(payload.resumeUpload),
+    "Additional Attachment": fileUploadProperty(payload.additionalAttachmentUpload),
   };
 
   if (linkedIn) properties.LinkedIn = { url: linkedIn };

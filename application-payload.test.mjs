@@ -10,8 +10,10 @@ const payload = buildApplicationPayload("db-id", {
   phone: "+1 5551234567",
   linkedIn: "https://linkedin.com/in/ada",
   resume: "ada-resume.pdf",
+  resumeUpload: { id: "resume-upload-id", name: "ada-resume.pdf" },
   introVideoUrl: "https://www.loom.com/share/abc123",
   additionalAttachment: "ada-case-study.pdf",
+  additionalAttachmentUpload: { id: "attachment-upload-id", name: "ada-case-study.pdf" },
   monthlyIncomeUsd: "12000",
   timeZones: ["US", "Europe"],
   location: "New York, NY",
@@ -35,7 +37,10 @@ assert.equal(payload.properties["Question 1"].rich_text[0].text.content, "Prompt
 assert.equal(payload.properties["Answer 1"].rich_text[0].text.content, "Answer one.");
 assert.equal(payload.properties["Monthly Income"].number, 12000);
 assert.deepEqual(payload.properties["Time Zone"].multi_select.map((item) => item.name), ["US", "Europe"]);
-assert.equal(payload.properties.Resume.rich_text[0].text.content, "ada-resume.pdf");
+assert.equal(payload.properties.Resume.files[0].name, "ada-resume.pdf");
+assert.equal(payload.properties.Resume.files[0].type, "file_upload");
+assert.equal(payload.properties.Resume.files[0].file_upload.id, "resume-upload-id");
+assert.equal(payload.properties["Additional Attachment"].files[0].file_upload.id, "attachment-upload-id");
 assert.equal(payload.applicationRef, "CB-TEST");
 assert.ok(payload.children.some((block) => JSON.stringify(block).includes("Application Answers")));
 

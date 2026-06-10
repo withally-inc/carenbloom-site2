@@ -38,6 +38,15 @@ function makeReq(body, method = "POST") {
   return req;
 }
 
+function makeMultipartReq(formData, method = "POST") {
+  const req = new EventEmitter();
+  req.method = method;
+  req.headers = {};
+  req.body = formData;
+  req[Symbol.asyncIterator] = async function* () {};
+  return req;
+}
+
 function makeRes() {
   return {
     statusCode: 200,
@@ -60,6 +69,21 @@ async function runHandler(body, env = {}, fetchImpl = async () => ({ ok: true, t
   const res = makeRes();
   try {
     await handler(makeReq(body), res);
+    return { res, json: JSON.parse(res.body) };
+  } finally {
+    process.env = oldEnv;
+    global.fetch = oldFetch;
+  }
+}
+
+async function runMultipartHandler(formData, env = {}, fetchImpl = async () => ({ ok: true, text: async () => "{}" })) {
+  const oldEnv = { ...process.env };
+  const oldFetch = global.fetch;
+  process.env = { ...oldEnv, ...env };
+  global.fetch = fetchImpl;
+  const res = makeRes();
+  try {
+    await handler(makeMultipartReq(formData), res);
     return { res, json: JSON.parse(res.body) };
   } finally {
     process.env = oldEnv;
@@ -104,6 +128,37 @@ assert.equal(_private.validatePayload(samplePayload({ questions: [{ question: "O
   assert.deepEqual(calls[0].body.properties["Time Zone"].multi_select.map((item) => item.name), ["US"]);
   assert.equal(calls[0].body.properties["Question 1"].rich_text[0].text.content, "Prompt one?");
   assert.equal(calls[0].body.properties["Answer 1"].rich_text[0].text.content, "Answer one.");
+}
+
+{
+  const calls = [];
+  const formData = new FormData();
+  formData.append("payload", JSON.stringify(samplePayload({ applicationRef: "CB-FILES" })));
+  formData.append("resume", new File(["resume bytes"], "ada-resume.pdf", { type: "application/pdf" }));
+  formData.append("additional_attachment", new File(["case study"], "ada-case-study.pdf", { type: "application/pdf" }));
+  const { res, json } = await runMultipartHandler(
+    formData,
+    { NOTION_KEY: "secret_test", NOTION_CB_TALENTS_DB_ID: "target-db" },
+    async (url, options) => {
+      calls.push({ url, options, body: options.body instanceof FormData ? options.body : options.body ? JSON.parse(options.body) : null });
+      if (url.endsWith("/file_uploads")) {
+        const index = calls.filter((call) => call.url.endsWith("/file_uploads")).length;
+        return { ok: true, text: async () => JSON.stringify({ id: `upload-${index}`, upload_url: `https://api.notion.com/v1/file_uploads/upload-${index}/send`, status: "pending" }) };
+      }
+      if (url.includes("/file_uploads/") && url.endsWith("/send")) {
+        return { ok: true, text: async () => JSON.stringify({ status: "uploaded" }) };
+      }
+      return { ok: true, text: async () => JSON.stringify({ id: "notion-page-id" }) };
+    }
+  );
+  assert.equal(res.statusCode, 200);
+  assert.equal(json.success, true);
+  assert.equal(calls.filter((call) => call.url.endsWith("/file_uploads")).length, 2);
+  assert.equal(calls.filter((call) => call.url.includes("/file_uploads/") && call.url.endsWith("/send")).length, 2);
+  const pageCall = calls.at(-1);
+  assert.equal(pageCall.body.properties.Resume.files[0].type, "file_upload");
+  assert.equal(pageCall.body.properties.Resume.files[0].file_upload.id, "upload-1");
+  assert.equal(pageCall.body.properties["Additional Attachment"].files[0].file_upload.id, "upload-2");
 }
 
 console.log("applications api test passed");

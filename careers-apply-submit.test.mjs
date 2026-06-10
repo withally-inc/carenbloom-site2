@@ -5,10 +5,15 @@ import { chromium } from "playwright";
 const browser = await chromium.launch({ headless: true });
 const page = await browser.newPage({ viewport: { width: 1282, height: 964 } });
 let capturedPayload = null;
+let capturedContentType = null;
+let capturedPostBody = null;
 
 await writeFile("/tmp/cb-resume.pdf", "resume");
 await page.route("**/api/applications", async (route) => {
-  capturedPayload = JSON.parse(route.request().postData());
+  capturedContentType = route.request().headers()["content-type"];
+  capturedPostBody = route.request().postData() || "";
+  const payloadMatch = capturedPostBody.match(/name="payload"\r\n\r\n([\s\S]*?)\r\n------/);
+  capturedPayload = payloadMatch ? JSON.parse(payloadMatch[1]) : JSON.parse(capturedPostBody);
   await route.fulfill({
     status: 200,
     contentType: "application/json",
@@ -36,6 +41,8 @@ await page.locator('.application-form button[type="submit"]').click();
 await page.getByText("Application received. Reference: CB-PLAYWRIGHT.").waitFor();
 
 assert.equal(capturedPayload.role, "Chief of Staff");
+assert.match(capturedContentType, /^multipart\/form-data; boundary=/);
+assert.match(capturedPostBody, /name="resume"; filename="cb-resume\.pdf"/);
 assert.equal(capturedPayload.roleSlug, "chief-of-staff");
 assert.equal(capturedPayload.firstName, "Ada");
 assert.equal(capturedPayload.resume, "cb-resume.pdf");

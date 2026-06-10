@@ -167,27 +167,6 @@
     status.dataset.state = state || "";
   };
 
-  const uploadEndpoint = window.CB_UPLOAD_ENDPOINT || "/api/upload";
-
-  const uploadFile = async (field, folder) => {
-    const input = form.querySelector(`[name="${field}"]`);
-    if (!input || !input.files || !input.files[0]) return "";
-    const file = input.files[0];
-    const reader = new FileReader();
-    const base64 = await new Promise((resolve) => {
-      reader.onload = () => resolve(reader.result.split(",")[1]);
-      reader.readAsDataURL(file);
-    });
-    const response = await fetch(uploadEndpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ fileName: file.name, fileData: base64, mimeType: file.type, folder }),
-    });
-    const result = await response.json();
-    if (!response.ok || !result.success) throw new Error(result.error || "File upload failed.");
-    return result.url;
-  };
-
   const collectQuestions = () => [...form.querySelectorAll("[data-role-questions] textarea")].slice(0, 3).map((textarea) => ({
     question: textarea.closest("label")?.querySelector("span")?.textContent || textarea.placeholder || "",
     answer: textarea.value,
@@ -199,21 +178,8 @@
       if (!form.reportValidity()) return;
 
       const data = new FormData(form);
-
-      setStatus("Uploading files...", "loading");
-      if (submitButton) submitButton.disabled = true;
-
-      let resumeUrl = "";
-      let attachmentUrl = "";
-      try {
-        resumeUrl = await uploadFile("resume", role.slug);
-        attachmentUrl = await uploadFile("additional_attachment", role.slug);
-      } catch (uploadError) {
-        setStatus(uploadError.message || "File upload failed.", "error");
-        if (submitButton) submitButton.disabled = false;
-        return;
-      }
-
+      const resumeFile = data.get("resume");
+      const additionalAttachmentFile = data.get("additional_attachment");
       const payload = {
         role: role.title,
         roleSlug: role.slug,
@@ -224,10 +190,10 @@
         phoneCountryCode: data.get("phone_country_code"),
         phoneNumber: data.get("phone_number"),
         linkedIn: data.get("linkedin"),
-        resume: resumeUrl,
+        resume: resumeFile instanceof File && resumeFile.size > 0 ? resumeFile.name : "",
         introVideoUrl: data.get("intro_video_url"),
         introVideoRequired: !!role.introVideoRequired,
-        additionalAttachment: attachmentUrl,
+        additionalAttachment: additionalAttachmentFile instanceof File && additionalAttachmentFile.size > 0 ? additionalAttachmentFile.name : "",
         monthlyIncomeUsd: data.get("monthly_income_usd"),
         timeZones: data.getAll("open_time_zone"),
         location: data.get("location"),
@@ -240,10 +206,14 @@
       setStatus("Submitting application...", "loading");
 
       try {
+        const body = new FormData();
+        body.append("payload", JSON.stringify(payload));
+        if (resumeFile instanceof File && resumeFile.size > 0) body.append("resume", resumeFile);
+        if (additionalAttachmentFile instanceof File && additionalAttachmentFile.size > 0) body.append("additional_attachment", additionalAttachmentFile);
+
         const response = await fetch(endpoint, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
+          body,
         });
         const result = await response.json().catch(() => ({}));
         if (!response.ok || !result.success) throw new Error(result.error || "Submission failed.");
