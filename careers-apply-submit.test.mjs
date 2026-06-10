@@ -40,13 +40,13 @@ assert.equal(capturedPayload.roleSlug, "chief-of-staff");
 assert.equal(capturedPayload.firstName, "Ada");
 assert.equal(capturedPayload.resume, "cb-resume.pdf");
 assert.equal(capturedPayload.introVideoUrl, "https://www.loom.com/share/abc123");
-assert.equal(capturedPayload.introVideoRequired, false);
+assert.equal(capturedPayload.introVideoRequired, true);
 assert.equal(capturedPayload.monthlyIncomeUsd, "12000");
 assert.deepEqual(capturedPayload.timeZones, ["US", "Europe"]);
 assert.equal(capturedPayload.location, "United States");
 assert.equal(capturedPayload.questions.length, 3);
 assert.equal(capturedPayload.questions[0].answer, "Answer one.");
-assert.match(capturedPayload.questions[0].question, /messy cross-functional project/);
+assert.match(capturedPayload.questions[0].question, /complex cross-functional initiative/);
 
 await page.goto("http://localhost:49279/talents/apply/?role=video-editor", { waitUntil: "networkidle" });
 await page.locator('[name="intro_video_url"]').evaluate((input) => {

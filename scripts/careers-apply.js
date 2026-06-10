@@ -173,7 +173,7 @@
   };
 
   const collectQuestions = () => [...form.querySelectorAll("[data-role-questions] textarea")].slice(0, 3).map((textarea) => ({
-    question: textarea.placeholder || textarea.closest("label")?.querySelector("span")?.textContent || "",
+    question: textarea.closest("label")?.querySelector("span")?.textContent || textarea.placeholder || "",
     answer: textarea.value,
   }));
 

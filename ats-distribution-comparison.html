@@ -1,0 +1,1015 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ATS / Job Distribution Research - Care & Bloom</title>
+  <style>
+    :root {
+      --ink: #171923;
+      --muted: #61677a;
+      --line: #d9dde8;
+      --paper: #f7f4ef;
+      --panel: #ffffff;
+      --green: #0f7a55;
+      --teal: #147a88;
+      --blue: #3157a8;
+      --rose: #b43c62;
+      --amber: #9b6814;
+      --gray: #737987;
+      --shadow: 0 18px 45px rgba(30, 28, 24, 0.09);
+      --radius: 8px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.68), rgba(247,244,239,0.96)),
+        var(--paper);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+
+    a { color: inherit; }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    .shell {
+      width: min(1180px, calc(100vw - 32px));
+      margin: 0 auto;
+    }
+
+    .top {
+      padding: 28px 0 18px;
+      border-bottom: 1px solid rgba(23,25,35,0.14);
+      background: rgba(247,244,239,0.92);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+    }
+
+    .top-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: end;
+    }
+
+    .eyebrow {
+      color: var(--teal);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin: 0 0 8px;
+    }
+
+    h1 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(32px, 5vw, 58px);
+      font-weight: 500;
+      line-height: 0.95;
+      margin: 0;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 15px;
+      max-width: 760px;
+      margin: 14px 0 0;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .btn {
+      border: 1px solid var(--ink);
+      background: var(--ink);
+      color: #fff;
+      min-height: 40px;
+      padding: 0 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 750;
+      cursor: pointer;
+    }
+
+    .btn.secondary {
+      background: transparent;
+      color: var(--ink);
+    }
+
+    .btn:hover,
+    .btn:focus-visible {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(23,25,35,0.12);
+    }
+
+    main {
+      padding: 26px 0 56px;
+    }
+
+    .scan-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .panel {
+      background: rgba(255,255,255,0.86);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+
+    .panel h2,
+    .section-title {
+      margin: 0 0 12px;
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+
+    .recommendation {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .path-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 14px;
+      background: #fff;
+      min-height: 150px;
+    }
+
+    .path-card strong {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .path-card p {
+      color: var(--muted);
+      font-size: 13px;
+      margin: 0;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .kpi {
+      border-left: 4px solid var(--blue);
+      background: #fff;
+      padding: 12px;
+      border-radius: 6px;
+      min-height: 88px;
+    }
+
+    .kpi b {
+      display: block;
+      font-size: 20px;
+      line-height: 1.1;
+    }
+
+    .kpi span {
+      color: var(--muted);
+      display: block;
+      font-size: 12px;
+      margin-top: 6px;
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 8px;
+      margin: 22px 0 14px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+
+    .tab {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.8);
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 9px 13px;
+      font-size: 13px;
+      font-weight: 760;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .tab.active {
+      background: var(--ink);
+      color: #fff;
+      border-color: var(--ink);
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    .filters {
+      display: grid;
+      grid-template-columns: 1fr 180px 180px;
+      gap: 10px;
+      margin: 0 0 14px;
+    }
+
+    .filters input,
+    .filters select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      min-height: 42px;
+      padding: 0 12px;
+      background: #fff;
+      color: var(--ink);
+    }
+
+    .vendor-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .vendor-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px;
+      display: grid;
+      gap: 12px;
+      min-height: 250px;
+    }
+
+    .vendor-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      gap: 12px;
+    }
+
+    .vendor-name {
+      margin: 0;
+      font-size: 19px;
+    }
+
+    .rank {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 32px;
+      border-radius: 6px;
+      background: #eef2ff;
+      color: var(--blue);
+      font-weight: 850;
+      flex: 0 0 auto;
+    }
+
+    .tag-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 0 8px;
+      border-radius: 999px;
+      background: #f0f2f5;
+      color: #424858;
+      font-size: 12px;
+      font-weight: 720;
+    }
+
+    .tag.strong { background: #ddf3ea; color: var(--green); }
+    .tag.medium { background: #edf3ff; color: var(--blue); }
+    .tag.low { background: #f3f4f6; color: var(--gray); }
+    .tag.warn { background: #fff0d2; color: var(--amber); }
+    .tag.bad { background: #ffe5ec; color: var(--rose); }
+
+    .vendor-card p,
+    .small {
+      color: var(--muted);
+      font-size: 13px;
+      margin: 0;
+    }
+
+    .vendor-card ul,
+    .list {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .cols {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .mini-panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 14px;
+      background: #fff;
+    }
+
+    .mini-panel h3 {
+      margin: 0 0 8px;
+      font-size: 15px;
+    }
+
+    .board-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .board-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 14px;
+      min-height: 180px;
+    }
+
+    .board-card h3 {
+      margin: 0 0 8px;
+      font-size: 16px;
+    }
+
+    .status {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: 11px;
+      font-weight: 820;
+      margin-bottom: 10px;
+    }
+
+    .status.open { background: #fff0d2; color: var(--amber); }
+    .status.chosen { background: #ddf3ea; color: var(--green); }
+    .status.rejected { background: #ffe5ec; color: var(--rose); }
+    .status.neutral { background: #edf3ff; color: var(--blue); }
+
+    .checklist {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .step {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 14px;
+    }
+
+    .step-num {
+      width: 30px;
+      height: 30px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      background: var(--ink);
+      color: #fff;
+      font-weight: 850;
+      margin-bottom: 12px;
+    }
+
+    .questions {
+      columns: 2;
+      column-gap: 28px;
+      margin: 0;
+      padding-left: 22px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .questions li {
+      break-inside: avoid;
+      margin-bottom: 10px;
+    }
+
+    .source-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .source-grid a {
+      display: block;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 10px 12px;
+      color: var(--blue);
+      text-decoration: none;
+      font-size: 13px;
+      overflow-wrap: anywhere;
+    }
+
+    .source-grid a:hover,
+    .source-grid a:focus-visible {
+      text-decoration: underline;
+    }
+
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      background: var(--ink);
+      color: #fff;
+      border-radius: 6px;
+      padding: 10px 12px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(8px);
+      transition: opacity 180ms ease, transform 180ms ease;
+      z-index: 50;
+      font-size: 13px;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 900px) {
+      .top-grid,
+      .scan-grid,
+      .recommendation,
+      .vendor-grid,
+      .cols,
+      .board-grid,
+      .checklist,
+      .source-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .actions { justify-content: flex-start; }
+      .filters { grid-template-columns: 1fr; }
+      .questions { columns: 1; }
+      .top { position: static; }
+    }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="shell top-grid">
+      <div>
+        <p class="eyebrow">Care & Bloom recruiting research</p>
+        <h1>ATS vs Job Distribution</h1>
+        <p class="subtitle">A readable decision surface for choosing whether to buy a multiposter, use an ATS, or automate parts of job-board distribution ourselves.</p>
+      </div>
+      <div class="actions">
+        <button class="btn" id="copySummary">Copy summary</button>
+        <button class="btn secondary" id="copyQuestions">Copy demo questions</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="scan-grid" aria-label="Decision summary">
+      <div class="panel">
+        <p class="eyebrow">Recommendation</p>
+        <h2>Start distribution-first. Do not replace the ATS workflow yet.</h2>
+        <div class="recommendation">
+          <article class="path-card">
+            <strong>1. Pilot JobTarget or eQuestXpress</strong>
+            <p>Best fit for the real pain: one post to many boards while keeping Care & Bloom's application form and Notion intake.</p>
+          </article>
+          <article class="path-card">
+            <strong>2. Prepare the current site</strong>
+            <p>Add source tracking, real resume file/URL handling, Google Jobs schema, and a JSON/XML jobs feed.</p>
+          </article>
+          <article class="path-card">
+            <strong>3. Compare ATS only as fallback</strong>
+            <p>Use JazzHR, Workable, and Ashby if the multiposters cannot preserve field parity or source tracking.</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="panel">
+        <p class="eyebrow">Operating assumptions</p>
+        <div class="kpi-grid">
+          <div class="kpi"><b>10-20</b><span>active roles per month</span></div>
+          <div class="kpi"><b>100-300+</b><span>applicants per role</span></div>
+          <div class="kpi"><b>&lt; $1K</b><span>software budget, before paid board spend</span></div>
+          <div class="kpi"><b>Hybrid</b><span>native apply only if required fields arrive</span></div>
+        </div>
+      </div>
+    </section>
+
+    <nav class="nav-tabs" aria-label="Report sections">
+      <button class="tab active" data-tab="vendors">Vendor matrix</button>
+      <button class="tab" data-tab="why">Why this recommendation</button>
+      <button class="tab" data-tab="boards">Board reality</button>
+      <button class="tab" data-tab="prep">Site prep</button>
+      <button class="tab" data-tab="questions">Demo questions</button>
+      <button class="tab" data-tab="sources">Sources</button>
+    </nav>
+
+    <section id="vendors" class="section active">
+      <div class="filters" aria-label="Vendor filters">
+        <input id="search" type="search" placeholder="Search tools, risks, fit, board notes...">
+        <select id="typeFilter">
+          <option value="all">All types</option>
+          <option value="distribution">Distribution-first</option>
+          <option value="ats">ATS / workflow</option>
+          <option value="low">Lower priority</option>
+        </select>
+        <select id="fitFilter">
+          <option value="all">All fit levels</option>
+          <option value="strong">Strong</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
+        </select>
+      </div>
+      <div class="vendor-grid" id="vendorGrid"></div>
+    </section>
+
+    <section id="why" class="section">
+      <div class="cols">
+        <article class="mini-panel">
+          <span class="status chosen">Chosen path</span>
+          <h3>Distribution-first maps to the actual problem</h3>
+          <p class="small">The current workflow already has a custom application form and Notion intake. The gap is posting reach, source tracking, and board coverage. JobTarget and eQuest are built for that exact top-of-funnel problem.</p>
+        </article>
+        <article class="mini-panel">
+          <span class="status open">Fallback path</span>
+          <h3>ATS only if it earns the workflow</h3>
+          <p class="small">JazzHR, Workable, and Ashby matter if hosted forms, native apply, automations, scorecards, or bulk review become easier than the existing Notion workflow.</p>
+        </article>
+        <article class="mini-panel">
+          <span class="status neutral">DIY helper</span>
+          <h3>DIY improves readiness, not full distribution</h3>
+          <p class="small">Google Jobs schema, source URLs, a jobs feed, and resume storage should happen anyway. Direct LinkedIn/Indeed/ZipRecruiter posting is partner-gated enough that DIY cannot reliably replace a distributor.</p>
+        </article>
+        <article class="mini-panel">
+          <span class="status rejected">Do not lead here</span>
+          <h3>Enterprise ATSs are misaligned for now</h3>
+          <p class="small">Greenhouse, Lever, and SmartRecruiters are strong products, but their center of gravity is full recruiting systems, not low-friction multiposting under $1K/month.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="boards" class="section">
+      <div class="board-grid">
+        <article class="board-card">
+          <span class="status chosen">DIY-friendly</span>
+          <h3>Google Jobs</h3>
+          <p class="small">Add JobPosting JSON-LD to public role pages. This is the easiest direct improvement to make without a vendor.</p>
+        </article>
+        <article class="board-card">
+          <span class="status open">Approval-sensitive</span>
+          <h3>Indeed</h3>
+          <p class="small">XML/feed and Indeed Apply exist, but eligibility, quality checks, sponsorship rules, and moderation can constrain exposure.</p>
+        </article>
+        <article class="board-card">
+          <span class="status open">Partner-gated</span>
+          <h3>LinkedIn</h3>
+          <p class="small">Job Posting API is for authorized third parties, ATSs, and distributors. Practical automation usually flows through approved partners.</p>
+        </article>
+        <article class="board-card">
+          <span class="status open">Partner-oriented</span>
+          <h3>ZipRecruiter</h3>
+          <p class="small">Partner job APIs and apply webhooks exist, but a distributor or ATS partner is the realistic route.</p>
+        </article>
+      </div>
+      <div class="panel" style="margin-top: 12px;">
+        <h2>Unresolved board coverage</h2>
+        <p class="small">Public docs did not conclusively prove support for OnlineJobs.ph, Kalibrr, Bossjob, Glints, or JobStreet across the shortlist. Treat these as high-priority demo questions, especially for Philippines/Asia hiring.</p>
+      </div>
+    </section>
+
+    <section id="prep" class="section">
+      <div class="checklist">
+        <article class="step">
+          <span class="step-num">1</span>
+          <h3>Capture source</h3>
+          <p class="small">Store source, vendor/campaign, and referrer in Notion from URLs like <code>?source=linkedin&amp;utm_vendor=jobtarget</code>.</p>
+        </article>
+        <article class="step">
+          <span class="step-num">2</span>
+          <h3>Handle resumes</h3>
+          <p class="small">Current form stores filenames only. Add upload storage or a resume URL field before external distribution.</p>
+        </article>
+        <article class="step">
+          <span class="step-num">3</span>
+          <h3>Add Google Jobs schema</h3>
+          <p class="small">Public role pages should include structured JobPosting JSON-LD for direct Google Jobs eligibility.</p>
+        </article>
+        <article class="step">
+          <span class="step-num">4</span>
+          <h3>Create a jobs feed</h3>
+          <p class="small">Build JSON/XML feed with title, slug, description, location/remote, role URL, apply URL, and close date.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="questions" class="section">
+      <div class="panel">
+        <h2>Use these in vendor demos</h2>
+        <ol class="questions" id="questionList"></ol>
+      </div>
+    </section>
+
+    <section id="sources" class="section">
+      <div class="source-grid" id="sourceGrid"></div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">Copied</div>
+
+  <script>
+    const vendors = [
+      {
+        rank: 1,
+        name: "JobTarget",
+        type: "distribution",
+        fit: "strong",
+        typeLabel: "Distribution-first",
+        verdict: "Best first call. Strongest match for one post to many boards while keeping Care & Bloom apply flow.",
+        verified: ["25,000+ job sites", "No platform fee; pay for postings/products", "Manual, ATS, and job importer paths", "Public copy references routing candidates back to employer website"],
+        risks: ["Confirm custom apply URL per board", "Confirm board-by-board redirect vs Easy Apply", "Confirm US/PH/Europe/remote board list"]
+      },
+      {
+        rank: 2,
+        name: "eQuest / eQuestXpress",
+        type: "distribution",
+        fit: "strong",
+        typeLabel: "Distribution-first",
+        verdict: "Best second call. Strong global/pay-as-you-go distribution and career-site scrape path.",
+        verified: ["Pay-as-you-go/no-contract positioning", "5,000+ commercial boards", "183 countries/territories", "AutoPost can scrape career site"],
+        risks: ["Exact cost per job/bundle", "PH/Asia board coverage", "Source tracking on redirect"]
+      },
+      {
+        rank: 3,
+        name: "JOIN",
+        type: "distribution",
+        fit: "strong",
+        typeLabel: "Distribution + light ATS",
+        verdict: "Very good low-cost hybrid if active-job cap works.",
+        verified: ["20-40 EUR/job/month public pricing", "Up to 15 active jobs", "15+ free boards", "250+ premium boards", "API/candidate export on Advanced"],
+        risks: ["Can it use Care & Bloom apply URL?", "What happens at 16-20 active jobs?", "US/PH coverage"]
+      },
+      {
+        rank: 4,
+        name: "JazzHR",
+        type: "ats",
+        fit: "strong",
+        typeLabel: "ATS with multiposting",
+        verdict: "Strongest budget ATS benchmark; competitor-used and under budget.",
+        verified: ["Plus around $3,480/year", "30-200 active-job paths depending pricing track", "Free/premium boards", "Bulk actions, source reports, workflow helpers"],
+        risks: ["Exact board list", "Whether custom apply URL is allowed", "Native apply field parity for monthly income/timezone/questions"]
+      },
+      {
+        rank: 5,
+        name: "Workable",
+        type: "ats",
+        fit: "strong",
+        typeLabel: "ATS with multiposting",
+        verdict: "Best ATS fallback if API, forms, source tracking, and workflow matter more.",
+        verified: ["200+ boards", "Custom questions", "Answers available through API/export", "Source tracking and custom UTM links"],
+        risks: ["Video/interview add-ons", "Quote under $1K", "Likely pushes candidates into Workable form unless confirmed"]
+      },
+      {
+        rank: 6,
+        name: "Ashby",
+        type: "ats",
+        fit: "medium",
+        typeLabel: "ATS with multiposting",
+        verdict: "Best workflow/data option, not broadest board distributor.",
+        verified: ["LinkedIn, Indeed, Google Jobs limited listings", "ZipRecruiter integration appears in docs", "Custom forms and field connectors", "Custom tracking links"],
+        risks: ["Final quote", "Distribution breadth", "May be overpowered if distribution is the only need"]
+      },
+      {
+        rank: 7,
+        name: "Recruitee",
+        type: "ats",
+        fit: "medium",
+        typeLabel: "ATS with multiposting",
+        verdict: "Worth demoing if JOIN/VONQ integrations make distribution easy.",
+        verified: ["20+ free boards", "1,500 paid boards", "Indeed and Google default", "JOIN and VONQ integrations"],
+        risks: ["Pricing opacity", "Annual terms", "May require workflow migration"]
+      },
+      {
+        rank: 8,
+        name: "Teamtailor",
+        type: "ats",
+        fit: "medium",
+        typeLabel: "ATS / recruitment marketing",
+        verdict: "Strong candidate experience, quote-only, needs apply-path confirmation.",
+        verified: ["Unlimited job postings/users", "Marketplace/job board integrations", "Google Jobs and LinkedIn Basic Jobs", "API and embedded application form"],
+        risks: ["Quote-only", "Board coverage", "Apply-path control"]
+      },
+      {
+        rank: 9,
+        name: "Zoho Recruit",
+        type: "ats",
+        fit: "medium",
+        typeLabel: "Budget ATS",
+        verdict: "Cheapest plausible ATS fallback, probably less polished.",
+        verified: ["$30-60/recruiter/month monthly", "10-20 active jobs per recruiter", "Free/premium boards", "APIs/webhooks on higher features"],
+        risks: ["UX quality", "Distribution quality", "Candidate experience"]
+      },
+      {
+        rank: 10,
+        name: "Pinpoint",
+        type: "low",
+        fit: "medium",
+        typeLabel: "ATS",
+        verdict: "Polished ATS, likely under/near budget, not distribution-first.",
+        verified: ["Job board advertising", "Strong candidate experience", "Estimated custom pricing can be near budget"],
+        risks: ["Quote-only", "Annual contracts", "API may be higher-tier"]
+      },
+      {
+        rank: 11,
+        name: "Loxo",
+        type: "low",
+        fit: "medium",
+        typeLabel: "Recruiting CRM/ATS",
+        verdict: "Interesting programmatic posting, but probably not current apply-flow fit.",
+        verified: ["Boost claims 30,000+ boards/social sites", "Includes Indeed, ZipRecruiter, Monster, CareerBuilder, Talroo, Jobcase, Snagajob"],
+        risks: ["Recruiting CRM orientation", "Custom apply path unclear"]
+      },
+      {
+        rank: 12,
+        name: "Manatal",
+        type: "low",
+        fit: "low",
+        typeLabel: "ATS",
+        verdict: "Cheap and broad, but lower confidence for preserving custom apply flow.",
+        verified: ["Transparent low pricing", "Free/premium/social posting", "Account verification needed for job posting"],
+        risks: ["Custom apply control unclear", "Likely weaker fit than JazzHR/Workable"]
+      },
+      {
+        rank: 13,
+        name: "BambooHR",
+        type: "low",
+        fit: "low",
+        typeLabel: "HRIS + ATS",
+        verdict: "Only compelling if BambooHR is already the HRIS.",
+        verified: ["Job posting to leading boards/social networks", "Applicant tracking in HRIS context"],
+        risks: ["Not distribution-first", "Likely too HRIS-centered"]
+      },
+      {
+        rank: 14,
+        name: "Broadbean",
+        type: "distribution",
+        fit: "medium",
+        typeLabel: "Distribution-first",
+        verdict: "Very capable, likely enterprise.",
+        verified: ["7,000+ boards", "100+ countries", "Multiple apply paths", "Source tracking", "120+ ATS/CRM integrations"],
+        risks: ["Direct small-team pricing", "Under $1K feasibility"]
+      },
+      {
+        rank: 15,
+        name: "VONQ",
+        type: "distribution",
+        fit: "medium",
+        typeLabel: "Distribution/API",
+        verdict: "Powerful but likely partner-led or enterprise.",
+        verified: ["2,500+ HAPI channels", "1,000+ Job Post channels", "5,000+ job marketing channels", "Direct Apply exists"],
+        risks: ["Direct buyer fit", "Sales packaging", "Integration complexity"]
+      },
+      {
+        rank: 16,
+        name: "Greenhouse",
+        type: "low",
+        fit: "low",
+        typeLabel: "ATS",
+        verdict: "Excellent ATS, likely overkill for distribution-first goal.",
+        verified: ["Strong structured hiring", "Custom pricing"],
+        risks: ["Budget risk", "Workflow migration"]
+      },
+      {
+        rank: 17,
+        name: "Lever",
+        type: "low",
+        fit: "low",
+        typeLabel: "ATS/CRM",
+        verdict: "Strong ATS/CRM, not distribution-first.",
+        verified: ["Custom pricing", "ATS + CRM"],
+        risks: ["Budget risk", "Not the main pain"]
+      },
+      {
+        rank: 18,
+        name: "SmartRecruiters",
+        type: "low",
+        fit: "low",
+        typeLabel: "ATS",
+        verdict: "Outside budget for this project.",
+        verified: ["Public pricing starts at $14,995/year", "SmartDistribute add-on"],
+        risks: ["Budget miss"]
+      },
+      {
+        rank: 19,
+        name: "Recruiterflow",
+        type: "low",
+        fit: "low",
+        typeLabel: "Recruiting CRM/ATS",
+        verdict: "Agency/sourcing orientation; low fit for multiposting.",
+        verified: ["Recruiting agency focus", "Review evidence notes no Indeed/ZipRecruiter ad partnership"],
+        risks: ["Would still need posting vendor"]
+      },
+      {
+        rank: 20,
+        name: "50skills / 50hire",
+        type: "low",
+        fit: "low",
+        typeLabel: "HR workflow / ATS unclear",
+        verdict: "Too thin for shortlist.",
+        verified: ["50skills is HR workflow automation", "50hire mentions job-board posting"],
+        risks: ["Insufficient evidence", "Not clearly distribution-first"]
+      }
+    ];
+
+    const demoQuestions = [
+      "Can every posted job use our custom apply URL with source parameters?",
+      "Which boards force native apply or hosted apply instead of redirect?",
+      "For native apply, can we collect: phone, resume file/URL, location, timezone availability, monthly income, role-specific questions, and intro video URL?",
+      "Can you pass source board and campaign into the application URL or webhook?",
+      "Can you import jobs from a static careers site, XML feed, JSON feed, or manually-created jobs?",
+      "Which of these boards are supported: LinkedIn, Indeed, Google Jobs, ZipRecruiter, Wellfound, Remote OK, We Work Remotely, FlexJobs, JobStreet, Kalibrr, OnlineJobs.ph, Bossjob, Glints, Talent.com?",
+      "Are LinkedIn/Indeed postings organic, sponsored, limited listings, or paid slots?",
+      "What is included under $1K/month for 10-20 active roles and 100-300+ applicants/role?",
+      "Are there usage limits, posting caps, feed eligibility requirements, or moderation risks?",
+      "Can we export candidates/applications to Notion via API, webhook, Zapier/Make, CSV, or candidate export?",
+      "Can we run a live pilot with 2-3 real roles before committing annually?"
+    ];
+
+    const sources = [
+      ["JobTarget Marketplace", "https://www.jobtarget.com/job-site-marketplace"],
+      ["JobTarget pricing", "https://support.jobtarget.com/jobtarget-help-center/how-much-does-it-cost-to-use-jobtarget"],
+      ["JobTarget import paths", "https://support.jobtarget.com/jobtarget-help-center/jt101-how-do-jobs-land-in-jobtarget"],
+      ["eQuest global posting", "https://www.equest.com/solutions/global-job-postings/"],
+      ["eQuestXpress", "https://www.equest.com/xpress/"],
+      ["JOIN pricing", "https://join.com/pricing"],
+      ["JOIN multiposting", "https://join.com/features/multiposting"],
+      ["JazzHR pricing", "https://www.jazzhr.com/pricing"],
+      ["Workable job boards", "https://help.workable.com/hc/en-us/articles/115012441868-Which-job-boards-can-I-post-to-through-Workable"],
+      ["Workable API", "https://help.workable.com/hc/en-us/articles/115013356548-Workable-API-Documentation"],
+      ["Ashby job boards", "https://docs.ashbyhq.com/how-do-i-set-up-job-board-connections"],
+      ["Ashby application forms", "https://docs.ashbyhq.com/application-forms"],
+      ["Recruitee overview", "https://support.recruitee.com/en/articles/2116811-what-is-recruitee"],
+      ["Teamtailor pricing", "https://www.teamtailor.com/en-us/pricing/"],
+      ["Zoho Recruit pricing PDF", "https://www.zoho.com/sites/default/files/recruit/zoho-recruit-corporate-usd.pdf"],
+      ["Broadbean distribution", "https://www.broadbean.com/product-suite/job-distribution-platform/"],
+      ["VONQ HAPI", "https://www.vonq.com/hapi/"],
+      ["Google JobPosting schema", "https://developers.google.com/search/docs/appearance/structured-data/job-posting"],
+      ["Indeed XML/feed", "https://docs.indeed.com/indeed-apply/xml-feed"],
+      ["LinkedIn Job Posting API", "https://learn.microsoft.com/en-us/linkedin/talent/job-postings/api/overview"],
+      ["ZipRecruiter Apply Webhook", "https://www.ziprecruiter.com/partner/documentation/apply-webhook/"]
+    ];
+
+    const state = {
+      search: "",
+      type: "all",
+      fit: "all"
+    };
+
+    function fitClass(fit) {
+      if (fit === "strong") return "strong";
+      if (fit === "medium") return "medium";
+      return "low";
+    }
+
+    function renderVendors() {
+      const grid = document.getElementById("vendorGrid");
+      const query = state.search.toLowerCase();
+      const filtered = vendors.filter((vendor) => {
+        const haystack = JSON.stringify(vendor).toLowerCase();
+        return (state.type === "all" || vendor.type === state.type) &&
+          (state.fit === "all" || vendor.fit === state.fit) &&
+          (!query || haystack.includes(query));
+      });
+
+      grid.innerHTML = filtered.map((vendor) => `
+        <article class="vendor-card">
+          <div class="vendor-head">
+            <div>
+              <h2 class="vendor-name">${vendor.name}</h2>
+              <div class="tag-row" style="margin-top: 8px;">
+                <span class="tag ${fitClass(vendor.fit)}">${vendor.fit} fit</span>
+                <span class="tag">${vendor.typeLabel}</span>
+              </div>
+            </div>
+            <span class="rank">#${vendor.rank}</span>
+          </div>
+          <p>${vendor.verdict}</p>
+          <div>
+            <strong class="small" style="color: var(--ink);">Verified signals</strong>
+            <ul>${vendor.verified.map((item) => `<li>${item}</li>`).join("")}</ul>
+          </div>
+          <div>
+            <strong class="small" style="color: var(--ink);">Risks to confirm</strong>
+            <ul>${vendor.risks.map((item) => `<li>${item}</li>`).join("")}</ul>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function renderQuestions() {
+      document.getElementById("questionList").innerHTML = demoQuestions.map((q) => `<li>${q}</li>`).join("");
+    }
+
+    function renderSources() {
+      document.getElementById("sourceGrid").innerHTML = sources.map(([label, url]) => `<a href="${url}" target="_blank" rel="noopener">${label}<br><span class="small">${url}</span></a>`).join("");
+    }
+
+    function showToast(text) {
+      const toast = document.getElementById("toast");
+      toast.textContent = text;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 1500);
+    }
+
+    async function copyText(text, label) {
+      await navigator.clipboard.writeText(text);
+      showToast(label);
+    }
+
+    document.querySelectorAll(".tab").forEach((button) => {
+      button.addEventListener("click", () => {
+        document.querySelectorAll(".tab").forEach((tab) => tab.classList.remove("active"));
+        document.querySelectorAll(".section").forEach((section) => section.classList.remove("active"));
+        button.classList.add("active");
+        document.getElementById(button.dataset.tab).classList.add("active");
+      });
+    });
+
+    document.getElementById("search").addEventListener("input", (event) => {
+      state.search = event.target.value;
+      renderVendors();
+    });
+
+    document.getElementById("typeFilter").addEventListener("change", (event) => {
+      state.type = event.target.value;
+      renderVendors();
+    });
+
+    document.getElementById("fitFilter").addEventListener("change", (event) => {
+      state.fit = event.target.value;
+      renderVendors();
+    });
+
+    document.getElementById("copySummary").addEventListener("click", () => {
+      const text = [
+        "ATS / Job Distribution Research Summary",
+        "",
+        "Recommendation: Start distribution-first. Pilot JobTarget or eQuestXpress before replacing Care & Bloom's current application form and Notion intake.",
+        "",
+        "Best first calls:",
+        "1. JobTarget",
+        "2. eQuestXpress",
+        "3. JOIN if 15 active jobs is enough",
+        "4. JazzHR as budget ATS benchmark",
+        "5. Workable as stronger ATS/API fallback",
+        "6. Ashby if workflow/data rigor becomes primary",
+        "",
+        "Prerequisites: source/referrer capture, real resume file or URL handling, Google Jobs schema, and JSON/XML jobs feed."
+      ].join("\\n");
+      copyText(text, "Summary copied");
+    });
+
+    document.getElementById("copyQuestions").addEventListener("click", () => {
+      copyText(demoQuestions.map((q, index) => `${index + 1}. ${q}`).join("\\n"), "Questions copied");
+    });
+
+    renderVendors();
+    renderQuestions();
+    renderSources();
+  </script>
+</body>
+</html>
