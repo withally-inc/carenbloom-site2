@@ -1,6 +1,6 @@
 import { buildApplicationPayload, clean, safeUrl } from "./lib/application-payload.js";
 import { createPage, uploadFile } from "./lib/notion-client.js";
-import { Readable } from "node:stream";
+import Busboy from "busboy";
 
 const DEFAULT_DATABASE_ID = "3792b7ec4597800fab56f5a61ff00187";
 const MAX_UPLOAD_BYTES = 8 * 1024 * 1024;
@@ -19,6 +19,84 @@ function sendJson(res, status, payload) {
   res.end(JSON.stringify(payload));
 }
 
+function publicError(statusCode, message) {
+  const error = new Error(message);
+  error.statusCode = statusCode;
+  error.publicMessage = message;
+  return error;
+}
+
+function bufferBackedFile(buffer, name, type) {
+  return {
+    name: clean(name) || "attachment",
+    type: type || "application/octet-stream",
+    size: buffer.length,
+    async arrayBuffer() {
+      return buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength);
+    },
+  };
+}
+
+function readMultipartPayload(req, contentType) {
+  return new Promise((resolve, reject) => {
+    const files = {};
+    const fileWrites = [];
+    let payloadText = "{}";
+    let fileTooLarge = false;
+    const parser = Busboy({
+      headers: { ...req.headers, "content-type": contentType },
+      limits: {
+        files: 2,
+        fileSize: MAX_UPLOAD_BYTES,
+      },
+    });
+
+    parser.on("field", (name, value) => {
+      if (name === "payload") payloadText = value;
+    });
+
+    parser.on("file", (name, stream, info) => {
+      const chunks = [];
+      let size = 0;
+      stream.on("data", (chunk) => {
+        size += chunk.length;
+        chunks.push(chunk);
+      });
+      stream.on("limit", () => {
+        fileTooLarge = true;
+        stream.resume();
+      });
+      fileWrites.push(new Promise((resolveFile, rejectFile) => {
+        stream.on("error", rejectFile);
+        stream.on("end", () => {
+          if (!fileTooLarge && size > 0) {
+            const file = bufferBackedFile(Buffer.concat(chunks, size), info.filename, info.mimeType);
+            if (name === "resume") files.resume = file;
+            if (name === "additional_attachment") files.additionalAttachment = file;
+          }
+          resolveFile();
+        });
+      }));
+    });
+
+    parser.on("error", reject);
+    parser.on("finish", async () => {
+      try {
+        await Promise.all(fileWrites);
+        if (fileTooLarge) throw publicError(400, "Keep file uploads under 8 MB each.");
+        resolve({
+          payload: JSON.parse(payloadText || "{}"),
+          files,
+        });
+      } catch (error) {
+        reject(error);
+      }
+    });
+
+    req.pipe(parser);
+  });
+}
+
 async function readPayload(req) {
   const contentType = req.headers?.["content-type"] || req.headers?.["Content-Type"] || "";
   if (req.body instanceof FormData) {
@@ -32,21 +110,7 @@ async function readPayload(req) {
     };
   }
   if (contentType.includes("multipart/form-data")) {
-    const request = new Request("http://localhost/api/applications", {
-      method: "POST",
-      headers: { "content-type": contentType },
-      body: Readable.toWeb(req),
-      duplex: "half",
-    });
-    const formData = await request.formData();
-    const payload = JSON.parse(String(formData.get("payload") || "{}"));
-    return {
-      payload,
-      files: {
-        resume: formData.get("resume"),
-        additionalAttachment: formData.get("additional_attachment"),
-      },
-    };
+    return readMultipartPayload(req, contentType);
   }
   if (req.body && typeof req.body === "object" && !Buffer.isBuffer(req.body)) return req.body;
   if (typeof req.body === "string") return req.body.trim() ? JSON.parse(req.body) : {};
@@ -146,8 +210,8 @@ export default async function handler(req, res) {
     const submission = await readPayload(req);
     payload = submission.payload || submission;
     payload.files = submission.files || {};
-  } catch {
-    sendJson(res, 400, { success: false, error: "Invalid JSON payload." });
+  } catch (error) {
+    sendJson(res, error.statusCode || 400, { success: false, error: error.publicMessage || "Invalid JSON payload." });
     return;
   }
 

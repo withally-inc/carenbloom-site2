@@ -11,5 +11,8 @@
   },
   "devDependencies": {
     "playwright": "^1.53.0"
+  },
+  "dependencies": {
+    "busboy": "^1.6.0"
   }
 }
