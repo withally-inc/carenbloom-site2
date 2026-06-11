@@ -43,6 +43,8 @@
 
   const locationTag = document.querySelector(".role-hero .eyebrow");
   if (locationTag && role.locationType) locationTag.textContent = role.locationType;
+  const locationDd = document.querySelector(".role-meta dd");
+  if (locationDd && role.locationType) locationDd.textContent = role.locationType.replace("On-site, ", "");
   document.querySelectorAll(".application-tooltip").forEach((tooltip) => {
     const row = tooltip.closest(".application-label-row");
     if (!row) return;
