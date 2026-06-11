@@ -76,27 +76,142 @@ jobs:
       - name: Install Vercel CLI
         run: npm install --global "vercel@${VERCEL_CLI_VERSION}"
 
+      - name: Prepare clean deployment source
+        run: |
+          set -euo pipefail
+
+          deploy_dir="$(mktemp -d)"
+          echo "DEPLOY_DIR=$deploy_dir" >> "$GITHUB_ENV"
+
+          git archive HEAD -- \
+            3day \
+            _astro \
+            about \
+            api \
+            ats-distribution-comparison.html \
+            ats-distribution-report.html \
+            brands \
+            capital \
+            download-manifest.json \
+            fonts \
+            images \
+            index.html \
+            logos \
+            mission \
+            package-lock.json \
+            package.json \
+            scripts \
+            talents \
+            vercel.json \
+            | tar -x -C "$deploy_dir"
+
       - name: Pull Vercel project settings
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: vercel pull --yes --environment=production
+        run: |
+          set -euo pipefail
+          cd "$DEPLOY_DIR"
+          vercel pull --yes --environment=production --no-color
 
       - name: Build Vercel output
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: vercel build --prod
+        run: |
+          set -euo pipefail
+          cd "$DEPLOY_DIR"
+          vercel build --prod --no-color
 
       - name: Deploy to Vercel
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: |
-          set -o pipefail
-          vercel deploy --prebuilt --prod | tee deployment-output.txt
-          deployment_url="$(tail -n 1 deployment-output.txt)"
+          set -euo pipefail
+          cd "$DEPLOY_DIR"
+
+          run_vercel() {
+            env \
+              -u GITHUB_ACTIONS \
+              -u GITHUB_ACTOR \
+              -u GITHUB_ACTOR_ID \
+              -u GITHUB_BASE_REF \
+              -u GITHUB_EVENT_NAME \
+              -u GITHUB_HEAD_REF \
+              -u GITHUB_REF \
+              -u GITHUB_REF_NAME \
+              -u GITHUB_REF_TYPE \
+              -u GITHUB_REPOSITORY \
+              -u GITHUB_REPOSITORY_ID \
+              -u GITHUB_REPOSITORY_OWNER \
+              -u GITHUB_REPOSITORY_OWNER_ID \
+              -u GITHUB_RUN_ATTEMPT \
+              -u GITHUB_RUN_ID \
+              -u GITHUB_RUN_NUMBER \
+              -u GITHUB_SERVER_URL \
+              -u GITHUB_SHA \
+              -u VERCEL_GIT_COMMIT_AUTHOR_LOGIN \
+              -u VERCEL_GIT_COMMIT_AUTHOR_NAME \
+              -u VERCEL_GIT_COMMIT_MESSAGE \
+              -u VERCEL_GIT_COMMIT_REF \
+              -u VERCEL_GIT_COMMIT_SHA \
+              -u VERCEL_GIT_PREVIOUS_SHA \
+              -u VERCEL_GIT_PROVIDER \
+              -u VERCEL_GIT_PULL_REQUEST_ID \
+              -u VERCEL_GIT_REPO_ID \
+              -u VERCEL_GIT_REPO_OWNER \
+              -u VERCEL_GIT_REPO_SLUG \
+              "$@"
+          }
+
+          run_vercel timeout 240s vercel deploy --prebuilt --prod --yes --no-wait --no-color | tee deployment-output.txt
+          deployment_url="$(grep -Eo 'https://[^[:space:]]+\.vercel\.app' deployment-output.txt | tail -n 1)"
           if ! echo "$deployment_url" | grep -Eq '^https://'; then
             echo "Vercel deploy did not emit a deployment URL."
             exit 1
           fi
+
+          export DEPLOYMENT_URL="$deployment_url"
+          node --input-type=module <<'NODE'
+          const token = process.env.VERCEL_TOKEN;
+          const teamId = process.env.VERCEL_ORG_ID;
+          const deploymentUrl = process.env.DEPLOYMENT_URL.replace(/^https?:\/\//, "");
+
+          const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+          const fail = (message) => {
+            console.error(message);
+            process.exit(1);
+          };
+
+          for (let attempt = 1; attempt <= 60; attempt += 1) {
+            const response = await fetch(`https://api.vercel.com/v13/deployments/${deploymentUrl}?teamId=${teamId}`, {
+              headers: { Authorization: `Bearer ${token}` },
+            });
+            if (!response.ok) {
+              fail(`Vercel deployment status check failed: HTTP ${response.status}.`);
+            }
+
+            const deployment = await response.json();
+            const state = deployment.readyState || "UNKNOWN";
+            console.log(`Vercel deployment state: ${state}`);
+
+            if (state === "READY") {
+              if (deployment.aliasAssigned === false) {
+                fail("Vercel deployment is ready but production alias was not assigned.");
+              }
+              process.exit(0);
+            }
+
+            if (["BLOCKED", "ERROR", "CANCELED"].includes(state)) {
+              const author = deployment.meta?.githubCommitAuthorName || deployment.meta?.githubCommitAuthorLogin || "unknown";
+              const errorLink = deployment.errorLink ? ` ${deployment.errorLink}` : "";
+              fail(`Vercel deployment ${state}. Commit author: ${author}.${errorLink}`);
+            }
+
+            await sleep(5000);
+          }
+
+          fail("Timed out waiting for Vercel deployment to become ready.");
+          NODE
+
           echo "deployment-url=$deployment_url" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Smoke test production alias
