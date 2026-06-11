@@ -59,6 +59,16 @@ jobs:
           if (!response.ok) {
             fail(`VERCEL_TOKEN validation failed: HTTP ${response.status}. Create a personal access token at https://vercel.com/account/tokens and update the GitHub secret.`);
           }
+
+          const projectId = process.env.VERCEL_PROJECT_ID;
+          const teamId = process.env.VERCEL_ORG_ID;
+          const projectResponse = await fetch(`https://api.vercel.com/v9/projects/${projectId}?teamId=${teamId}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+
+          if (!projectResponse.ok) {
+            fail(`VERCEL_TOKEN cannot access this Vercel project: HTTP ${projectResponse.status}. Create the token under the withallys-projects team scope, then update the GitHub secret.`);
+          }
           NODE
 
       - run: npm ci
