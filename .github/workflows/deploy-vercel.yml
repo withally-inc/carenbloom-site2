@@ -67,7 +67,7 @@ jobs:
           });
 
           if (!projectResponse.ok) {
-            fail(`VERCEL_TOKEN cannot access this Vercel project: HTTP ${projectResponse.status}. Create the token under the withallys-projects team scope, then update the GitHub secret.`);
+            fail(`VERCEL_TOKEN cannot access this Vercel project: HTTP ${projectResponse.status}. Create a personal access token under the team that owns VERCEL_ORG_ID, then update the GitHub secret.`);
           }
           NODE
 
