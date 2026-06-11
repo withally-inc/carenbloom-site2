@@ -10,6 +10,8 @@ concurrency:
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+  # Must be a classic personal access token from https://vercel.com/account/tokens.
+  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
 
 jobs:
   deploy:
@@ -27,12 +29,26 @@ jobs:
           node-version: 20
           cache: npm
 
+      - name: Validate Vercel token
+        run: |
+          node --input-type=module <<'NODE'
+          const response = await fetch("https://api.vercel.com/v2/user", {
+            headers: { Authorization: `Bearer ${process.env.VERCEL_TOKEN || ""}` },
+          });
+
+          if (!response.ok) {
+            console.error(`VERCEL_TOKEN validation failed: HTTP ${response.status}.`);
+            console.error("Create a classic token at https://vercel.com/account/tokens and update the GitHub VERCEL_TOKEN secret.");
+            process.exit(1);
+          }
+          NODE
+
       - run: npm ci
 
       - run: npm install --global vercel@latest
 
-      - run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+      - run: vercel pull --yes --environment=production
 
-      - run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+      - run: vercel build --prod
 
-      - run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+      - run: vercel deploy --prebuilt --prod
