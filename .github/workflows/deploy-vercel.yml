@@ -10,8 +10,8 @@ concurrency:
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-  # Must be a classic personal access token from https://vercel.com/account/tokens.
-  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+  VERCEL_CLI_VERSION: 54.11.1
+  PRODUCTION_URL: https://carenbloom-site2.vercel.app
 
 jobs:
   deploy:
@@ -30,25 +30,74 @@ jobs:
           cache: npm
 
       - name: Validate Vercel token
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: |
           node --input-type=module <<'NODE'
+          const token = process.env.VERCEL_TOKEN || "";
+          const fail = (message) => {
+            console.error(message);
+            process.exit(1);
+          };
+
+          if (!token) {
+            fail("VERCEL_TOKEN secret is missing.");
+          }
+
+          if (token.startsWith("vca_") || token.startsWith("vcr_")) {
+            fail("VERCEL_TOKEN is a short-lived Vercel app OAuth token. Create a personal access token at https://vercel.com/account/tokens and update the GitHub secret.");
+          }
+
+          if (!token.startsWith("vcp_")) {
+            fail("VERCEL_TOKEN must be a Vercel personal access token with the vcp_ prefix. Create one at https://vercel.com/account/tokens and update the GitHub secret.");
+          }
+
           const response = await fetch("https://api.vercel.com/v2/user", {
-            headers: { Authorization: `Bearer ${process.env.VERCEL_TOKEN || ""}` },
+            headers: { Authorization: `Bearer ${token}` },
           });
 
           if (!response.ok) {
-            console.error(`VERCEL_TOKEN validation failed: HTTP ${response.status}.`);
-            console.error("Create a classic token at https://vercel.com/account/tokens and update the GitHub VERCEL_TOKEN secret.");
-            process.exit(1);
+            fail(`VERCEL_TOKEN validation failed: HTTP ${response.status}. Create a personal access token at https://vercel.com/account/tokens and update the GitHub secret.`);
           }
           NODE
 
       - run: npm ci
 
-      - run: npm install --global vercel@latest
+      - name: Install Vercel CLI
+        run: npm install --global "vercel@${VERCEL_CLI_VERSION}"
 
-      - run: vercel pull --yes --environment=production
+      - name: Pull Vercel project settings
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: vercel pull --yes --environment=production
 
-      - run: vercel build --prod
+      - name: Build Vercel output
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: vercel build --prod
 
-      - run: vercel deploy --prebuilt --prod
+      - name: Deploy to Vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          set -o pipefail
+          vercel deploy --prebuilt --prod | tee deployment-output.txt
+          deployment_url="$(tail -n 1 deployment-output.txt)"
+          if ! echo "$deployment_url" | grep -Eq '^https://'; then
+            echo "Vercel deploy did not emit a deployment URL."
+            exit 1
+          fi
+          echo "deployment-url=$deployment_url" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Smoke test production alias
+        run: |
+          for attempt in 1 2 3 4 5; do
+            if curl --fail --silent --show-error --location "$PRODUCTION_URL" --output production.html &&
+              grep -Fq "<title>Care & Bloom</title>" production.html; then
+              exit 0
+            fi
+            sleep 3
+          done
+
+          echo "Production alias smoke test failed: $PRODUCTION_URL"
+          exit 1
