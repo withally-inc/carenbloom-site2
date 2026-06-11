@@ -161,6 +161,8 @@
   const status = document.querySelector(".application-form-status");
   const submitButton = form ? form.querySelector('button[type="submit"]') : null;
   const endpoint = window.CB_TALENTS_ENDPOINT || "/api/applications";
+  const maxUploadBytes = 8 * 1024 * 1024;
+  let isSubmitting = false;
   const setStatus = (message, state) => {
     if (!status) return;
     status.textContent = message;
@@ -175,11 +177,18 @@
   if (form) {
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
+      if (isSubmitting) return;
       if (!form.reportValidity()) return;
 
       const data = new FormData(form);
       const resumeFile = data.get("resume");
       const additionalAttachmentFile = data.get("additional_attachment");
+      const oversizedFile = [resumeFile, additionalAttachmentFile].find((file) => file instanceof File && file.size > maxUploadBytes);
+      if (oversizedFile) {
+        setStatus("Keep file uploads under 8 MB each.", "error");
+        return;
+      }
+
       const payload = {
         role: role.title,
         roleSlug: role.slug,
@@ -203,6 +212,9 @@
         referrer: document.referrer,
       };
 
+      isSubmitting = true;
+      if (submitButton) submitButton.disabled = true;
+      form.setAttribute("aria-busy", "true");
       setStatus("Submitting application...", "loading");
 
       try {
@@ -222,7 +234,9 @@
       } catch (error) {
         setStatus(error.message || "Could not submit application right now.", "error");
       } finally {
+        isSubmitting = false;
         if (submitButton) submitButton.disabled = false;
+        form.removeAttribute("aria-busy");
       }
     });
   }

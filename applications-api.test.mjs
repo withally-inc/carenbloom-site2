@@ -98,6 +98,14 @@ assert.equal(_private.validatePayload(samplePayload({ introVideoUrl: "not-a-url"
 assert.equal(_private.validatePayload(samplePayload({ roleSlug: "video-editor", introVideoUrl: "" })).error, "Intro video is required for this role.");
 assert.equal(_private.validatePayload(samplePayload({ roleSlug: "chief-of-staff", introVideoUrl: "" })).error, undefined);
 assert.equal(_private.validatePayload(samplePayload({ questions: [{ question: "One", answer: "" }] })).error, "Missing required answer: role question 1");
+assert.equal(
+  _private.validatePayload(samplePayload({
+    files: {
+      resume: { arrayBuffer() {}, size: 8 * 1024 * 1024 + 1, name: "huge-resume.pdf" },
+    },
+  })).error,
+  "Keep file uploads under 8 MB each."
+);
 
 {
   const { res, json } = await runHandler(samplePayload(), { NOTION_INTAKE_DRY_RUN: "1" });
@@ -153,6 +161,8 @@ assert.equal(_private.validatePayload(samplePayload({ questions: [{ question: "O
   );
   assert.equal(res.statusCode, 200);
   assert.equal(json.success, true);
+  assert.equal(calls[0].url.endsWith("/file_uploads"), true);
+  assert.equal(calls[1].url.endsWith("/file_uploads"), true);
   assert.equal(calls.filter((call) => call.url.endsWith("/file_uploads")).length, 2);
   assert.equal(calls.filter((call) => call.url.includes("/file_uploads/") && call.url.endsWith("/send")).length, 2);
   const pageCall = calls.at(-1);

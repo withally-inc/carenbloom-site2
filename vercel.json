@@ -2,6 +2,11 @@
   "git": {
     "deploymentEnabled": false
   },
+  "functions": {
+    "api/applications.js": {
+      "maxDuration": 30
+    }
+  },
   "redirects": [
     {
       "source": "/goods",

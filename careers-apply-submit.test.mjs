@@ -7,13 +7,16 @@ const page = await browser.newPage({ viewport: { width: 1282, height: 964 } });
 let capturedPayload = null;
 let capturedContentType = null;
 let capturedPostBody = null;
+let submissionCount = 0;
 
 await writeFile("/tmp/cb-resume.pdf", "resume");
 await page.route("**/api/applications", async (route) => {
+  submissionCount += 1;
   capturedContentType = route.request().headers()["content-type"];
   capturedPostBody = route.request().postData() || "";
   const payloadMatch = capturedPostBody.match(/name="payload"\r\n\r\n([\s\S]*?)\r\n------/);
   capturedPayload = payloadMatch ? JSON.parse(payloadMatch[1]) : JSON.parse(capturedPostBody);
+  await new Promise((resolve) => setTimeout(resolve, 100));
   await route.fulfill({
     status: 200,
     contentType: "application/json",
@@ -38,8 +41,15 @@ await page.locator('[name="role_question_1"]').fill("Answer one.");
 await page.locator('[name="role_question_2"]').fill("Answer two.");
 await page.locator('[name="role_question_3"]').fill("Answer three.");
 await page.locator('.application-form button[type="submit"]').click();
+await page.locator('.application-form button[type="submit"]').evaluate((button) => {
+  if (!button.disabled) throw new Error("Submit button should be disabled while the request is pending.");
+});
 await page.getByText("Application received. Reference: CB-PLAYWRIGHT.").waitFor();
+await page.locator('.application-form button[type="submit"]').evaluate((button) => {
+  if (button.disabled) throw new Error("Submit button should be enabled after submit completes.");
+});
 
+assert.equal(submissionCount, 1);
 assert.equal(capturedPayload.role, "Chief of Staff");
 assert.match(capturedContentType, /^multipart\/form-data; boundary=/);
 assert.match(capturedPostBody, /name="resume"; filename="cb-resume\.pdf"/);

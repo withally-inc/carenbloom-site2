@@ -3,6 +3,7 @@ import { createPage, uploadFile } from "./lib/notion-client.js";
 import { Readable } from "node:stream";
 
 const DEFAULT_DATABASE_ID = "3792b7ec4597800fab56f5a61ff00187";
+const MAX_UPLOAD_BYTES = 8 * 1024 * 1024;
 const ALLOWED_TIME_ZONES = new Set(["US", "Europe", "Asia"]);
 const INTRO_VIDEO_REQUIRED_ROLES = new Set([
   "graphic-designer",
@@ -63,6 +64,15 @@ function isUploadFile(file) {
   return file && typeof file.arrayBuffer === "function" && file.size > 0 && clean(file.name);
 }
 
+function uploadSizeError(files = {}) {
+  for (const file of [files.resume, files.additionalAttachment]) {
+    if (isUploadFile(file) && file.size > MAX_UPLOAD_BYTES) {
+      return "Keep file uploads under 8 MB each.";
+    }
+  }
+  return null;
+}
+
 function emailIsValid(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
@@ -109,6 +119,9 @@ function validatePayload(payload) {
   for (let i = 0; i < questions.length; i += 1) {
     if (!clean(questions[i].answer)) return { error: `Missing required answer: role question ${i + 1}` };
   }
+
+  const fileError = uploadSizeError(payload.files);
+  if (fileError) return { error: fileError };
 
   return { questions };
 }
@@ -167,8 +180,10 @@ export default async function handler(req, res) {
   }
 
   try {
-    const resumeUpload = isUploadFile(payload.files.resume) ? await uploadFile(token, payload.files.resume) : null;
-    const additionalAttachmentUpload = isUploadFile(payload.files.additionalAttachment) ? await uploadFile(token, payload.files.additionalAttachment) : null;
+    const [resumeUpload, additionalAttachmentUpload] = await Promise.all([
+      isUploadFile(payload.files.resume) ? uploadFile(token, payload.files.resume) : null,
+      isUploadFile(payload.files.additionalAttachment) ? uploadFile(token, payload.files.additionalAttachment) : null,
+    ]);
     const notionPayload = buildApplicationPayload(databaseId, {
       ...baseNotionPayload,
       resumeUpload,
