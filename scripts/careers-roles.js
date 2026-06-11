@@ -6,7 +6,7 @@ const careerRoles = [
     level: "Manager/Supervisor",
     locationType: "On-site, Hong Kong",
     introVideoRequired: true,
-    loomPrompt: "Record a short Loom (2-3 min) introducing yourself — what you've been working on, and why this role interests you.",
+    loomPrompt: "Record a short Loom (2-3 min) walking us through how you've kept a fast-scaling company organized — what was messy, what you built, and how you made the team faster.",
     portfolioRequired: false,
     summary: "Connective tissue across every team, project, and priority — working directly with the CEO.",
     mission: "You'll be the connective tissue across every team, project, and priority in the company — working directly with the CEO to keep high-leverage work moving. This isn't a back-office ops role. You're in the room for every critical decision, making sure nothing falls between the cracks, unblocking teams, and driving execution across marketing, product, creative, finance, and vendors.",
@@ -253,6 +253,35 @@ const careerRoles = [
       "What's a paid social ad you think is excellent? Break down why it works.",
       "How would you create 5 distinct creative angles for the same product?",
       "What's your process for writing a creative brief — what inputs do you need and what does the output look like?"
+    ]
+  },
+  {
+    slug: "product-project-manager",
+    title: "Product & Project Manager",
+    team: "Product",
+    level: "Manager",
+    locationType: "On-site, Shenzhen, China",
+    introVideoRequired: true,
+    loomPrompt: "Record a short Loom (2-3 min) walking us through a product launch you managed end-to-end — what you coordinated and how you kept things on track.",
+    portfolioRequired: false,
+    summary: "Own the product launch pipeline and marketing campaign execution — the coordination layer that ties everything together.",
+    mission: "You'll own the product launch pipeline and marketing campaign execution — the coordination layer that ties product, sourcing, and marketing together. Our catalog is expanding, campaigns are running in parallel, and we need someone who takes ownership of the pipeline, keeps projects moving without being chased, and makes sure nothing falls through the cracks.",
+    responsibilities: [
+      "Manage end-to-end timelines for new product development — from initial brief through to market-ready.",
+      "Coordinate cross-functionally between product, sourcing, and marketing to keep launches in sync.",
+      "Translate campaign plans into detailed schedules with clear ownership per task."
+    ],
+    requirements: [
+      "4\u20137 years in product management, project management, or operations \u2014 ideally at a DTC or e-commerce brand.",
+      "Experience with physical product businesses \u2014 packaging, manufacturing timelines, MOQs, and supplier dependencies.",
+      "Business-level English and Mandarin \u2014 both required.",
+      "A natural organizer who builds structure proactively without being asked.",
+      "A finisher \u2014 you close loops, follow through, and hold people accountable politely but firmly."
+    ],
+    questions: [
+      "What\u2019s the most complex product launch you\u2019ve managed end-to-end, and how did you keep sourcing, marketing, and product aligned on the timeline?",
+      "How do you track and communicate project status across multiple stakeholders in different time zones?",
+      "Describe a time a product launch was at risk of delay \u2014 what caused it, and what did you do to get it back on track?"
     ]
   },
   {
