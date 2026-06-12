@@ -18,12 +18,12 @@ const careerRoles = [
     requirements: [
       "Built or scaled operations in a high-growth DTC or consumer brand.",
       "Strong systems thinker — workflows and reporting that reduce founder dependency.",
-      "AI-native — you've used AI to automate real workflows.",
+      "Experience with AI tools is a plus, but willingness to learn and adopt them is what matters most.",
       "High agency — you don't wait for permission."
     ],
     questions: [
       "What's the most complex cross-functional initiative you've driven from start to finish? What was your specific role?",
-      "How have you used AI to automate or replace a manual workflow in a real business? What was the result?",
+      "What AI tools have you integrated into how you work, if any? If not, what does your operating system look like for managing priorities, decisions, and execution across teams?",
       "Give an example of a decision that was stuck between multiple teams. How did you unblock it?"
     ]
   },
@@ -77,7 +77,7 @@ const careerRoles = [
       "You edit for retention, not just aesthetics.",
       "You balance softness with sales — discreet, trustworthy, human.",
       "You understand hooks, mechanisms, proof, objection handling, CTA.",
-      "Curious about AI tools that speed up editing."
+      "Experience with AI tools is a plus, but willingness to learn and adopt them is what matters most."
     ],
     questions: [
       "What's the highest-performing video you've edited, and what do you think made it work?",
@@ -89,28 +89,28 @@ const careerRoles = [
     slug: "product-marketing-lead",
     title: "Product Marketing Lead",
     team: "Marketing",
-    level: "Manager",
+    level: "Individual Contributor",
     introVideoRequired: true,
-    loomPrompt: "Record a short Loom (2-3 min) walking us through a product launch you led.",
+    loomPrompt: "Record a short Loom (2-3 min) walking us through a product launch you coordinated — what you prepared, who you worked with, and how you kept it on track.",
     portfolioRequired: false,
-    summary: "Own how products are positioned, launched, and communicated to customers.",
-    mission: "You own how products are positioned, launched, and communicated. Translating features into narratives, coordinating launches, building messaging that drives conversion and retention.",
+    summary: "Own product launch coordination — planning, copy, research, assets, and cross-team execution working directly with the CEO.",
+    mission: "You\u2019ll work directly with the CEO to plan and execute product launches end-to-end. With 40+ products in the pipeline, we need someone who can own the launch playbook \u2014 product sheets, copywriting, image assets, email strategy, one-pagers \u2014 and coordinate across social, email marketing, and creative teams to make sure everything ships on time.",
     responsibilities: [
-      "Own messaging, positioning, launch narratives, and product education.",
-      "Partner with creative, growth, product, and CX teams to ship campaigns.",
-      "Turn product benefits and proof points into high-converting assets."
+      "Own the product launch playbook \u2014 product sheets, one-pagers, copy, image galleries, and launch timelines.",
+      "Coordinate launch execution across social media, email marketing, and creative teams.",
+      "Research products, prepare decks, and ensure every launch has the right assets ready before go-live."
     ],
     requirements: [
-      "Product marketing in DTC or consumer brands with real results.",
-      "Strong messaging — specs into stories that make people buy.",
-      "Data-informed positioning, not gut feel alone.",
-      "Cross-functional across creative, performance, product, CX.",
-      "Comfortable in a sensitive category."
+      "Experience in product launches, marketing coordination, or project management in DTC or e-commerce.",
+      "Strong copywriting and research skills \u2014 you can write product copy that sells and do the research to back it up.",
+      "Organized and detail-oriented \u2014 you track every deliverable and nothing slips.",
+      "Good creative eye \u2014 you know when an asset looks right and when it doesn\u2019t.",
+      "Experience with AI tools is a plus, but willingness to learn and adopt them is what matters most."
     ],
     questions: [
-      "What type of product launch have you been most involved in, and what was your role in the positioning and messaging?",
-      "How do you figure out what language and messaging resonates with a target customer?",
-      "What's a piece of marketing copy or asset you created that directly drove conversion? What made it work?"
+      "Describe a product launch you coordinated. What were the deliverables, and how did you keep everything on track?",
+      "How do you approach writing copy for a new product you\u2019ve never seen before?",
+      "How do you manage multiple launches happening at the same time without dropping quality?"
     ]
   },
   {
@@ -151,18 +151,18 @@ const careerRoles = [
     introVideoRequired: true,
     loomPrompt: "Record a short Loom (2-3 min) walking us through a campaign you scaled — the budget, channels, creative approach, and results.",
     portfolioRequired: false,
-    summary: "Own the paid acquisition engine already driving 8 figures. Scale toward $100M.",
-    mission: "You own the paid acquisition engine already driving 8 figures. Managing and scaling ad spend across Meta, TikTok, Google while leading creative testing and funnel optimization. The goal: scale toward $100M.",
+    summary: "Own the growth engine \u2014 paid acquisition, data analytics, retention modeling, and channel strategy. Scale toward $100M.",
+    mission: "You\u2019ll own the growth engine end-to-end \u2014 paid acquisition, retention modeling, channel LTV analysis, and cross-sell strategy. This isn\u2019t just about scaling ad spend. We need someone who bridges data-driven analytics with creative strategy, supports the founders on growth decisions, and brings the diligence to deeply analyze performance that the current team lacks.",
     responsibilities: [
-      "Own paid channel strategy, budget allocation, reporting, and growth targets.",
-      "Lead creative testing, audience targeting, and funnel optimization at scale.",
-      "Turn performance data into better creative — work closely with strategists, editors, and designers."
+      "Own paid channel strategy, budget allocation, reporting, and growth targets across Meta, TikTok, Google.",
+      "Build retention models, analyze channel LTV, and identify cross-sell and upsell opportunities.",
+      "Lead creative testing and funnel optimization \u2014 work closely with strategists, editors, and designers."
     ],
     requirements: [
       "Scaled DTC ad spend profitably from 7 to 8 figures.",
+      "Strong data and analytics skills \u2014 dashboards, attribution, cohort analysis, retention curves.",
       "Deep expertise across Meta, TikTok, Google at scale.",
-      "Data-driven — dashboards, attribution, cohort analysis.",
-      "Strong creative instincts — you spot the problem in an ad.",
+      "Can think strategically about growth levers beyond just paid \u2014 retention, LTV, funnels.",
       "Leadership experience managing performance teams."
     ],
     questions: [
@@ -192,7 +192,7 @@ const careerRoles = [
       "You write briefs, hooks, scripts, ad angles — know which to change when ROAS drops.",
       "Fluent in platform culture across TikTok, Meta, YouTube.",
       "Strong portfolio with conceptual thinking and storytelling.",
-      "Curious about AI tools and creative velocity."
+      "Experience with AI tools is a plus, but willingness to learn and adopt them is what matters most."
     ],
     questions: [
       "What's a paid social ad you think is excellent? Break down why it works.",
@@ -209,19 +209,19 @@ const careerRoles = [
     introVideoRequired: true,
     loomPrompt: "Record a short Loom (2-3 min) walking us through a product launch you managed end-to-end — what you coordinated and how you kept things on track.",
     portfolioRequired: false,
-    summary: "Own the product launch pipeline and marketing campaign execution — the coordination layer that ties everything together.",
-    mission: "You'll own the product launch pipeline and marketing campaign execution — the coordination layer that ties product, sourcing, and marketing together. Our catalog is expanding, campaigns are running in parallel, and we need someone who takes ownership of the pipeline, keeps projects moving without being chased, and makes sure nothing falls through the cracks.",
+    summary: "Co-pilot to the Head of Product. Build a product launch engine that ships a product a week.",
+    mission: "You\u2019ll co-pilot alongside the Head of Product to build a product launch engine that can ship a product a week. That means managing a diverse pipeline \u2014 moonshot projects, product innovation, licensing deals, and products from scratch \u2014 while removing blockers, coordinating across teams, and running to factories when needed. You live in Shenzhen and you\u2019re comfortable breaking apart products yourself.",
     responsibilities: [
-      "Manage end-to-end timelines for new product development — from initial brief through to market-ready.",
-      "Coordinate cross-functionally between product, sourcing, and marketing to keep launches in sync.",
-      "Translate campaign plans into detailed schedules with clear ownership per task."
+      "Build and run a product launch engine \u2014 from initial brief through to market-ready, at a pace of one product per week.",
+      "Manage a diverse project pipeline \u2014 moonshots, licensing, innovation, and products from scratch.",
+      "Remove blockers for the Head of Product \u2014 jump into factory issues, team structure, supplier problems."
     ],
     requirements: [
-      "4\u20137 years in product management, project management, or operations \u2014 ideally at a DTC or e-commerce brand.",
+      "4\u20137 years in product management, project management, or operations \u2014 ideally at a fast-growing DTC or hardware brand.",
       "Experience with physical product businesses \u2014 packaging, manufacturing timelines, MOQs, and supplier dependencies.",
+      "Management consulting mindset \u2014 you can jump into the hardest problem and structure a path forward.",
       "Business-level English and Mandarin \u2014 both required.",
-      "A natural organizer who builds structure proactively without being asked.",
-      "A finisher \u2014 you close loops, follow through, and hold people accountable politely but firmly."
+      "Comfortable running to factories, breaking apart products, and getting hands-on."
     ],
     questions: [
       "What\u2019s the most complex product launch you\u2019ve managed end-to-end, and how did you keep sourcing, marketing, and product aligned on the timeline?",
