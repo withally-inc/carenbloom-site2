@@ -86,64 +86,8 @@ const careerRoles = [
     ]
   },
   {
-    slug: "product-manager-sexual-wellness",
-    title: "Product Manager, Sexual Wellness",
-    team: "Product",
-    level: "Manager",
-    introVideoRequired: true,
-    loomPrompt: "Record a short Loom (2-3 min) walking us through a product you took from concept to market.",
-    portfolioRequired: false,
-    summary: "Own the product lifecycle for sexual wellness — concept through manufacturing and launch.",
-    mission: "You own the product lifecycle for our sexual wellness line — concept through development, manufacturing, and launch. Hands-on with physical products and IoT-connected devices.",
-    responsibilities: [
-      "Own product development from concept through sourcing, manufacturing, and launch.",
-      "Partner with founders, suppliers, and cross-functional teams to bring products to market.",
-      "Balance innovation with commercial viability — quality, margin, and market fit."
-    ],
-    requirements: [
-      "Physical product development experience — consumer electronics, wellness devices, or IoT.",
-      "Strong sourcing, manufacturing, QA, and supply chain understanding.",
-      "Commercial instincts — margin, positioning, market fit.",
-      "Comfortable in sexual wellness with maturity and professionalism.",
-      "DTC or ecommerce experience preferred."
-    ],
-    questions: [
-      "What types of physical products have you worked on, and what stage were you most involved in?",
-      "What's an underserved gap in sexual wellness or intimate products that you'd build for?",
-      "How do you balance customer trust, regulatory claims, and commercial conversion in a sensitive category?"
-    ]
-  },
-  {
-    slug: "executive-assistant",
-    title: "Executive Assistant",
-    team: "Operations",
-    level: "Individual Contributor",
-    introVideoRequired: true,
-    loomPrompt: "Record a short Loom (2-3 min) walking us through how you manage competing priorities and keep things on track.",
-    portfolioRequired: false,
-    summary: "Thought and execution partner to founders — managing priorities, creating order, driving clarity.",
-    mission: "You'll act as a thought and execution partner to founders — managing priorities, creating order, and driving clarity across teams. This is not a typical admin role. You'll work closely with business leaders, run operations, and build reliable systems that help the company scale faster.",
-    responsibilities: [
-      "Manage information flow across Slack, Notion, and email — keep things moving.",
-      "Build simple, reliable systems for recurring communication, priorities, and deadlines.",
-      "Use AI tools (Claude, ChatGPT, Notion AI) to automate repetitive work."
-    ],
-    requirements: [
-      "Strong project coordination and stakeholder management — you keep things moving without being asked.",
-      "Organized and systems-oriented — you build dashboards, SOPs, and tracking systems that actually get used.",
-      "High ownership and strong judgment under ambiguity — you don't need hand-holding.",
-      "Curious about AI and automation tools — you've used Claude, ChatGPT, Notion AI, or similar to automate repetitive work.",
-      "Background in e-commerce, creative, or fast-scaling businesses preferred."
-    ],
-    questions: [
-      "How have you used AI tools to improve your efficiency as an EA?",
-      "What's your system for tracking follow-ups, deadlines, and action items across multiple stakeholders?",
-      "How do you handle a situation where two urgent priorities from different people conflict on the same day?"
-    ]
-  },
-  {
-    slug: "product-marketing-manager",
-    title: "Product Marketing Manager",
+    slug: "product-marketing-lead",
+    title: "Product Marketing Lead",
     team: "Marketing",
     level: "Manager",
     introVideoRequired: true,
@@ -170,8 +114,8 @@ const careerRoles = [
     ]
   },
   {
-    slug: "social-media-manager",
-    title: "Social Media Manager",
+    slug: "social-media-strategist",
+    title: "Social Media Strategist",
     team: "Marketing",
     level: "Individual Contributor",
     introVideoRequired: true,
@@ -203,6 +147,7 @@ const careerRoles = [
     title: "Head of Performance Marketing",
     team: "Growth",
     level: "Director",
+    locationType: "On-site, Hong Kong",
     introVideoRequired: true,
     loomPrompt: "Record a short Loom (2-3 min) walking us through a campaign you scaled — the budget, channels, creative approach, and results.",
     portfolioRequired: false,
@@ -285,8 +230,8 @@ const careerRoles = [
     ]
   },
   {
-    slug: "head-of-growth-mobile-apps",
-    title: "Head of Growth, Mobile Apps",
+    slug: "growth-lead-mobile-apps",
+    title: "Growth Lead, Mobile Apps",
     team: "Growth",
     level: "Director",
     introVideoRequired: true,
@@ -335,6 +280,34 @@ const careerRoles = [
       "What consumer health company would you want to build right now?",
       "Describe something you have taken from zero to one.",
       "What would you need from Care & Bloom to move fastest?"
+    ]
+  },
+  {
+    slug: "ai-native-product-manager-apps",
+    title: "AI-Native Product Manager, Apps",
+    team: "Product",
+    level: "Manager",
+    introVideoRequired: true,
+    loomPrompt: "Record a short Loom (2-3 min) walking us through an app or product you've built or improved using AI tools.",
+    portfolioRequired: false,
+    summary: "Design with AI, push code, and drive the product roadmap for consumer health apps.",
+    mission: "You'll own the product direction for our consumer health apps — designing with Claude, coordinating development, and driving the roadmap. You bridge the gap between moonshot ideas and stable execution, working alongside developers and designers to ship fast.",
+    responsibilities: [
+      "Own the product roadmap for consumer health apps — features, priorities, and releases.",
+      "Design with AI tools and push code when needed to unblock the team.",
+      "Coordinate between developers, designers, and founders to keep the app moving."
+    ],
+    requirements: [
+      "Experience as a product manager or product designer for mobile apps.",
+      "AI-native — you design, prototype, and solve problems with Claude, Cursor, or similar tools daily.",
+      "Can push code when needed — not a full-time developer, but not afraid of a codebase.",
+      "Strong product taste — you know what makes an app feel good and what doesn't.",
+      "Consumer health, wellness, or lifestyle app experience preferred."
+    ],
+    questions: [
+      "What app have you built or significantly improved, and what was your role end-to-end?",
+      "How do you use AI tools in your product development workflow? Give a specific example.",
+      "Describe a time you had to bridge the gap between a big idea and the team's ability to execute it."
     ]
   }
 ];
