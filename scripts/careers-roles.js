@@ -214,14 +214,18 @@ const careerRoles = [
     responsibilities: [
       "Build and run a product launch engine \u2014 from initial brief through to market-ready, at a pace of one product per week.",
       "Manage a diverse project pipeline \u2014 moonshots, licensing, innovation, and products from scratch.",
-      "Remove blockers for the Head of Product \u2014 jump into factory issues, team structure, supplier problems."
+      "Think commercially about product assortments \u2014 engineer bundles and lineups that improve customer LTV across the business.",
+      "Remove blockers for the Head of Product \u2014 jump into factory issues, team structure, supplier problems.",
+      "Help organize and improve team pod structure alongside the Head of Product."
     ],
     requirements: [
       "4\u20137 years in product management, project management, or operations \u2014 ideally at a fast-growing DTC or hardware brand.",
       "Experience with physical product businesses \u2014 packaging, manufacturing timelines, MOQs, and supplier dependencies.",
+      "Experience supporting a senior product leader \u2014 you\u2019ve been a strong co-pilot before and know how to amplify a leader\u2019s impact.",
       "Management consulting mindset \u2014 you can jump into the hardest problem and structure a path forward.",
       "Business-level English and Mandarin \u2014 both required.",
-      "Comfortable running to factories, breaking apart products, and getting hands-on."
+      "Comfortable running to factories, breaking apart products, and getting hands-on.",
+      "Global company experience is a plus."
     ],
     questions: [
       "What\u2019s the most complex product launch you\u2019ve managed end-to-end, and how did you keep sourcing, marketing, and product aligned on the timeline?",
