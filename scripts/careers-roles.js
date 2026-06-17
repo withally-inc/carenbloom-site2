@@ -18,7 +18,7 @@ const careerRoles = [
     requirements: [
       "Built or scaled operations in a high-growth DTC or consumer brand.",
       "Strong systems thinker — workflows and reporting that reduce founder dependency.",
-      "Experience with AI tools is a plus, but willingness to learn and adopt them is what matters most.",
+      "Experience with AI tools is a plus, though we equally value the willingness to learn and work with them.",
       "High agency — you don't wait for permission."
     ],
     questions: [
@@ -77,7 +77,7 @@ const careerRoles = [
       "You edit for retention, not just aesthetics.",
       "You balance softness with sales — discreet, trustworthy, human.",
       "You understand hooks, mechanisms, proof, objection handling, CTA.",
-      "Experience with AI tools is a plus, but willingness to learn and adopt them is what matters most."
+      "Experience with AI tools is a plus, though we equally value the willingness to learn and work with them."
     ],
     questions: [
       "What's the highest-performing video you've edited, and what do you think made it work?",
@@ -105,7 +105,7 @@ const careerRoles = [
       "Strong copywriting and research skills \u2014 you can write product copy that sells and do the research to back it up.",
       "Organized and detail-oriented \u2014 you track every deliverable and nothing slips.",
       "Good creative eye \u2014 you know when an asset looks right and when it doesn\u2019t.",
-      "Experience with AI tools is a plus, but willingness to learn and adopt them is what matters most."
+      "Experience with AI tools is a plus, though we equally value the willingness to learn and work with them."
     ],
     questions: [
       "Describe a product launch you coordinated. What were the deliverables, and how did you keep everything on track?",
@@ -192,7 +192,7 @@ const careerRoles = [
       "You write briefs, hooks, scripts, ad angles — know which to change when ROAS drops.",
       "Fluent in platform culture across TikTok, Meta, YouTube.",
       "Strong portfolio with conceptual thinking and storytelling.",
-      "Experience with AI tools is a plus, but willingness to learn and adopt them is what matters most."
+      "Experience with AI tools is a plus, though we equally value the willingness to learn and work with them."
     ],
     questions: [
       "What's a paid social ad you think is excellent? Break down why it works.",
