@@ -45,6 +45,37 @@
   if (locationTag && role.locationType) locationTag.textContent = role.locationType;
   const locationDd = document.querySelector(".role-meta dd");
   if (locationDd && role.locationType) locationDd.textContent = role.locationType.replace("On-site, ", "");
+
+  // Google Jobs structured data (JSON-LD)
+  const isRemote = !role.locationType || role.locationType.toLowerCase().includes("remote");
+  const jobPosting = {
+    "@context": "https://schema.org/",
+    "@type": "JobPosting",
+    title: role.title,
+    description: `${role.mission} Responsibilities: ${role.responsibilities.join(". ")}. Requirements: ${role.requirements.join(". ")}.`,
+    datePosted: new Date().toISOString().split("T")[0],
+    employmentType: "FULL_TIME",
+    hiringOrganization: {
+      "@type": "Organization",
+      name: "Care & Bloom",
+      sameAs: "https://carenbloom.com",
+    },
+    directApply: true,
+    applicantLocationRequirements: isRemote ? { "@type": "Country", name: "Remote" } : undefined,
+    jobLocationType: isRemote ? "TELECOMMUTE" : undefined,
+    jobLocation: !isRemote ? {
+      "@type": "Place",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: role.locationType.replace("On-site, ", ""),
+      },
+    } : undefined,
+  };
+  Object.keys(jobPosting).forEach((k) => jobPosting[k] === undefined && delete jobPosting[k]);
+  const jsonLd = document.createElement("script");
+  jsonLd.type = "application/ld+json";
+  jsonLd.textContent = JSON.stringify(jobPosting);
+  document.head.appendChild(jsonLd);
   document.querySelectorAll(".application-tooltip").forEach((tooltip) => {
     const row = tooltip.closest(".application-label-row");
     if (!row) return;
