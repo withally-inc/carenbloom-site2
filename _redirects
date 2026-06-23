@@ -1,0 +1,5 @@
+/api/* https://carenbloom-site2.vercel.app/api/:splat 200
+/goods /brands 301
+/goods/ /brands/ 301
+/creators /talents 301
+/creators/ /talents/ 301
