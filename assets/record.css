@@ -37,6 +37,14 @@
   --sans: "ES Rebond Grotesque", "Helvetica Neue", Arial, sans-serif;
   --measure: 62ch;
   --pad: clamp(1.25rem, 4vw, 3.5rem);
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* cross-document page transitions (progressive enhancement) */
+@view-transition { navigation: auto; }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: 220ms; }
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -92,14 +100,28 @@ img { max-width: 100%; display: block; }
   flex-wrap: wrap;
 }
 .chip-link {
+  position: relative;
   color: rgba(252, 247, 237, 0.85);
   text-decoration: none;
   padding: 0.3rem 0;
-  border-bottom: 1px solid transparent;
-  transition: border-color 120ms ease, color 120ms ease;
+  transition: color 200ms var(--ease);
 }
-.chip-link:hover { color: var(--paper); border-bottom-color: var(--paper); }
-.chip-link[aria-current="page"] { color: var(--paper); border-bottom-color: var(--paper); }
+.chip-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 320ms var(--ease);
+}
+.chip-link:hover { color: var(--paper); }
+.chip-link:hover::after { transform: scaleX(1); transform-origin: left; }
+.chip-link[aria-current="page"] { color: var(--paper); }
+.chip-link[aria-current="page"]::after { transform: scaleX(1); transform-origin: left; }
 .chip-count {
   color: var(--pink);
   font-size: 0.6rem;
@@ -112,9 +134,10 @@ img { max-width: 100%; display: block; }
   text-decoration: none;
   padding: 0.55rem 1.1rem;
   border-radius: 999px;
-  transition: background 120ms ease;
+  transition: background 200ms var(--ease), transform 150ms var(--ease);
 }
 .pill:hover { background: #f0a63a; }
+.pill:active { transform: scale(0.96); }
 
 /* ---- hero ---- */
 .hero { padding: clamp(3.5rem, 9vw, 7rem) var(--pad) clamp(2.5rem, 6vw, 4.5rem); }
@@ -438,10 +461,12 @@ a.lrow:hover { background: rgba(255, 183, 74, 0.12); }
   border-top: 1px solid var(--rule-strong);
   padding: 1rem 0;
   white-space: nowrap;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
 }
 .marquee-track {
   display: inline-block;
-  animation: marquee 28s linear infinite;
+  animation: marquee 32s linear infinite;
 }
 .marquee-track span {
   font-family: var(--serif);
@@ -460,51 +485,82 @@ a.lrow:hover { background: rgba(255, 183, 74, 0.12); }
   .marquee-track { animation: none; }
 }
 
-/* ---- motion: masked hero reveal + scroll staggers ---- */
+/* ---- motion: choreographed entrance ---- */
+/* nav settles first */
+.js .nav .wordmark,
+.js .nav .nav-chips > * {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 500ms var(--ease), transform 500ms var(--ease);
+  transition-delay: calc(var(--i, 0) * 45ms);
+}
+.js.is-entered .nav .wordmark,
+.js.is-entered .nav .nav-chips > * { opacity: 1; transform: none; }
+
+/* kicker fades, headline rises line by line, lede follows */
 .js .hero .kicker,
-.js .hero h1,
 .js .hero .lede {
   opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 700ms cubic-bezier(0.22, 1, 0.36, 1), transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translateY(16px);
+  transition: opacity 650ms var(--ease) 150ms, transform 650ms var(--ease) 150ms;
 }
-.js .hero h1 { transition-delay: 90ms; }
-.js .hero .lede { transition-delay: 180ms; }
+.js .hero .lede { transition-delay: 520ms; }
 .js .hero.is-in .kicker,
-.js .hero.is-in h1,
 .js .hero.is-in .lede { opacity: 1; transform: none; }
 
+.hline { display: block; overflow: hidden; padding-bottom: 0.06em; margin-bottom: -0.06em; }
+.hline-in {
+  display: block;
+  transform: translateY(112%);
+  transition: transform 950ms var(--ease);
+  transition-delay: calc(220ms + var(--line, 0) * 90ms);
+}
+.js .hero.is-in .hline-in { transform: none; }
+
+/* scroll reveals: short, quick, staggered */
 .js .reveal {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 650ms cubic-bezier(0.22, 1, 0.36, 1), transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
-  transition-delay: calc(var(--stagger, 0) * 70ms);
+  transform: translateY(16px);
+  transition: opacity 600ms var(--ease), transform 600ms var(--ease);
+  transition-delay: calc(var(--stagger, 0) * 60ms);
 }
 .js .reveal.is-in { opacity: 1; transform: none; }
 
 .js .section-head::after {
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1) 150ms;
+  transition: transform 900ms var(--ease) 120ms;
 }
 .js .is-in .section-head::after,
 .js .section-head.is-in::after { transform: scaleX(1); }
 
-.plate { transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease; }
+/* tactile + hover physics */
+.plate { transition: transform 260ms var(--ease), border-color 260ms var(--ease), box-shadow 260ms var(--ease); }
 .plate:hover {
   transform: translateY(-4px);
   border-color: var(--plum);
-  box-shadow: 0 10px 30px rgba(36, 30, 25, 0.08);
+  box-shadow: 0 12px 32px rgba(36, 30, 25, 0.08);
+}
+a.lrow, .door, .split-col { transition: background 200ms var(--ease), transform 150ms var(--ease); }
+a.lrow:active, .door:active, .split-col:active, .split-amp:active { transform: scale(0.99); }
+
+.js .split-amp .amp { animation: ampFloat 5.5s ease-in-out infinite; }
+@keyframes ampFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .js .hero .kicker, .js .hero h1, .js .hero .lede, .js .reveal {
+  .js .nav .wordmark, .js .nav .nav-chips > *,
+  .js .hero .kicker, .js .hero .lede, .js .reveal {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
   }
+  .hline-in { transform: none !important; transition: none !important; }
   .js .section-head::after { transform: none !important; transition: none !important; }
   .plate, .plate:hover { transform: none; }
+  .js .split-amp .amp { animation: none; }
 }
 
 /* ---- responsive ---- */
