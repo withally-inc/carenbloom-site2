@@ -1,7 +1,8 @@
 /* Care & Bloom — Operating Record design system
    Type + palette drawn from the Hello Nancy brand system:
-   Fraunces (serif voice), ES Rebond Grotesque (label/data voice),
-   Nancy cream, warm taupe, amber, plum support, pink kept to a wink. */
+   Fraunces (serif voice), ES Rebond Grotesque (label/data voice).
+   Colors sampled from Nancy's winning ad statics: marigold color-blocks,
+   hot pink, berry, lime, on Nancy cream with charcoal ink. */
 
 @font-face {
   font-family: "Fraunces";
@@ -25,14 +26,21 @@
   --ink-soft: #6c6158;
   --rule: rgba(108, 97, 88, 0.3);
   --rule-strong: rgba(36, 30, 25, 0.85);
-  --plum: #7c2d5e;
-  --plum-deep: #61224a;
-  --amber: #ffb74a;
-  --amber-deep: #9c6410;
+  /* palette pulled from Nancy's winning statics: marigold color-blocks,
+     hot pink logo, berry product, lemon + chartreuse props */
+  --marigold: #f2c400;
+  --marigold-deep: #8f7400;
+  --berry: #a8437e;
+  --berry-deep: #8c3468;
   --pink: #ff30cc;
-  --pink-deep: #c2158f;
+  --pink-deep: #d6179f;
   --lime: #ccfd28;
   --lime-deep: #5d7a00;
+  /* legacy aliases used by components */
+  --plum: var(--berry);
+  --plum-deep: var(--berry-deep);
+  --amber: var(--marigold);
+  --amber-deep: var(--marigold-deep);
   --serif: "Fraunces", "Iowan Old Style", Georgia, serif;
   --sans: "ES Rebond Grotesque", "Helvetica Neue", Arial, sans-serif;
   --measure: 62ch;
@@ -136,7 +144,7 @@ img { max-width: 100%; display: block; }
   border-radius: 999px;
   transition: background 200ms var(--ease), transform 150ms var(--ease);
 }
-.pill:hover { background: #f0a63a; }
+.pill:hover { background: #ffd21f; }
 .pill:active { transform: scale(0.96); }
 
 /* ---- hero ---- */
@@ -157,17 +165,17 @@ img { max-width: 100%; display: block; }
   color: var(--ink);
 }
 
-/* ---- KPI band ---- */
+/* ---- KPI band: marigold color-block, straight off the winning statics ---- */
 .kpi-band {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
   border-top: 1px solid var(--rule-strong);
   border-bottom: 1px solid var(--rule-strong);
-  background: var(--cream);
+  background: var(--marigold);
 }
 .kpi {
   padding: 1.4rem var(--pad) 1.5rem;
-  border-right: 1px solid var(--rule);
+  border-right: 1px solid rgba(36, 30, 25, 0.22);
 }
 .kpi:last-child { border-right: none; }
 .kpi .value {
@@ -186,13 +194,13 @@ img { max-width: 100%; display: block; }
   height: 4px;
   border-radius: 2px;
   margin-bottom: 0.6rem;
-  background: var(--amber);
+  background: var(--pink);
 }
-.kpi:nth-child(2) .value::before { background: var(--pink); }
-.kpi:nth-child(3) .value::before { background: var(--lime); }
-.kpi:nth-child(4) .value::before { background: var(--plum); }
-.kpi:nth-child(5) .value::before { background: var(--amber); }
-.kpi .label { color: var(--ink-soft); display: block; }
+.kpi:nth-child(2) .value::before { background: var(--ink); }
+.kpi:nth-child(3) .value::before { background: var(--berry); }
+.kpi:nth-child(4) .value::before { background: var(--paper); }
+.kpi .label { color: rgba(36, 30, 25, 0.72); display: block; }
+.kpi-band .asof { color: rgba(36, 30, 25, 0.55); }
 .asof {
   font-family: var(--sans);
   font-weight: 600;
@@ -252,7 +260,7 @@ img { max-width: 100%; display: block; }
   white-space: nowrap;
 }
 .statuschip--live { border-color: var(--pink-deep); color: var(--pink-deep); background: rgba(255, 48, 204, 0.08); }
-.statuschip--launch { border-color: var(--amber-deep); color: var(--amber-deep); background: rgba(255, 183, 74, 0.22); }
+.statuschip--launch { border-color: var(--amber-deep); color: var(--amber-deep); background: rgba(242, 196, 0, 0.28); }
 .statuschip--dev { border-color: var(--rule-strong); color: var(--ink-soft); }
 
 /* ---- specimen plates ---- */
@@ -339,7 +347,7 @@ img { max-width: 100%; display: block; }
   transition: background 140ms ease;
 }
 .door:last-child { border-right: none; }
-.door:hover { background: rgba(255, 183, 74, 0.18); }
+.door:hover { background: rgba(242, 196, 0, 0.18); }
 .door:last-child:hover { background: rgba(255, 48, 204, 0.08); }
 .door .m { color: var(--plum); display: block; margin-bottom: 0.7rem; }
 .door:last-child .m { color: var(--pink-deep); }
@@ -401,7 +409,7 @@ img { max-width: 100%; display: block; }
   padding-top: 1.2rem;
   transition: background 140ms ease;
 }
-.split-col:hover { background: rgba(255, 183, 74, 0.12); }
+.split-col:hover { background: rgba(242, 196, 0, 0.14); }
 .split-word {
   font-family: var(--serif);
   font-weight: 600;
@@ -420,8 +428,10 @@ img { max-width: 100%; display: block; }
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
-.split-cta { color: var(--amber-deep); display: block; margin-top: 0.9rem; }
+.split-cta { color: var(--marigold-deep); display: block; margin-top: 0.9rem; }
 .split-col:last-child .split-cta { color: var(--pink-deep); }
+.split-col:first-child:hover { background: rgba(242, 196, 0, 0.16); }
+.split-col:last-child:hover { background: rgba(255, 48, 204, 0.07); }
 .split-list li::marker { content: ""; }
 .split-col:hover .split-word { color: var(--plum); }
 .split-amp {
@@ -438,14 +448,14 @@ img { max-width: 100%; display: block; }
   font-weight: 600;
   font-size: clamp(3rem, 8vw, 5.5rem);
   line-height: 1;
-  color: var(--plum);
+  color: var(--pink);
 }
 .split-amp .m { color: var(--ink-soft); text-align: center; max-width: 14ch; }
-.split-amp:hover .amp { color: var(--plum-deep); }
+.split-amp:hover .amp { color: var(--pink-deep); }
 
 /* ---- linked ledger rows (engine strip, role board, next-up) ---- */
 a.lrow { text-decoration: none; transition: background 120ms ease; }
-a.lrow:hover { background: rgba(255, 183, 74, 0.12); }
+a.lrow:hover { background: rgba(242, 196, 0, 0.14); }
 .lrow .lval strong {
   font-family: var(--serif);
   font-weight: 600;
@@ -458,11 +468,10 @@ a.lrow:hover { background: rgba(255, 183, 74, 0.12); }
 /* ---- marquee band ---- */
 .marquee {
   overflow: hidden;
-  border-top: 1px solid var(--rule-strong);
+  background: var(--ink);
+  color: var(--paper);
   padding: 1rem 0;
   white-space: nowrap;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
 }
 .marquee-track {
   display: inline-block;
@@ -476,7 +485,7 @@ a.lrow:hover { background: rgba(255, 183, 74, 0.12); }
   padding-right: 1.2rem;
 }
 .marquee-track .dot { color: var(--pink); font-style: normal; }
-.marquee-track .alt { color: var(--amber-deep); }
+.marquee-track .alt { color: var(--marigold); }
 @keyframes marquee {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
