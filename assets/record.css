@@ -67,25 +67,19 @@ img { max-width: 100%; display: block; }
   font-variant-numeric: tabular-nums;
 }
 
-/* ---- nav: data-chip bar ---- */
+/* ---- nav: ink bar with the original lockup, bookends the colophon ---- */
 .nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
   padding: 1.1rem var(--pad);
-  border-bottom: 1px solid var(--rule-strong);
+  background: var(--ink);
+  color: var(--paper);
   flex-wrap: wrap;
 }
-.wordmark {
-  font-family: var(--serif);
-  font-weight: 600;
-  font-size: 1.25rem;
-  text-decoration: none;
-  letter-spacing: 0.01em;
-  white-space: nowrap;
-}
-.wordmark em { font-style: normal; color: var(--plum); }
+.wordmark { display: block; }
+.wordmark .nav-mark { height: 28px; width: auto; }
 .nav-chips {
   display: flex;
   align-items: center;
@@ -93,13 +87,14 @@ img { max-width: 100%; display: block; }
   flex-wrap: wrap;
 }
 .chip-link {
+  color: rgba(252, 247, 237, 0.85);
   text-decoration: none;
   padding: 0.3rem 0;
   border-bottom: 1px solid transparent;
-  transition: border-color 120ms ease;
+  transition: border-color 120ms ease, color 120ms ease;
 }
-.chip-link:hover { border-bottom-color: var(--ink); }
-.chip-link[aria-current="page"] { border-bottom-color: var(--ink); }
+.chip-link:hover { color: var(--paper); border-bottom-color: var(--paper); }
+.chip-link[aria-current="page"] { color: var(--paper); border-bottom-color: var(--paper); }
 .chip-count {
   color: var(--pink);
   font-size: 0.6rem;
@@ -107,14 +102,14 @@ img { max-width: 100%; display: block; }
   margin-left: 0.15em;
 }
 .pill {
-  background: var(--plum);
-  color: var(--paper);
+  background: var(--amber);
+  color: var(--ink);
   text-decoration: none;
   padding: 0.55rem 1.1rem;
   border-radius: 999px;
   transition: background 120ms ease;
 }
-.pill:hover { background: var(--plum-deep); }
+.pill:hover { background: #f0a63a; }
 
 /* ---- hero ---- */
 .hero { padding: clamp(3.5rem, 9vw, 7rem) var(--pad) clamp(2.5rem, 6vw, 4.5rem); }
