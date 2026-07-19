@@ -8,10 +8,14 @@
 
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // Split the hero headline into masked lines (grouped by rendered y-offset)
+  // Split the hero headline into masked lines (grouped by rendered y-offset).
+  // Bails if the h1 carries inline markup (e.g. an emphasized phrase) — those
+  // heroes reveal as a whole via the :not(.is-split) CSS path instead.
   function splitLines(h1) {
+    if (h1.children.length > 0) return;
     var text = h1.textContent.trim();
     if (!text) return;
+    h1.classList.add("is-split");
     h1.setAttribute("aria-label", text);
     var words = text.split(/\s+/);
     h1.textContent = "";
@@ -48,7 +52,7 @@
   if (h1 && !reduced) splitLines(h1);
 
   // Nav intro stagger
-  var navKids = document.querySelectorAll(".nav .wordmark, .nav .nav-chips > *");
+  var navKids = document.querySelectorAll(".nav .wordmark, .nav .nav-chips > *, .nav .nav-cta > *");
   navKids.forEach(function (el, i) { el.style.setProperty("--i", String(i)); });
 
   // Enter: nav + hero together, one choreographed sequence

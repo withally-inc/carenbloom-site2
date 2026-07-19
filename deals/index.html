@@ -11,12 +11,16 @@
 
   <nav class="nav" aria-label="Primary">
     <a class="wordmark" href="/"><img class="nav-mark" src="/images/cb-logo-white.svg" alt="Care &amp; Bloom"></a>
+    <input type="checkbox" id="nav-toggle" class="nav-toggle-box" aria-hidden="true">
     <div class="nav-chips m">
       <a class="chip-link" href="/company/">Company</a>
       <a class="chip-link" href="/engine/">The Engine</a>
       <a class="chip-link" href="/in-market/">In Market<span class="chip-count">2</span></a>
       <a class="chip-link" href="/careers/">Careers<span class="chip-count">11</span></a>
+    </div>
+    <div class="nav-cta m">
       <a class="pill" href="/deals/" aria-current="page">Deals</a>
+      <label class="nav-burger" for="nav-toggle" aria-label="Menu"><span></span><span></span></label>
     </div>
   </nav>
 
@@ -106,11 +110,13 @@
 
   <div class="doors">
     <a class="door" href="mailto:hello@carenbloom.com">
+      <span class="door-arrow" aria-hidden="true">&rarr;</span>
       <span class="m">One email starts it</span>
       <h3>Pitch us</h3>
       <p>hello@carenbloom.com. Tell us what you have, what you want to keep, and what you need. Numbers beat decks.</p>
     </a>
     <a class="door" href="/engine/">
+      <span class="door-arrow" aria-hidden="true">&rarr;</span>
       <span class="m">What you plug into</span>
       <h3>See the engine</h3>
       <p>Four stations: source &amp; build, launch, scale, distribute. Every deal shape draws on them.</p>

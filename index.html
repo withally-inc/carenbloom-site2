@@ -11,27 +11,23 @@
 
   <nav class="nav" aria-label="Primary">
     <a class="wordmark" href="/"><img class="nav-mark" src="/images/cb-logo-white.svg" alt="Care &amp; Bloom"></a>
+    <input type="checkbox" id="nav-toggle" class="nav-toggle-box" aria-hidden="true">
     <div class="nav-chips m">
       <a class="chip-link" href="/company/">Company</a>
       <a class="chip-link" href="/engine/">The Engine</a>
       <a class="chip-link" href="/in-market/">In Market<span class="chip-count">2</span></a>
       <a class="chip-link" href="/careers/">Careers<span class="chip-count">11</span></a>
+    </div>
+    <div class="nav-cta m">
       <a class="pill" href="/deals/">Deals</a>
+      <label class="nav-burger" for="nav-toggle" aria-label="Menu"><span></span><span></span></label>
     </div>
   </nav>
 
   <header class="hero">
-    <span class="blob blob--marigold" aria-hidden="true"></span>
-    <span class="blob blob--berry" aria-hidden="true"></span>
-    <span class="badge-spin" aria-hidden="true">
-      <svg viewBox="0 0 120 120">
-        <defs><path id="badge-circle" d="M 60,60 m -46,0 a 46,46 0 1,1 92,0 a 46,46 0 1,1 -92,0"/></defs>
-        <circle class="badge-core" cx="60" cy="60" r="27"/>
-        <text><textPath href="#badge-circle">Care &amp; Bloom &middot; Consumer health &middot; Est. Hong Kong &middot;</textPath></text>
-      </svg>
-    </span>
+    <span class="hero-disc" aria-hidden="true"></span>
     <p class="kicker m">Operating record &middot; London &middot; Hong Kong &middot; Shenzhen &middot; San Francisco</p>
-    <h1>We build consumer health brands and run them to nine-figure trajectories.</h1>
+    <h1>We build consumer health brands and run them to <em>nine-figure trajectories.</em></h1>
 
     <div class="split">
       <a class="split-col" href="/engine/">
@@ -61,30 +57,38 @@
 
   <div class="marquee" aria-hidden="true">
     <div class="marquee-track">
-      <span>Consumer health</span><span class="dot">&bull;</span><span class="alt">Built in-house</span><span class="dot">&bull;</span><span>London</span><span class="dot">&bull;</span><span class="alt">Hong Kong</span><span class="dot">&bull;</span><span>Shenzhen</span><span class="dot">&bull;</span><span class="alt">San Francisco</span><span class="dot">&bull;</span><span>Trust wins</span><span class="dot">&bull;</span><span>Consumer health</span><span class="dot">&bull;</span><span class="alt">Built in-house</span><span class="dot">&bull;</span><span>London</span><span class="dot">&bull;</span><span class="alt">Hong Kong</span><span class="dot">&bull;</span><span>Shenzhen</span><span class="dot">&bull;</span><span class="alt">San Francisco</span><span class="dot">&bull;</span><span>Trust wins</span><span class="dot">&bull;</span>
+      <span>Consumer health</span><span class="qf qf--marigold"></span><span>Built in-house</span><span class="qf qf--marigold"></span><span>London</span><span class="qf qf--marigold"></span><span>Hong Kong</span><span class="qf qf--marigold"></span><span>Shenzhen</span><span class="qf qf--marigold"></span><span>San Francisco</span><span class="qf qf--marigold"></span><span>Trust wins</span><span class="qf qf--marigold"></span><span>Consumer health</span><span class="qf qf--marigold"></span><span>Built in-house</span><span class="qf qf--marigold"></span><span>London</span><span class="qf qf--marigold"></span><span>Hong Kong</span><span class="qf qf--marigold"></span><span>Shenzhen</span><span class="qf qf--marigold"></span><span>San Francisco</span><span class="qf qf--marigold"></span><span>Trust wins</span><span class="qf qf--marigold"></span>
     </div>
   </div>
 
   <div class="kpi-band">
+    <span class="badge-spin">
+      <svg viewBox="0 0 120 120">
+        <defs><path id="badge-circle" d="M 60,60 m -46,0 a 46,46 0 1,1 92,0 a 46,46 0 1,1 -92,0"/></defs>
+        <circle class="badge-core" cx="60" cy="60" r="27"/>
+        <circle class="badge-petal" cx="60" cy="49" r="7"/>
+        <circle class="badge-petal" cx="60" cy="71" r="7"/>
+        <circle class="badge-petal" cx="49" cy="60" r="7"/>
+        <circle class="badge-petal" cx="71" cy="60" r="7"/>
+        <text><textPath href="#badge-circle">Care &amp; Bloom &middot; Consumer health &middot; Est. Hong Kong &middot;</textPath></text>
+      </svg>
+    </span>
+    <span class="band-asof r1">as of Jul 2026</span>
     <div class="kpi">
       <span class="value">$100M+</span>
       <span class="label m">Sales trajectory</span>
-      <span class="asof">as of Jul 2026</span>
     </div>
     <div class="kpi">
       <span class="value">2</span>
       <span class="label m">Brands in market</span>
-      <span class="asof">as of Jul 2026</span>
     </div>
     <div class="kpi">
       <span class="value">4</span>
       <span class="label m">Health categories</span>
-      <span class="asof">as of Jul 2026</span>
     </div>
     <div class="kpi">
       <span class="value">4</span>
       <span class="label m">Cities</span>
-      <span class="asof">as of Jul 2026</span>
     </div>
   </div>
 
@@ -110,13 +114,20 @@
     </div>
   </section>
 
+  <section class="pullquote">
+    <span class="qf qf--marigold" aria-hidden="true"></span>
+    <p>The market tells us what works before opinions do.</p>
+  </section>
+
   <div class="doors">
     <a class="door" href="/deals/">
+      <span class="door-arrow" aria-hidden="true">&rarr;</span>
       <span class="m">For founders, factories &amp; funds</span>
       <h3>Plug into the machine</h3>
       <p>Build, buy, fund, partner, or co-own. Bring the product or the demand, we bring the rest.</p>
     </a>
     <a class="door" href="/careers/">
+      <span class="door-arrow" aria-hidden="true">&rarr;</span>
       <span class="m">Roles open &middot; 11</span>
       <h3>Join the machine</h3>
       <p>Operators, builders, and category obsessives. London, Hong Kong, Shenzhen, San Francisco, and remote.</p>
