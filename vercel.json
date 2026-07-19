@@ -8,25 +8,20 @@
     }
   },
   "redirects": [
-    {
-      "source": "/goods",
-      "destination": "/brands",
-      "permanent": true
-    },
-    {
-      "source": "/goods/",
-      "destination": "/brands/",
-      "permanent": true
-    },
-    {
-      "source": "/creators",
-      "destination": "/talents",
-      "permanent": true
-    },
-    {
-      "source": "/creators/",
-      "destination": "/talents/",
-      "permanent": true
-    }
+    { "source": "/mission", "destination": "/company/", "permanent": true },
+    { "source": "/mission/", "destination": "/company/", "permanent": true },
+    { "source": "/about", "destination": "/company/", "permanent": true },
+    { "source": "/about/", "destination": "/company/", "permanent": true },
+    { "source": "/brands", "destination": "/in-market/", "permanent": true },
+    { "source": "/brands/", "destination": "/in-market/", "permanent": true },
+    { "source": "/goods", "destination": "/in-market/", "permanent": true },
+    { "source": "/goods/", "destination": "/in-market/", "permanent": true },
+    { "source": "/capital", "destination": "/deals/", "permanent": true },
+    { "source": "/capital/", "destination": "/deals/", "permanent": true },
+    { "source": "/talents/apply", "destination": "/careers/apply/", "permanent": true },
+    { "source": "/talents/apply/", "destination": "/careers/apply/", "permanent": true },
+    { "source": "/talents/:path*", "destination": "/careers/:path*", "permanent": true },
+    { "source": "/creators", "destination": "/careers/", "permanent": true },
+    { "source": "/creators/", "destination": "/careers/", "permanent": true }
   ]
 }

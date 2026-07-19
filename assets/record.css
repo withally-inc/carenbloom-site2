@@ -340,8 +340,76 @@ img { max-width: 100%; display: block; }
 .colophon a { color: var(--paper); text-decoration: none; border-bottom: 1px solid rgba(252, 247, 237, 0.4); }
 .colophon a:hover { border-bottom-color: var(--paper); }
 
+/* ---- home split hero: CARE (inputs) & (deals) BLOOM (outputs) ---- */
+.split {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  align-items: start;
+  margin-top: clamp(2.2rem, 5vw, 3.5rem);
+}
+.split-col {
+  display: block;
+  text-decoration: none;
+  border-top: 1px solid var(--rule-strong);
+  padding-top: 1.2rem;
+  transition: background 140ms ease;
+}
+.split-col:hover { background: rgba(255, 183, 74, 0.12); }
+.split-word {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  line-height: 1;
+  display: block;
+  margin-bottom: 1rem;
+}
+.split-list { list-style: none; }
+.split-list li {
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.split-cta { color: var(--plum); display: block; margin-top: 0.9rem; }
+.split-amp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+  text-decoration: none;
+  border-top: 1px solid var(--rule-strong);
+  padding-top: 1.2rem;
+}
+.split-amp .amp {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  line-height: 1;
+  color: var(--plum);
+}
+.split-amp .m { color: var(--ink-soft); text-align: center; max-width: 14ch; }
+.split-amp:hover .amp { color: var(--plum-deep); }
+
+/* ---- linked ledger rows (engine strip, role board, next-up) ---- */
+a.lrow { text-decoration: none; transition: background 120ms ease; }
+a.lrow:hover { background: rgba(255, 183, 74, 0.12); }
+.lrow .lval strong {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 1.15rem;
+  display: block;
+  margin-bottom: 0.2rem;
+}
+.lrow .lval .sub { color: var(--ink-soft); font-size: 0.98rem; }
+
 /* ---- responsive ---- */
 @media (max-width: 720px) {
+  .split { grid-template-columns: 1fr; }
+  .split-amp { flex-direction: row; justify-content: center; }
   .lrow { grid-template-columns: 1fr; gap: 0.35rem; }
   .lrow .statuschip { justify-self: start; }
   .station { grid-template-columns: 1fr; gap: 0.8rem; }

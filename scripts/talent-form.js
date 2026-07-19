@@ -17,7 +17,7 @@
       data.get('note') || '',
     ].join('\n');
 
-    const email = 'hello@careandbloom.com';
+    const email = 'hello@carenbloom.com';
     const subject = encodeURIComponent('Talent search');
     const encodedBody = encodeURIComponent(body);
     window.location.href = `mailto:${email}?subject=${subject}&body=${encodedBody}`;
